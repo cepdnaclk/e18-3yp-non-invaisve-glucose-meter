@@ -1,3 +1,9 @@
+# Non-Invasive Glucometer
+
+## Team
+-  E/18/073 - Dhananjaya W.M.T.   [e18073@eng.pdn.ac.lk](mailto:e18073@eng.pdn.ac.lk)
+-  E/18/214 - Manahara H.K.       [e18214@eng.pdn.ac.lk](mailto:e18214@eng.pdn.ac.lk)
+-  E/18/282 - Ranasinghe R.A.N.S. [e18282@eng.pdn.ac.lk](mailto:e18282@eng.pdn.ac.lk)
 ___
 # DELETE THIS INSTRUCTIONS AND ADD AN INTRODUCTION ABOUT YOUR PROJECT
 ___
