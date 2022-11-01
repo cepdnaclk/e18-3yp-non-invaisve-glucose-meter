@@ -3,20 +3,20 @@ layout: home
 permalink: index.html
 
 # Please update this with your repository name and project title
-repository-name: eYY-3yp-project-template
-title: Project Template
+repository-name: e18-3yp-non-invasive-glucometer
+title: Non Invasive Glucometer
 ---
 
 [comment]: # "This is the standard layout for the project, but you can clean this and use your own template"
 
-# Project Title
+# Non Invasive Glucometer
 
 ---
 
 ## Team
--  eNumber, Name, [email](mailto:name@email.com)
--  eNumber, Name, [email](mailto:name@email.com)
--  eNumber, Name, [email](mailto:name@email.com)
+-  E/18/170, Karunarathna W.K., [e18170@eng.pdn.ac.lk](mailto:e18170@eng.pdn.ac.lk)
+-  E/18/282, Ranasinghe R.A.N.S., [e18282@eng.pdn.ac.lk](mailto:e18282@eng.pdn.ac.lk)
+-  E/18/382, Weerarathne L.D., [e18382@eng.pdn.ac.lk](mailto:e18382@eng.pdn.ac.lk)
 
 <!-- Image (photo/drawing of the final hardware) should be here -->
 
@@ -28,9 +28,9 @@ title: Project Template
 1. [Introduction](#introduction)
 2. [Solution Architecture](#solution-architecture )
 3. [Hardware & Software Designs](#hardware-and-software-designs)
-4. [Testing](#testing)
+<!-- 4. [Testing](#testing) -->
 5. [Detailed budget](#detailed-budget)
-6. [Conclusion](#conclusion)
+<!-- 6. [Conclusion](#conclusion) -->
 7. [Links](#links)
 
 ## Introduction
@@ -46,9 +46,9 @@ High level diagram + description
 
 Detailed designs with many sub-sections
 
-## Testing
+<!-- ## Testing
 
-Testing done on hardware and software, detailed + summarized results
+Testing done on hardware and software, detailed + summarized results -->
 
 ## Detailed budget
 
@@ -58,9 +58,9 @@ All items and costs
 | ------------- |:---------:|:----------:|-------:|
 | Sample item   | 5         | 10 LKR     | 50 LKR |
 
-## Conclusion
+<!-- ## Conclusion
 
-What was achieved, future developments, commercialization plans
+What was achieved, future developments, commercialization plans -->
 
 ## Links
 
