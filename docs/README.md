@@ -28,21 +28,48 @@ title: Non Invasive Glucometer
 1. [Introduction](#introduction)
 2. [Solution Architecture](#solution-architecture )
 3. [Hardware & Software Designs](#hardware-and-software-designs)
-<!-- 4. [Testing](#testing) -->
+4. [Testing](#testing)
 5. [Detailed budget](#detailed-budget)
-<!-- 6. [Conclusion](#conclusion) -->
+6. [Conclusion](#conclusion)
 7. [Links](#links)
 
 ## Introduction
 
-Description of the real world problem and solution, impact
+With the rise of global diabetes among the older generation, the International Diabetes Federation (IDF) statistics show that one in every 12 adults in Sri Lanka are suffering from diabetes. Severe diabetes can even cause death or serious complications like stroke, amputation, kidney failure, heart attack, and heart failure. Therefore, it should be monitored and the way to monitor diabetes is to measure blood glucose levels regularly to keep it under control.
+
+For a diabetic patient having type 1 diabetes, it is recommended to measure blood sugar 4 - 10 times a day. People with type 2 diabetes should take blood sugar testing at least once a day. The currently available and mostly used method is the invasive glucometer which is painful, can cause damage to the blood vessels, and can cause infections. They are also costly as the strips need to be replaced over time.  
+
+The aim of this project is to eliminate these drawbacks and build a convenient method for frequent glucose monitoring. For that we will be using the Near Infrared Based method which is non invasive, portable, cost efficient, reliable, and accurate to a considerable extent.
 
 
 ## Solution Architecture
 
-High level diagram + description
+![Sample Image](./images/system.jpg)
+
+![Sample Image](./images/dataflow.jpg)
+<!-- High level diagram + description -->
 
 ## Hardware and Software Designs
+
+The hardware design comprises of following componets.
+- Main processing unit Atmega328p Microcontroller
+- NIR emitter of 940 nm wavelength
+- Main two sensors NIR detector and Touch sensor
+- LCD display
+- Bluetooth module
+- Batteries to supply constant power to the emitter
+
+The software design has both a mobile and a web interface for two differnet users patients and the doctors.
+Features of the mobile application are,
+- User-specific accounts
+- Get a graphical representation of real-time glucose variation
+- Track previous glucose levels
+- Issue alerts on users' diabetic conditions
+- Get health tips to control diabetes 
+
+Features of the web application are,
+- For the use of doctors to track the patients' blood glucose levels and diabetic conditions
+- Track patients' diabetic history if the user consents
 
 Detailed designs with many sub-sections
 
