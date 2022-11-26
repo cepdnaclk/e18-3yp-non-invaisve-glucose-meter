@@ -3,13 +3,12 @@ import { StyleSheet, Text, View } from "react-native";
 
 import Button from "./components/MainButton";
 import WelcomeHeader from "./components/PageTopText";
-import InputBox from "./components/InputBox_1";
+import LoginScreen from "./screens/LoginScreen";
 
 export default function App() {
   return (
     //<WelcomeHeader topLine="Hey," bottomLine="Welcome Back" />
-
-    <InputBox hint={"Email"} iconName="mail" iconSize={15} />
+    
   );
 }
 
