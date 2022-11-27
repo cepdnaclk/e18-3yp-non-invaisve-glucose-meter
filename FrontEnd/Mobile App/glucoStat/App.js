@@ -7,7 +7,7 @@ import LoginScreen from "./screens/LoginScreen";
 
 export default function App() {
   return (
-    //<WelcomeHeader topLine="Hey," bottomLine="Welcome Back" />
+    <LoginScreen></LoginScreen>
     
   );
 }
