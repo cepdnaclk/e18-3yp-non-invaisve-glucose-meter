@@ -70,7 +70,7 @@ section {
 }
 
 .sections-bg {
-  background-color: #e5f4e7;
+  background-color: #e9e5ff;
   border-radius:20px ;
   padding-top: 20px;
   /* padding-bottom: 20px; */
@@ -988,7 +988,7 @@ section {
 
 .services .service-item {
   padding: 40px;
-  background:#e5f4e7;
+  background:#e5e9f4;
   height: 100%;
   border-radius: 10px;
   /* background-color: rgb(218, 218, 218); */
