@@ -73,6 +73,9 @@ section {
   background-color: #e5f4e7;
   border-radius:20px ;
   padding-top: 20px;
+  /* padding-bottom: 20px; */
+  padding-left: 30px;
+  padding-right: 30px;
   /* #f6f6f6 */
 }
 
@@ -257,7 +260,7 @@ section {
 # Header
 --------------------------------------------------------------*/
 .topbar {
-  background: #00796b;
+  background: #0b520d;
   height: 40px;
   font-size: 14px;
   transition: all 0.5s;
@@ -979,12 +982,16 @@ section {
 .services {
   padding: 60px 0;
 }
+.services .container {
+  padding-bottom: 30px;
+}
 
 .services .service-item {
   padding: 40px;
-  background: #fff;
+  background:#e5f4e7;
   height: 100%;
   border-radius: 10px;
+  /* background-color: rgb(218, 218, 218); */
 }
 
 .services .service-item .icon {
