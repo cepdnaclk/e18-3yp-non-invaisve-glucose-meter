@@ -1936,7 +1936,7 @@ section {
   position: relative;
   /* background: var(--color-primary); */
   padding: 60px 0 0 0;
-  background: linear-gradient(to right top, #053710, #08611f, #0c8f2e, #14bf3e, #1ff24d);
+  background: linear-gradient(to right top, #B621FE, #1FD1F9);
 }
 
 @media (min-width: 1365px) {
@@ -2731,4 +2731,22 @@ section {
 
 .footer .credits a {
   color: #fff;
+}
+
+/* custom classes */
+
+.newimg1 {
+  padding-right: 80px;
+  padding-bottom: 80px;
+}
+.newimg2 {
+  padding-left: 80px;
+}
+
+.newClass {
+  padding-top: 10px;
+}
+
+.para {
+  text-align:center;
 }
