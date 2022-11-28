@@ -19,7 +19,8 @@
 /* Colors */
 :root {
   --color-default: #222222;
-  --color-primary: #008374;
+  --color-primary: #0e6911;  
+   /* #008374 */
   --color-secondary: #f85a40;
 }
 
@@ -34,6 +35,11 @@
 body {
   font-family: var(--font-default);
   color: var(--color-default);
+}
+
+.padding-new{
+  padding-left: 80px;
+  padding-right: 80px;
 }
 
 a {
@@ -64,7 +70,10 @@ section {
 }
 
 .sections-bg {
-  background-color: #f6f6f6;
+  background-color: #e5f4e7;
+  border-radius:20px ;
+  padding-top: 20px;
+  /* #f6f6f6 */
 }
 
 .section-header {
@@ -302,6 +311,7 @@ section {
   z-index: 997;
   height: 90px;
   background-color: var(--color-primary);
+  /* background: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12); */
 }
 
 .header.sticked {
@@ -1917,8 +1927,9 @@ section {
 .hero {
   width: 100%;
   position: relative;
-  background: var(--color-primary);
+  /* background: var(--color-primary); */
   padding: 60px 0 0 0;
+  background: linear-gradient(to right top, #053710, #08611f, #0c8f2e, #14bf3e, #1ff24d);
 }
 
 @media (min-width: 1365px) {
