@@ -19,7 +19,7 @@
 /* Colors */
 :root {
   --color-default: #222222;
-  --color-primary: #0e6911;  
+  --color-primary: #081cf4;  
    /* #008374 */
   --color-secondary: #f85a40;
 }
@@ -260,7 +260,7 @@ section {
 # Header
 --------------------------------------------------------------*/
 .topbar {
-  background: #0b520d;
+  background: #2822c7;
   height: 40px;
   font-size: 14px;
   transition: all 0.5s;
