@@ -26,9 +26,9 @@ title: Non Invasive Glucometer
 
 #### Table of Contents
 1. [Introduction](#introduction)
-2. [Solution Architecture](#solution-architecture )
-3. [Hardware & Software Designs](#hardware-and-software-designs)
-7. [Links](#links)
+<!-- 2. [Solution Architecture](#solution-architecture ) -->
+2. [Hardware & Software Designs](#hardware-and-software-designs)
+3. [Links](#links)
 
 ## Introduction
 
@@ -38,14 +38,14 @@ For a diabetic patient having type 1 diabetes, it is recommended to measure bloo
 
 The aim of this project is to eliminate these drawbacks and build a convenient method for frequent glucose monitoring. For that we will be using the Near Infrared Based method which is non invasive, portable, cost efficient, reliable, and accurate to a considerable extent.
 
-
+<!-- 
 ## Solution Architecture
 
 ![Sample Image](./images/system.jpg)
 
 ### Data and control flow
 
-![Sample Image](./images/dataflow.jpg)
+![Sample Image](./images/dataflow.jpg) -->
 <!-- High level diagram + description -->
 
 ## Hardware and Software Designs
@@ -70,12 +70,13 @@ Features of the web application are,
 - For the use of doctors to track the patients' blood glucose levels and diabetic conditions
 - Track patients' diabetic history if the user consents
 
+<!--
 Detailed designs with many sub-sections
 
 ## Testing
 
 Testing done on hardware and software, detailed + summarized results -->
-
+<!--
 ## Detailed budget
 
 All items and costs
@@ -86,7 +87,9 @@ All items and costs
 
 ## Conclusion
 
-What was achieved, future developments, commercialization plans 
+What was achieved, future developments, commercialization plans -->
+
+For more details visit our official project page from the below links.
 
 ## Links
 
