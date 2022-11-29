@@ -70,23 +70,23 @@ Features of the web application are,
 - For the use of doctors to track the patients' blood glucose levels and diabetic conditions
 - Track patients' diabetic history if the user consents
 
-<!-- Detailed designs with many sub-sections
+Detailed designs with many sub-sections
 
-<!-- ## Testing
+## Testing
 
 Testing done on hardware and software, detailed + summarized results -->
 
-<!-- ## Detailed budget
+## Detailed budget
 
 All items and costs
 
 | Item          | Quantity  | Unit Cost  | Total  |
 | ------------- |:---------:|:----------:|-------:|
 | Sample item   | 5         | 10 LKR     | 50 LKR |
- --> -->
-<!-- ## Conclusion
 
-What was achieved, future developments, commercialization plans -->
+## Conclusion
+
+What was achieved, future developments, commercialization plans 
 
 ## Links
 
