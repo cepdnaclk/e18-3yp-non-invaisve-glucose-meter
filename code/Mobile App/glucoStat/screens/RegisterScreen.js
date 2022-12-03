@@ -11,7 +11,7 @@ import WelcomeHeader from "../components/PageTopText";
 import InputField from "../components/InputBox_1";
 import Button from "../components/MainButton";
 
-function LoginScreen(props) {
+function RegisterScreen(props) {
   return (
     <View style={styles.container}>
       <View style={styles.welcomeText}>
@@ -89,4 +89,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default RegisterScreen;
