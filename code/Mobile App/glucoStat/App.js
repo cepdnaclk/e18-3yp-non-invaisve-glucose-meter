@@ -1,13 +1,12 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 
-import Button from "./components/MainButton";
-import WelcomeHeader from "./components/PageTopText";
-import LoginScreen from "./screens/LoginScreen";
+import PrivacyScreen from "./screens/PrivacyScreen";
+import RegisterScreen2 from "./screens/RegisterScreen2";
 
 export default function App() {
   return (
-    <LoginScreen></LoginScreen>
+    <RegisterScreen2></RegisterScreen2>
     
   );
 }

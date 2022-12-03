@@ -15,7 +15,8 @@
     "react-native": "0.70.5",
     "react-native-web": "~0.18.9",
     "react-dom": "18.1.0",
-    "@expo/webpack-config": "^0.17.2"
+    "@expo/webpack-config": "^0.17.2",
+    "expo-checkbox": "~2.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
