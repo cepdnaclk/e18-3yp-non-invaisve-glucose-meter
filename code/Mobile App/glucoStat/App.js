@@ -3,10 +3,11 @@ import { StyleSheet, Text, View } from "react-native";
 
 import PrivacyScreen from "./screens/PrivacyScreen";
 import RegisterScreen2 from "./screens/RegisterScreen2";
+import Progress from "./screens/Progress";
 
 export default function App() {
   return (
-    <RegisterScreen2></RegisterScreen2>
+    <Progress></Progress>
     
   );
 }
