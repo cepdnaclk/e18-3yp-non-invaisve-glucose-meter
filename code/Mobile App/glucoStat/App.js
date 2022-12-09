@@ -3,7 +3,8 @@ import { StyleSheet, Text, View } from "react-native";
 
 import PrivacyScreen from "./screens/PrivacyScreen";
 import RegisterScreen2 from "./screens/RegisterScreen2";
-import Progress from "./screens/Progress";
+import Progress from "./screens/MeasureScreen";
+import FlatList from "./components/ListView";
 
 export default function App() {
   return (

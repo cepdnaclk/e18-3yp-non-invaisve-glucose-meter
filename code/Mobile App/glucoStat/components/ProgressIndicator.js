@@ -1,23 +1,12 @@
 import React from 'react';
 
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  Alert,
-} from "react-native";
-
 import CircularProgress from 'react-native-circular-progress-indicator';
-
-export default function App() {
+export default function App({value}) {
   return (
-    <View style={styles.container}>
-        
-    <View style={styles.progress}>
+    
 
     <CircularProgress
-    value={100}
+    value={value}
     radius={100}
     progressValueColor={'#fff'}
     duration={1000}
@@ -29,37 +18,7 @@ export default function App() {
         { color: 'red', value: 80 },
     ]}
     progressValueColor={"black"}
-/>
-    </View>
-
-    <View style={styles.recent}></View>
-    
-    </View>
-
-    
+    />
 
   );
 }
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: "#8fa5e3",
-    },
-
-    progress: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 2,
-    },
-    recent: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 3,
-        backgroundColor: "#fff",
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
-    },
-
-  
-  });
