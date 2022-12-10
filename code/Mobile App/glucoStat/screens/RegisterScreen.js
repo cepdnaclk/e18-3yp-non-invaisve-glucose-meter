@@ -53,7 +53,7 @@ function RegisterScreen(props) {
       <View style={styles.button}>
         <Button
           text="Next"
-          
+          iconName="right"
           iconSize={20}
           onPress={() => console.log("Login")}
         />

@@ -2,13 +2,15 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 
 import PrivacyScreen from "./screens/PrivacyScreen";
+import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 import RegisterScreen2 from "./screens/RegisterScreen2";
-import Progress from "./screens/MeasureScreen";
-import FlatList from "./components/ListView";
+import MeasureScreen from "./screens/MeasureScreen";
+import GraphScreen from "./screens/GraphScreen";
 
 export default function App() {
   return (
-    <Progress></Progress>
+    <PrivacyScreen></PrivacyScreen>
     
   );
 }
