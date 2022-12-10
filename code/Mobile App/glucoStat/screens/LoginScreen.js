@@ -10,6 +10,7 @@ import {
 import WelcomeHeader from "../components/PageTopText";
 import InputField from "../components/InputBox_1";
 import Button from "../components/MainButton";
+import GradButton from "../components/GradientButton";
 
 function LoginScreen(props) {
   return (
@@ -34,7 +35,7 @@ function LoginScreen(props) {
       </View>
 
       <View style={styles.button}>
-        <Button
+        <GradButton
           text="Login"
           iconName="login"
           iconSize={20}

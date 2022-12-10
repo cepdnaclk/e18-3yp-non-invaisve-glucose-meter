@@ -2,6 +2,7 @@ import React from "react";
 
 import { StyleSheet, TouchableHighlight } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { color} from "../config/colors"
 
 export default function IconButton({ iconName, iconSize, onPress, iconColor }) {
   return (
