@@ -1,0 +1,31 @@
+{
+  "name": "non-invasive_glucometer-webapp",
+  "version": "1.0.0",
+  "description": "This application is used by doctors to monitor their patients' glucose levels",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cepdnaclk/e18-3yp-non-invaisve-glucose-meter.git"
+  },
+  "keywords": [
+    "Biomedical",
+    "MERN",
+    "Embedded",
+    "System"
+  ],
+  "author": "E/18/382, E/18/170, E/18/282",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cepdnaclk/e18-3yp-non-invaisve-glucose-meter/issues"
+  },
+  "homepage": "https://github.com/cepdnaclk/e18-3yp-non-invaisve-glucose-meter#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
