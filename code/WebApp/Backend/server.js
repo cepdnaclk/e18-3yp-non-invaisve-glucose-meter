@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 /* ROUTES */
 
 // admin routes
-// app.use("/api/admin", require("./routes/adminRoutes.js"));
+app.use("/api/admin", require("./routes/adminRoutes.js"));
 // user auth routes
 // app.use("/api/users", require("./routes/userAuthRoutes.js"));
 
