@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/userPatient");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 let refreshTokens = [];
@@ -47,6 +48,7 @@ router.post("/signup", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
+    
       
     // check whether the user has already signed up
     const userByEmail = await User.findOne({ email: req.body.email });
@@ -65,29 +67,31 @@ router.post("/login", async (req, res) => {
         .json({ success: false, message: "Wrong credentials!" });
 
     // create json web token and send it with the login request
-
+    
     // access tokens for autherization
-    // const access_token = jwt.sign(
-    //   { email: userByEmail.email, role: userByEmail.role },
-    //   process.env.ACCESS_SECRET,
-    //   { expiresIn: process.env.REFRESH_TIME }
-    // );
-
-    // // refresh tokens to refresh the access token when expired
-    // const refresh_token = jwt.sign(
-    //   { email: userByEmail.email, role: userByEmail.role },
-    //   process.env.REFRESH_SECRET
-    // );
-    // refreshTokens.push(refresh_token); // refresh token will be expired at log out
-
+    const access_token = jwt.sign(
+      { email: userByEmail.email, role: userByEmail.role },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.REFRESH_TIME }
+    );
+    
+    // refresh tokens to refresh the access token when expired
+    const refresh_token = jwt.sign(
+      { email: userByEmail.email, role: userByEmail.role },
+      process.env.REFRESH_SECRET
+    );
+    refreshTokens.push(refresh_token); // refresh token will be expired at log out
+    console.log(access_token);
+   
     res
       .status(200)
       .json({
         success: true,
         user: userByEmail,
-        // access_token: access_token,
-        // refresh_token: refresh_token,
+        access_token: access_token,
+        refresh_token: refresh_token,
       });
+    
   } catch (error) {
     res.status(500).json(error);
   }
