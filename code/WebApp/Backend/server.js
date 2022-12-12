@@ -10,12 +10,13 @@ const express = require("express");
 const colors = require("colors");
 const cors = require("cors");
 const dotenv = require("dotenv").config();
-const connectDB = require("./config/db");
+const db = require("./configurations/db");
 const port = process.env.PORT || 5000;
 
 const app = express();
 
-connectDB();
+// create/ connect with the database
+db.connect();
 
 app.use(express.json());
 app.use(cors());
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // admin routes
 app.use("/api/admin", require("./routes/adminRoutes.js"));
+app.use("/api/auth", require("./routes/userAuth"));
 // user auth routes
 // app.use("/api/users", require("./routes/userAuthRoutes.js"));
 
