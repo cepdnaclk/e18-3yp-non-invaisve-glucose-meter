@@ -43,7 +43,7 @@ function InputField({
           ></TextInput>
         </View>
 
-        <TouchableOpacity style={styles.eye} onPress={() => setShow(!show)}>
+        {/* <TouchableOpacity style={styles.eye} onPress={() => setShow(!show)}>
           {password && (
             <IconAntDesign
               name={show ? "eye-off-outline" : "eye-outline"}
@@ -52,7 +52,7 @@ function InputField({
               style={styles.icon}
             />
           )}
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );

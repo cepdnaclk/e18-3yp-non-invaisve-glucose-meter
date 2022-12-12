@@ -10,7 +10,7 @@ import Button from "./components/RoundButton";
 
 export default function App() {
   return (
-      <PrivacyScreen ></PrivacyScreen> 
+      <LoginScreen ></LoginScreen> 
     
   );
 }
