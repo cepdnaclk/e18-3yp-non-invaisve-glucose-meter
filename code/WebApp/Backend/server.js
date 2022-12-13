@@ -27,6 +27,7 @@ app.use(express.urlencoded({ extended: false }));
 // admin routes
 app.use("/api/admin", require("./routes/adminRoutes.js"));
 app.use("/api/auth", require("./routes/userAuth"));
+app.use("/api/glucose", require("./routes/measurementRoutes"));
 // user auth routes
 // app.use("/api/users", require("./routes/userAuthRoutes.js"));
 
