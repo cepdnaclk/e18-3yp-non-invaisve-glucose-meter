@@ -1,25 +1,33 @@
-import { StyleSheet, Text, View } from "react-native";
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import RegisterScreen from "./screens/RegisterScreen";
 import RegisterScreen1 from "./screens/RegisterScreen1";
-import GraphScreen from "./screens/GraphScreen";
+// import GraphScreen from "./screens/GraphScreen";
 import MeasureScreen from "./screens/MeasureScreen";
 import LoginScreen from "./screens/LoginScreen";
-import PrivacyScreen from "./screens/PrivacyScreen";
-import Button from "./components/RoundButton";
+// import PrivacyScreen from "./screens/PrivacyScreen";
+// import Button from "./components/RoundButton";
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+const App = () => {
   return (
-      <LoginScreen ></LoginScreen> 
-    
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="RegisterScreen"
+          component={RegisterScreen}
+          options={{ headerShown: false }}
+          
+        />
+        <Stack.Screen name="RegisterScreen1" component={RegisterScreen1} options={{ headerShown: false }}/>
+        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="MeasureScreen" component={MeasureScreen} options={{ headerShown: false }}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+   //  <RegisterScreen/>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+};
+export default App;

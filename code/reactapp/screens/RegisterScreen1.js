@@ -7,14 +7,69 @@ import {
   Alert,
   Image,
 } from "react-native";
+import { Formik } from "formik";
+
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useRoute } from '@react-navigation/native';
 import SelectDropdown from "react-native-select-dropdown";
 import IconAntDesign from "react-native-vector-icons/AntDesign";
 import WelcomeHeader from "../components/PageTopText";
-import InputField from "../components/InputBox_1";
+//import InputField from "../components/InputBox_1";
+import AppFormField from "../components/AppFormField";
 import Button from "../components/MainButton";
+import client from "../API/client";
 
-function RegisterScreen(props) {
+function RegisterScreen({navigation, route}) {
+ 
   const selectGender = ["Female", "Male"];
+  const [selected, setSelected] = React.useState("");
+
+    const successAlert = (msg) =>
+    Alert.alert("User Added Successfully!", "Now you can login to the system",
+    [
+      {
+        text: "OK",
+        onPress: () => navigation.navigate("LoginScreen")
+        
+      },
+    ]);
+
+  const notsuccessAlert = (msg) =>
+    Alert.alert("Failed!", msg,
+    [
+      {
+        text: "OK",
+        onPress: () => {if (msg=="This Email already in use.") {navigation.navigate("RegisterScreen")} else {navigation.navigate("LoginScreen")}}
+        
+      },
+    ]);
+
+  const action = async (values, formikActions) => {
+    
+    const res = await client
+      .post("/auth/signup", {
+        ...values,
+        username: route.params.user.username,
+        contact_no: route.params.user.contact_no,
+        email: route.params.user.email,
+        password: route.params.user.password,
+      })
+      .catch((error) => {
+        //notsuccessAlert(res.data.message);
+        console.log("error");
+      });
+    console.log(res.data);
+    if (res.data.success) {
+      console.log(typeof res.data.message)
+      successAlert(res.data.message);
+      
+    } else {
+      console.log("here2")
+      notsuccessAlert(res.data.message);
+     
+    }
+  };
+  
   return (
     <View style={styles.container}>
       
@@ -28,20 +83,60 @@ function RegisterScreen(props) {
         <WelcomeHeader topLine="Help us to know more about you" bottomLine="Let's Complete Your Profile" />
       </View>
       <View style={styles.inputs}>
-        <InputField
-          hint="Age"
-          isSecured={false}
-          iconName="calendar"
-          iconSize={20}
-        />
-        <View style={styles.selectOptionContainer}>
+      <Formik
+        initialValues={{
+          
+          age: " ",
+          height: " ",
+          weight: " ",
+          gender: " "
+        }}
+        onSubmit={action}
+        // validationSchema={validationSchema}
+      >
+        {({ handleSubmit, values }) => {
+          const {
+          
+          age,
+          height,
+          weight,
+          gender
+          } = values;
+
+          return (
+            <>
+              <View >
+                <KeyboardAwareScrollView>
+            
+
+                  <AppFormField
+                    value={height}
+                    isSecured={false}
+                    
+                    iconName="totop"
+                    iconSize={20}
+                    hint={"Height/ cm"}
+                    name="height"
+                    keyboadType="number"
+                  />
+
+                  <AppFormField
+                    value={weight}
+                    hint={"Weight/ kg"}
+                    isSecured={false}
+                    iconName="dashboard"
+                    iconSize={20}
+                    name="weight"
+                    keyboadType="number"
+                    // textContentType="number"
+                  />
+                  <View style={styles.selectOptionContainer}>
                     <SelectDropdown
                       data={selectGender}
                       // placeholder={"hint"}
                       defaultButtonText={"Select Gender"}
                       onSelect={(selectedItem, index) => {
-                        //values.patient_gender = selectedItem;
-                        console.log(selectedItem);
+                        values.gender = selectedItem;
                       }}
                       buttonTextAfterSelection={(selectedItem, index) => {
                         return selectedItem;
@@ -66,29 +161,34 @@ function RegisterScreen(props) {
                       selectedRowStyle={styles.dropdownSelectedRowStyle}
                     />
                   </View>
-        <InputField
-          hint="Height/ kg"
-          isSecured={true}
-          iconName="totop"
-          iconSize={20}
-        />
-        <InputField
-          hint="Weight/ cm"
-          isSecured={false}
-          iconName="dashboard"
-          iconSize={20}
-        />
-        
-        
-      </View>
 
-      <View style={styles.button}>
-        <Button
-          text="Register"
-          iconName="adduser"
-          iconSize={20}
-          onPress={() => console.log("Login")}
-        />
+                  <AppFormField
+                    value={age}
+                    hint={"Age"}
+                    isSecured={false}
+                    iconName="calendar"
+                    iconSize={20}
+                    name="age"
+                    keyboadType="number"
+                  />
+
+                 
+                </KeyboardAwareScrollView>
+              </View>
+
+              <View style={styles.button}>
+                <Button
+                  iconName={"adduser"}
+                  iconSize={20}
+                  text="Register"
+                  onPress={handleSubmit}
+                />
+              </View>
+            </>
+          );
+        }}
+      </Formik>
+        
         
       </View>
     </View>
@@ -99,6 +199,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+
   imageContainer:{
     paddingTop: 30,
     flex: 2,

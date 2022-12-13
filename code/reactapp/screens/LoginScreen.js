@@ -23,7 +23,7 @@ import client from "../API/client";
 //   password: Yup.string().required().min(4).max(12).label("Password"),
 // });
 
-function LoginScreen() {
+function LoginScreen({navigation}) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [role, setRole] = useState(0);
   const [user, setUser] = useState({});
@@ -68,7 +68,7 @@ const login = async (values, formikActions) => {
       setRole(3);
       setIsLoggedIn(true);
       setUser(res.data.user);
-     // navigation.navigate("MeasureScreen");
+     navigation.navigate("MeasureScreen");
     
   } else {
     createAlert(res.data.message);
@@ -91,7 +91,9 @@ const [isSecured, setSecured] = useState(true);
           const { email, password } = values;
 
           return (
+            
             <>
+            
               <View style={styles.inputFlex}>
                 {/* container with all the text input fields */}
 
@@ -150,6 +152,7 @@ const [isSecured, setSecured] = useState(true);
 
               </View>
             </>
+            
           );
         }}
       </Formik>

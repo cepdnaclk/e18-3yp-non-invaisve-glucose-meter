@@ -42,7 +42,7 @@ const recentMeasurements = [ {
     value: "23",
   }, ];
 
-export default function App() {
+export default function App({navigation}) {
   return (
     <View style={styles.container}>
 
