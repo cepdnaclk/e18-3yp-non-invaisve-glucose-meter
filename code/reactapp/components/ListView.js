@@ -11,11 +11,13 @@ export default function App({datalist}) {
       <FlatList 
         data={datalist}
         renderItem={({ item }) => <View style={styles.tablerow}>
-            <View style={styles.tablecol2}><Text style={styles.item}>{item.value}</Text></View>
-            <View style={styles.tablecol1}><Text style={styles.item}>{item.name}</Text></View>
+            <View style={styles.tablecol2}><Text style={styles.item}>{item.time}</Text></View>
+            <View style={styles.tablecol1}><Text style={styles.item}>{item.value}</Text></View>
             <View style={styles.tablecol2}><Text style={styles.item}>{item.value}</Text></View>
             </View>}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => {
+          return item._id;
+        }}
         ItemSeparatorComponent={FlatListItemSeparator}
         ListHeaderComponent={() => (
             <Text style={{ color: "#000", fontSize: 20, marginTop:20, marginBottom: 20, fontWeight:'bold' }}>
