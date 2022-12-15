@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { useIsFocused } from "@react-navigation/native";
 
 import {
   View,
@@ -15,6 +16,34 @@ const months = ["January", "February", "March", "April", "May", "June"]
 const values = [20, 45, 28, 80, 99, 100, 4]
 
 export default function App() {
+  const isFocused = useIsFocused();
+  const [dates, setDates] = useState([{}]);
+  const [values, setValues] = useState([{}]);
+  //const [isLoaded, setIsLoaded] = useState(false);
+  // add a user state to change the array auto when screen laoded
+  useEffect(() => {
+    if (isFocused) {
+      getData();
+    }
+  }, [isFocused]);
+
+  // function myFunction(obj) {
+  //   if (obj.date)
+  // }
+
+  const getData = async () => {
+    await client
+      .get(`/glucose/getMonthlyGlucose/${d.getMonth()+1}`)
+      .then((res) => {
+
+        console.log(res.data.values);
+        setRecords(res.data.values);
+        setIsLoaded(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <View style={styles.container}>
 

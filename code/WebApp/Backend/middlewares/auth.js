@@ -13,7 +13,7 @@ const authenticateToken = async (req, res, next) => {
     return res.sendStatus(401);
   }
 
-  jwt.verify(token, process.env.ACCESS_SECRET, async (error, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, async (error, user) => {
     if (error) {
       console.log("JWT Token error: " + error.message);
       return res.status(401).json({ message: error });

@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Measurement = require("../models/measurementModel");
+const User = require("../models/userPatient");
 require("dotenv").config();
 const authenticateToken = require("../middlewares/auth");
 
@@ -13,6 +14,7 @@ router.post("/addGlucose", async (req, res) => { // no auth token added
         date: req.body.date, // this depends on how the recorded time sent to the backend ?
         month: req.body.month,
         date: req.body.date,
+        time: req.body.time,
     });
     const measurement = await newMeasurement.save();
     return res.status(200).json({
@@ -25,12 +27,30 @@ router.post("/addGlucose", async (req, res) => { // no auth token added
   }
 });
 
-router.get("/getMonthlyGlucose/:month", async (req, res) => {
+router.get("/getMonthlyGlucose/:month", authenticateToken, async (req, res) => {
     try {
-        console.log(req.params.month)
-      const newMeasurements = await Measurement.find({month: req.params.month},
-        { user_id: 1, _id: 1 });
+      const userByEmail = await User.findOne({ email: req.user.email });
+        console.log(userByEmail)
+      const newMeasurements = await Measurement.find(
+        { "month": req.params.month, "user_id" :  userByEmail._id });
+      
+      return res.status(200).json({
+        success: true,
+        values: newMeasurements,
+      });
+      
+     
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  });
 
+  router.get("/getRecentGlucose/:date", authenticateToken, async (req, res) => {
+    try {
+      const userByEmail = await User.findOne({ email: req.user.email });
+        console.log(userByEmail)
+      const newMeasurements = await Measurement.find(
+        { "date": req.params.date, "user_id" :  userByEmail._id });
        // const newMeasurements = await Measurement.findAll({month: req.params.month}, { user_id: req.user.id, _id: 1 });
        
       return res.status(200).json({
@@ -43,22 +63,7 @@ router.get("/getMonthlyGlucose/:month", async (req, res) => {
       res.status(500).json(error);
     }
   });
-
-  router.get("/getRecentGlucose/:date", async (req, res) => {
-    try {
-        console.log(req.params.date)
-      const newMeasurements = await Measurement.find({date: req.params.date},
-        { user_id: 1, _id: 1 });
-
-       // const newMeasurements = await Measurement.findAll({month: req.params.month}, { user_id: req.user.id, _id: 1 });
-       
-      return res.status(200).json({
-        success: true,
-        values: newMeasurements,
-      });
-      
      
-    } catch (error) {
-      res.status(500).json(error);
-    }
-  });
+
+
+module.exports = router;
