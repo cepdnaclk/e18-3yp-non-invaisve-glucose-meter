@@ -15,19 +15,17 @@ import InputField from "../components/InputBox_1";
 import AppFormField from "../components/AppFormField";
 import Button from "../components/MainButton";
 import MeasureScreen from "./MeasureScreen";
+import GraphScreen from "./GraphScreen";
 import client from "../API/client";
+import { useLogin } from "../context/LoginProvider";
 
-
-// const validationSchema = Yup.object().shape({
-//   email: Yup.string().required().email().label("Email"),
-//   password: Yup.string().required().min(4).max(12).label("Password"),
-// });
 
 function LoginScreen({navigation}) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [role, setRole] = useState(0);
-  const [user, setUser] = useState({});
-  //const { setIsLoggedIn, setUser, setRole } = useLogin();
+  const { setIsLoggedIn, setUser, setRole } = useLogin();
+  //  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  //  const [role, setRole] = useState(0);
+  //  const [user, setUser] = useState({});
+  
 
   async function saveToken(key, val) {
     try {
@@ -68,7 +66,7 @@ const login = async (values, formikActions) => {
       setRole(3);
       setIsLoggedIn(true);
       setUser(res.data.user);
-     navigation.navigate("MeasureScreen");
+    // navigation.navigate("GraphScreen");
     
   } else {
     createAlert(res.data.message);
