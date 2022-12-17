@@ -14,48 +14,14 @@ import CircularProgress from "../components/ProgressIndicator";
 import ListView from "../components/ListView";
 import client from "../API/client";
 
-// const recentMeasurements = [ {
-// 	id: "1",
-// 	name: "Earnest Green",
-//     value: "23",
-//   },
-//   {
-// 	id: "2",
-// 	name: "Winston Orn",
-//     value: "23",
-//   },
-//   {
-// 	id: "3",
-// 	name: "Carlton Collins",
-//     value: "23",
-//   },
-//  ];
-
 export default function App({navigation}) {
   const isFocused = useIsFocused();
   const [records, setRecords] = useState([{}]);
   const [isLoaded, setIsLoaded] = useState(false);
   // add a user state to change the array auto when screen laoded
   const d = new Date();
-  //console.log(d.getMonth()); // 2022-12-14T06:49:47.203Z
+  console.log(d.getDate());
 
-  // const getRecent = async () => {
-  
-  //   const res = await client
-  //     .get(`/glucose/getMonthlyGlucose/${d.getMonth()}`)
-  //     .catch((error) => {
-  //       return createAlert(error.message);
-  //       console.log("error " + error.message);
-  //     });
-  //   // console.log(res.data.user);
-  //   if (res.data.success) {
-  //     console.log(res.data);
-  //     const recentMeasurements = res.data.values;
-      
-  //   } else {
-  //     console.log("unseuccessful");
-  //   }
-  // };
   useEffect(() => {
     if (isFocused) {
       getRecent();
@@ -64,7 +30,7 @@ export default function App({navigation}) {
 
   const getRecent = async () => {
     await client
-      .get(`/glucose/getRecentGlucose/${d.getDate()+1}`)
+      .get(`/glucose/getRecentGlucose/${d.getDate()}`)
       .then((res) => {
         console.log(res.data.values);
         setRecords(res.data.values);

@@ -52,7 +52,7 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     
-      
+      console.log("login called")
     // check whether the user has already signed up
     const userByEmail = await User.findOne({ email: req.body.email });
     if (!userByEmail)

@@ -11,49 +11,106 @@ import {
 
 import LineChart from "../components/LineChart";
 import color from "../config/colors";
+import client from "../API/client";
 
 const months = ["January", "February", "March", "April", "May", "June"]
 const values = [20, 45, 28, 80, 99, 100, 4]
 
-export default function App() {
-  const isFocused = useIsFocused();
-  const [dates, setDates] = useState([{}]);
-  const [values, setValues] = useState([{}]);
-  //const [isLoaded, setIsLoaded] = useState(false);
-  // add a user state to change the array auto when screen laoded
-  useEffect(() => {
+export default function App({navigation}) {
+    const isFocused = useIsFocused();
+    const d = new Date();
+    let dates2 = [0];
+    const [dates, setDates] = useState([0]);
+    const [concs, setValues] = useState([0]);
+    const [highest, setHighest] = useState(0);
+    const [lowest, setLowest] = useState(0);
+    const [avg, setAvg] = useState(0);
+
+    useEffect(() => {
     if (isFocused) {
       getData();
     }
   }, [isFocused]);
+  
+//   function removeDuplicates(days) {
+//     var uniqueDays = [];
+//     days.forEach(element => {
+//         if (!uniqueDays.includes(element)) {
+//             uniqueDays.push(element);
+            
+//         }
+//     });
+//     return uniqueDays;
+// }
 
-  // function myFunction(obj) {
-  //   if (obj.date)
-  // }
+// function average(days, vals) {
+//     var uniqueDays = [];
+//     var avgVals = [];
+//     let i =0;
+//     days.forEach(element => {
+//         if (!uniqueDays.includes(element)) {
+//             uniqueDays.push(element);
+//             avgVals.push(vals[i]);
+//             i++;
+//         }
+//     });
+//     return avgVals;
+// }
+
+    // function average(days, vals){
+    //     let index=0, newArr = [];
+    //     for (let i = 0; i < days.length - 1; i++) {
+    //         let avgConc = 0;
+    //         for (let j = i + 1; j < days.length; j++) {
+
+    //         if (days[i] === days[j]) {
+    //               avgConc += vals[j];
+    //            }
+    //         }
+    //         newArr = 
+    //      }
+
+    // }
 
   const getData = async () => {
     await client
       .get(`/glucose/getMonthlyGlucose/${d.getMonth()+1}`)
       .then((res) => {
+        console.log(res.data);
+        if (res.data.dates.length != 0){
+            setDates(res.data.dates);
+            setValues(res.data.values);
+            setHighest(Math.max.apply(null, res.data.values));
+            setLowest(Math.min.apply(null, res.data.values));
+            var sum = 0;
+            concs.forEach((num) => { sum = sum + num });
+            setAvg(sum)
 
-        console.log(res.data.values);
-        setRecords(res.data.values);
-        setIsLoaded(true);
+        }else{
+
+        }
+        
+        
+        //console.log(dates.sort());
+        //console.log(concs);
+       // console.log(res.data.values.value);
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
   return (
     <View style={styles.container}>
+
 
     <View style={styles.top}>
     </View>
         
     <View style={styles.chart}>
     <LineChart 
-    x_datalist={months}
-    y_datalist={values}
+    x_datalist={dates}
+    y_datalist={concs}
     x_unit={" m"}/>
     </View>
 
@@ -61,22 +118,25 @@ export default function App() {
 
       <View style={styles.first}>
         <Text style={styles.topics}> Monthly Average </Text>
-        <Text style={styles.date}> November </Text>
-        <Text style={styles.value}> 127 mgH </Text>
+        <Text style={styles.date}> {d.toLocaleString('default', { month: 'long' })} </Text>
+        {/* WRONG */}
+        <Text style={styles.value}> 127 <Text style={styles.unit}> mgH </Text> </Text>
 
 
       </View>
       <View style={styles.second}>
       <View style={styles.up}>
         <Text style={styles.topics}> Highest </Text>
-        <Text style={styles.date}> 22/11/2022 </Text>
-        <Text style={styles.value}> 127 <Text style={styles.unit}> mgH </Text></Text>
+        {/* WRONG */}
+        <Text style={styles.date}> 22/12/2022 </Text> 
+        <Text style={styles.value}> {highest} <Text style={styles.unit}> mgH </Text></Text>
         
         </View>
         <View style={styles.down}>
         <Text style={styles.topics}> Lowest </Text>
-        <Text style={styles.date}> 22/11/2022 </Text>
-        <Text style={styles.value}> 127 mgH </Text>
+        {/* WRONG */}
+        <Text style={styles.date}> 03/12/2022 </Text> 
+        <Text style={styles.value}> {lowest} <Text style={styles.unit}> mgH </Text> </Text>
         
       </View>
         
@@ -164,13 +224,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     marginBottom: 5,
-    color : color.text,
   },
   date: {
     fontSize: 15,
     fontWeight: "bold",
     color: color.primary,
-    color : color.primary,
     
   },
   value: {
@@ -178,7 +236,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
     marginBottom: 5,
-    color : color.text,
     
   },
   unit: {
