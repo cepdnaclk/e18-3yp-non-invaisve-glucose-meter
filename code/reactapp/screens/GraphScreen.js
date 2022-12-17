@@ -13,13 +13,10 @@ import LineChart from "../components/LineChart";
 import color from "../config/colors";
 import client from "../API/client";
 
-const months = ["January", "February", "March", "April", "May", "June"]
-const values = [20, 45, 28, 80, 99, 100, 4]
 
 export default function App({navigation}) {
     const isFocused = useIsFocused();
     const d = new Date();
-    let dates2 = [0];
     const [dates, setDates] = useState([0]);
     const [concs, setValues] = useState([0]);
     const [highest, setHighest] = useState(0);
@@ -89,11 +86,7 @@ export default function App({navigation}) {
         }else{
 
         }
-        
-        
-        //console.log(dates.sort());
-        //console.log(concs);
-       // console.log(res.data.values.value);
+ 
       })
       .catch((error) => {
         console.log(error);
@@ -115,32 +108,10 @@ export default function App({navigation}) {
     </View>
 
     <View style={styles.params}>
-
-      <View style={styles.first}>
-        <Text style={styles.topics}> Monthly Average </Text>
-        <Text style={styles.date}> {d.toLocaleString('default', { month: 'long' })} </Text>
-        {/* WRONG */}
-        <Text style={styles.value}> 127 <Text style={styles.unit}> mgH </Text> </Text>
-
-
-      </View>
-      <View style={styles.second}>
-      <View style={styles.up}>
-        <Text style={styles.topics}> Highest </Text>
-        {/* WRONG */}
-        <Text style={styles.date}> 22/12/2022 </Text> 
-        <Text style={styles.value}> {highest} <Text style={styles.unit}> mgH </Text></Text>
-        
-        </View>
-        <View style={styles.down}>
-        <Text style={styles.topics}> Lowest </Text>
-        {/* WRONG */}
-        <Text style={styles.date}> 03/12/2022 </Text> 
-        <Text style={styles.value}> {lowest} <Text style={styles.unit}> mgH </Text> </Text>
-        
-      </View>
-        
-      </View>
+      <Text style={styles.text}> Average                                   127 mgH</Text>
+      <Text style={styles.text}> Highest <Text style={styles.text2}> (12/17/2022) </Text>       {highest} mgH </Text>
+      
+      <Text style={styles.text}>Lowest   <Text style={styles.text2}> (12/17/2022) </Text>        {lowest} mgH</Text>
       
 
     
@@ -173,14 +144,15 @@ const styles = StyleSheet.create({
         flex: 2,
     },
     params: {
-      //alignItems: 'center',
+      alignItems: 'center',
+      justifyContent: "center",
       padding: 20,
       paddingLeft: 30,
-      flex: 2,
+      flex: 1,
       backgroundColor: "#F7F7F7",
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
-      flexDirection: "row",
+      flexDirection: "column",
   },
   first: {
     flex: 1,
@@ -244,5 +216,42 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     
   },
+  text: {
+    paddingBottom: 23,
+    fontSize: 20,
+    color: "#000",
+  },
+  text2: {
+    color: color.primary,
+    fontWeight: "bold",
+
+  }
   
   });
+
+
+  // <View style={styles.first}>
+  //       <Text style={styles.topics}> Monthly Average </Text>
+  //       <Text style={styles.date}> {d.toLocaleString('default', { month: 'long' })} </Text>
+  //       {/* WRONG */}
+  //       <Text style={styles.value}> 127 <Text style={styles.unit}> mgH </Text> </Text>
+
+  //     </View>
+      
+  //     <View style={styles.second}>
+  //     <View style={styles.up}>
+  //       <Text style={styles.topics}> Highest </Text>
+  //       {/* WRONG */}
+  //       <Text style={styles.date}> 22/12/2022 </Text> 
+  //       <Text style={styles.value}> {highest} <Text style={styles.unit}> mgH </Text></Text>
+        
+  //       </View>
+  //       <View style={styles.down}>
+  //       <Text style={styles.topics}> Lowest </Text>
+  //       {/* WRONG */}
+  //       <Text style={styles.date}> 03/12/2022 </Text> 
+  //       <Text style={styles.value}> {lowest} <Text style={styles.unit}> mgH </Text> </Text>
+        
+  //     </View>
+        
+  //     </View>

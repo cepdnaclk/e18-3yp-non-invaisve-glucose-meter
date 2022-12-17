@@ -60,6 +60,7 @@ router.get("/getMonthlyGlucose/:month",  authenticateToken, async (req, res) => 
       return res.status(200).json({
         success: true,
         values: newMeasurements,
+        name: userByEmail.username,
       });
       
      

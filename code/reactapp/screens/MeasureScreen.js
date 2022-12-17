@@ -18,6 +18,7 @@ export default function App({navigation}) {
   const isFocused = useIsFocused();
   const [records, setRecords] = useState([{}]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [name, setName] = useState("");
   // add a user state to change the array auto when screen laoded
   const d = new Date();
   console.log(d.getDate());
@@ -32,9 +33,11 @@ export default function App({navigation}) {
     await client
       .get(`/glucose/getRecentGlucose/${d.getDate()}`)
       .then((res) => {
-        console.log(res.data.values);
+        //console.log(res.data);
+        setName(res.data.name);
         setRecords(res.data.values);
         setIsLoaded(true);
+        
       })
       .catch((error) => {
         console.log(error);
@@ -44,9 +47,9 @@ return (
 
     
     <View style={styles.container}>
-
-    <View style={styles.top}>
       
+    <View style={styles.top}>
+    <Text style={styles.name}> {name} </Text>
     </View>
         
     <View style={styles.progress}>
@@ -72,7 +75,14 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: "#8fa5e3",
     },
+    name: {
+      fontSize: 25,
+      color: "#000",
+      
+  },
+
     top: {
+      backgroundColor: "#8fa5e3",
       alignItems: 'center',
       justifyContent: 'center',
       flex: 0.5,

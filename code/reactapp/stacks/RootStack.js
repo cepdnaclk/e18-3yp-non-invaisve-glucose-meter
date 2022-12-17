@@ -10,11 +10,11 @@ import RegisterScreen1 from "../screens/RegisterScreen1";
 const RootStack = createStackNavigator();
 
 const RootStackScreens = ({ navigation }) => (
-  <RootStack.Navigator screenOptions={{ headerShown: false }}>
-    <RootStack.Screen name="LoginScreen" component={LoginScreen} />
-    <RootStack.Screen name="PrivacyScreen" component={PrivacyScreen} />
-    <RootStack.Screen name="RegisterScreen" component={RegisterScreen} />
-    <RootStack.Screen name="RegisterScreen1" component={RegisterScreen1} />
+  <RootStack.Navigator >
+    <RootStack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }}/>
+    <RootStack.Screen name="PrivacyScreen" component={PrivacyScreen} options={{ headerShown: false }}/>
+    <RootStack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerShown: false }}/>
+    <RootStack.Screen name="RegisterScreen1" component={RegisterScreen1} options={{ headerShown: true }}/>
   </RootStack.Navigator>
 );
 

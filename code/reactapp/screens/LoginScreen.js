@@ -145,7 +145,10 @@ const [isSecured, setSecured] = useState(true);
                 />
                 <Text style={{ textAlign: "center", marginTop: 10 }}>
           Don't have an Account?{" "}
-          <Text style={{ color: "purple" }}>Register</Text>
+          <TouchableWithoutFeedback
+              onPress={() => navigation.navigate("RegisterScreen")}
+            >
+          <Text style={{ color: "purple" }}>Register</Text></TouchableWithoutFeedback>
         </Text>
 
               </View>

@@ -86,10 +86,10 @@ function RegisterScreen({navigation, route}) {
       <Formik
         initialValues={{
           
-          age: " ",
-          height: " ",
-          weight: " ",
-          gender: " "
+          age: "",
+          height: "",
+          weight: "",
+          gender: ""
         }}
         onSubmit={action}
         // validationSchema={validationSchema}
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
 
   imageContainer:{
     paddingTop: 30,
-    flex: 2,
+    flex: 1.5,
     justifyContent: 'center',
     alignItems: 'center',
    

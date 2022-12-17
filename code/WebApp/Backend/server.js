@@ -11,7 +11,7 @@ const colors = require("colors");
 const cors = require("cors");
 const dotenv = require("dotenv").config();
 const db = require("./configurations/db");
-const port = process.env.PORT || 3000;
+const port = 3000 || process.env.PORT;
 
 const app = express();
 
@@ -31,5 +31,7 @@ app.use("/api/auth", require("./routes/userAuth"));
 // app.use("/api/users", require("./routes/userAuthRoutes.js"));
 // measurement routes
 app.use("/api/glucose", require("./routes/measurementRoutes"));
+// doctor routes
+app.use("/api/doctor", require("./routes/doctorRoutes"));
 
 app.listen(port, () => console.log(`Server started on ${port}`.yellow));
