@@ -5,10 +5,12 @@ import {
   import color from "../config/colors"
 
 export default function App({x_datalist, y_datalist, x_unit, y_unit}) {
+  const d = new Date();
 
   return (
+    <View>
+         <Text style={styles.topText}> Insights for Month of {d.toLocaleString('default', { month: 'long' })}</Text>
 
-  
   <LineChart
     data={{
       labels: x_datalist,
@@ -20,14 +22,13 @@ export default function App({x_datalist, y_datalist, x_unit, y_unit}) {
     }}
     width={Dimensions.get("window").width} // from react-native
     height={220}
-    //yAxisLabel={x_unit}
     yAxisSuffix={x_unit}
     yAxisInterval={1} // optional, defaults to 1
     chartConfig={{
       //backgroundColor: "#87BEF5",
       backgroundGradientFrom: color.primary,
       backgroundGradientTo: color.primary,
-      decimalPlaces: 2, // optional, defaults to 2dp
+      decimalPlaces: 1, // optional, defaults to 2dp
       color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
       labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
       style: {
@@ -45,10 +46,15 @@ export default function App({x_datalist, y_datalist, x_unit, y_unit}) {
       borderRadius: 16
     }}
   />
-    
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-
+  topText: {
+    fontWeight: "bold",
+    textAlign: "center",
+    paddingBottom: 20,
+    fontSize: 16,
+},
 });

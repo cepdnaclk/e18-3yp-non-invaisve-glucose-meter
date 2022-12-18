@@ -28,46 +28,6 @@ export default function App({navigation}) {
       getData();
     }
   }, [isFocused]);
-  
-//   function removeDuplicates(days) {
-//     var uniqueDays = [];
-//     days.forEach(element => {
-//         if (!uniqueDays.includes(element)) {
-//             uniqueDays.push(element);
-            
-//         }
-//     });
-//     return uniqueDays;
-// }
-
-// function average(days, vals) {
-//     var uniqueDays = [];
-//     var avgVals = [];
-//     let i =0;
-//     days.forEach(element => {
-//         if (!uniqueDays.includes(element)) {
-//             uniqueDays.push(element);
-//             avgVals.push(vals[i]);
-//             i++;
-//         }
-//     });
-//     return avgVals;
-// }
-
-    // function average(days, vals){
-    //     let index=0, newArr = [];
-    //     for (let i = 0; i < days.length - 1; i++) {
-    //         let avgConc = 0;
-    //         for (let j = i + 1; j < days.length; j++) {
-
-    //         if (days[i] === days[j]) {
-    //               avgConc += vals[j];
-    //            }
-    //         }
-    //         newArr = 
-    //      }
-
-    // }
 
   const getData = async () => {
     await client
@@ -79,12 +39,7 @@ export default function App({navigation}) {
             setValues(res.data.values);
             setHighest(Math.max.apply(null, res.data.values));
             setLowest(Math.min.apply(null, res.data.values));
-            var sum = 0;
-            concs.forEach((num) => { sum = sum + num });
-            setAvg(sum)
-
-        }else{
-
+            
         }
  
       })
@@ -104,17 +59,14 @@ export default function App({navigation}) {
     <LineChart 
     x_datalist={dates}
     y_datalist={concs}
-    x_unit={" m"}/>
+    x_unit={" mgH"}/>
     </View>
 
     <View style={styles.params}>
       <Text style={styles.text}> Average                                   127 mgH</Text>
       <Text style={styles.text}> Highest <Text style={styles.text2}> (12/17/2022) </Text>       {highest} mgH </Text>
-      
       <Text style={styles.text}>Lowest   <Text style={styles.text2}> (12/17/2022) </Text>        {lowest} mgH</Text>
       
-
-    
     </View>
     {/* </LinearGradient> */}
 
@@ -136,12 +88,16 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
       flex: 0.5,
+      
   },
 
+
     chart: {
+      paddingLeft: 15,
         alignItems: 'center',
         justifyContent: 'center',
         flex: 2,
+
     },
     params: {
       alignItems: 'center',
