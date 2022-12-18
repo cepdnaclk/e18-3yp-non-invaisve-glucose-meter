@@ -47,10 +47,11 @@ router.post("/addDoctor", async (req, res) => { // FOR TESTING bcz doctor authen
   // get all doctors
   router.get("/allDoctors",  async (req, res) => {
     try {
+      console.log("called")
       
       const doctors = await User.find({}, {"username": 1, "specialized_in": 1, "hospital": 1});
-      
-      return res.status(200).send({ docotrs: doctors });
+      console.log(doctors)
+      return res.status(200).send({ doctors: doctors });
     } catch (err) {
       return res.status(500).json({ message: err });
     }

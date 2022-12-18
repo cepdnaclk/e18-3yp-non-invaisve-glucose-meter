@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View, TouchableOpacity } from "react-native";
 
-const App = () => {
+const App = ({state}) => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.centeredView}>
@@ -24,7 +24,6 @@ const App = () => {
           <TouchableOpacity onPress={() => setModalVisible(false)}><Text style={styles.modalHeaderCloseText}>X</Text>
           
             </TouchableOpacity>
-            
             
           </View>
             <View style={styles.doctorName}>
