@@ -1,34 +1,42 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, SafeAreaView, StyleSheet, Alert, TouchableOpacity, Pressable, Modal } from "react-native";
-import { useIsFocused } from "@react-navigation/native";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import SelectDropdown from "react-native-select-dropdown";
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  Alert,
+  TouchableOpacity,
+  Pressable,
+  Modal,
+} from 'react-native';
+import {useIsFocused} from '@react-navigation/native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import SelectDropdown from 'react-native-select-dropdown';
 
-import client from "../API/client";
+import client from '../API/client';
 
-function AddDoctor({ navigation }) {
+function AddDoctor({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
   let modalVisible2 = false;
   const isFocused = useIsFocused();
   const doctors = [];
- // const [doctors, setDoctors] = useState([0]);
+  // const [doctors, setDoctors] = useState([0]);
   const _ids = [];
   let doctorIndex = null;
-  
 
   const getDoctors = async () => {
-    console.log("yess")
-    const res = await client.get("/doctor/allDoctors", {}).catch((error) => {
+    console.log('yess');
+    const res = await client.get('/doctor/allDoctors', {}).catch(error => {
       console.log(error.message);
     });
     try {
-      res.data.doctors.map((item) => {
+      res.data.doctors.map(item => {
         //console.log(item.username)
         doctors.push(item.username);
         _ids.push(item._id);
       });
     } catch (error) {
-      console.log("unexpected: " + error);
+      console.log('unexpected: ' + error);
     }
   };
 
@@ -39,154 +47,139 @@ function AddDoctor({ navigation }) {
   }, [isFocused]);
 
   return (
-
-      <View style={styles.viewContainer}>
-        <Modal
-    animationType="slide"
-    transparent={true}
-    visible={modalVisible}
-    onRequestClose={() => {
-      Alert.alert("Modal has been closed.");
-      setModalVisible(!modalVisible);
-    }}
-  >
-    
-    <View style={styles.centeredView}>
-      
-      <View style={styles.modalView}>
-      <View style={styles.modalHeader}>
-      <View style={styles.modalHeaderContent}><Text>Doctor name</Text></View>
-      <TouchableOpacity onPress={() => setModalVisible(false)}>
-        <Text style={styles.modalHeaderCloseText}>X</Text>
-      
-        </TouchableOpacity>
-        
-      </View>
-        <View style={styles.doctorName}>
-
+    <View style={styles.viewContainer}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View style={styles.modalHeader}>
+              <View style={styles.modalHeaderContent}>
+                <Text>Doctor name</Text>
+              </View>
+              <TouchableOpacity onPress={() => setModalVisible(false)}>
+                <Text style={styles.modalHeaderCloseText}>X</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.doctorName}></View>
+            <Text style={styles.modalText1}>Physician</Text>
+            <Text style={styles.modalText2}>Gampaha Base Hospital</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={styles.textStyle}>Subscribe</Text>
+            </Pressable>
+          </View>
         </View>
-        <Text style={styles.modalText1}>Physician</Text>
-        <Text style={styles.modalText2}>Gampaha Base Hospital</Text>
+      </Modal>
+
+      <View style={styles.scrollViewContainer}>
+        <View style={styles.dropdownContainer}>
+          <SelectDropdown
+            data={doctors}
+            onSelect={(selectedItem, index) => {
+              doctorIndex = index;
+              // setModalVisible(true); // ERROR : once selected, the values in dropdown are not loading for the second time
+              console.log(selectedItem, index);
+            }}
+            defaultButtonText={'Select doctor'}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              // setModalVisible(true);
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+            buttonStyle={styles.dropdownBtnStyle}
+            buttonTextStyle={styles.dropdownBtnTxtStyle}
+            renderDropdownIcon={isOpened => {
+              return (
+                <FontAwesome
+                  name={isOpened ? 'chevron-up' : 'chevron-down'}
+                  color={'#000'}
+                  size={18}
+                />
+              );
+            }}
+            dropdownIconPosition={'right'}
+            dropdownStyle={styles.dropdownDropdownStyle}
+            rowStyle={styles.dropdownRowStyle}
+            rowTextStyle={styles.dropdownRowTxtStyle}
+            selectedRowStyle={styles.dropdownSelectedRowStyle}
+            search
+            searchInputStyle={styles.dropdownsearchInputStyleStyle}
+            searchInputTxtColor={'#fff'}
+            searchPlaceHolder={'Search here'}
+            searchPlaceHolderColor={'#F8F8F8'}
+            renderSearchInputLeftIcon={() => {
+              return <FontAwesome name={'search'} color={'#FFF'} size={18} />;
+            }}
+            onFocus={() => {}}
+            onBlur={() => {}}
+          />
+        </View>
         <Pressable
-          style={[styles.button, styles.buttonClose]}
-          onPress={() => setModalVisible(!modalVisible)}
-        >
-          <Text style={styles.textStyle}>Subscribe</Text>
+          style={[styles.button, styles.buttonOpen]}
+          onPress={() => setModalVisible(true)}>
+          <Text style={styles.textStyle}>Show Modal</Text>
         </Pressable>
       </View>
     </View>
-  </Modal>
-        
-
-        <View style={styles.scrollViewContainer}>
-          <View style={styles.dropdownContainer}>
-            <SelectDropdown
-              data={doctors}
-              onSelect={(selectedItem, index) => {
-                doctorIndex = index;
-               // setModalVisible(true); // ERROR : once selected, the values in dropdown are not loading for the second time
-                console.log(selectedItem, index);
-                
-              }}
-              defaultButtonText={"Select doctor"}
-              buttonTextAfterSelection={(selectedItem, index) => {
-               // setModalVisible(true);
-                return selectedItem;
-              }}
-              rowTextForSelection={(item, index) => {
-                return item;
-              }}
-              buttonStyle={styles.dropdownBtnStyle}
-              buttonTextStyle={styles.dropdownBtnTxtStyle}
-              renderDropdownIcon={(isOpened) => {
-                return (
-                  <FontAwesome
-                    name={isOpened ? "chevron-up" : "chevron-down"}
-                    color={"#000"}
-                    size={18}
-                  />
-                );
-              }}
-              dropdownIconPosition={"right"}
-              dropdownStyle={styles.dropdownDropdownStyle}
-              rowStyle={styles.dropdownRowStyle}
-              rowTextStyle={styles.dropdownRowTxtStyle}
-              selectedRowStyle={styles.dropdownSelectedRowStyle}
-              search
-              searchInputStyle={styles.dropdownsearchInputStyleStyle}
-              searchInputTxtColor={"#fff"}
-              searchPlaceHolder={"Search here"}
-              searchPlaceHolderColor={"#F8F8F8"}
-              renderSearchInputLeftIcon={() => {
-                return <FontAwesome name={"search"} color={"#FFF"} size={18} />;
-              }}
-              onFocus={() => {
-              }}
-              onBlur={() => {
-              }}
-            />
-            
-          </View>
-          <Pressable
-        style={[styles.button, styles.buttonOpen]}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.textStyle}>Show Modal</Text>
-      </Pressable>
-          
-        </View>
-      </View>
-    
   );
 }
 
 const styles = StyleSheet.create({
-  saveAreaViewContainer: { flex: 1 },
-  viewContainer: { flex: 1 },
+  saveAreaViewContainer: {flex: 1},
+  viewContainer: {flex: 1},
   scrollViewContainer: {
     flexGrow: 1,
-    justifyContent: "space-between",
-    alignItems: "center",
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingTop: 30,
     paddingTop: 30,
   },
-  dropdownContainer: { flex: 1 },
+  dropdownContainer: {flex: 1},
   dropdownBtnStyle: {
-    width: "80%",
+    width: '80%',
     height: 50,
-    backgroundColor: "#edeff2",
+    backgroundColor: '#edeff2',
     borderRadius: 8,
   },
   dropdownBtnTxtStyle: {
-    color: "#000",
-    textAlign: "left",
+    color: '#000',
+    textAlign: 'left',
     // paddingLeft: 30,
     // fontWeight: "bold",
     fontSize: 13,
   },
   dropdownDropdownStyle: {
-    backgroundColor: "#edeff2",
+    backgroundColor: '#edeff2',
     borderRadius: 12,
-    height: "50%",
+    height: '50%',
   },
   dropdownRowStyle: {
-    backgroundColor: "#edeff2",
-    borderBottomColor: "#C5C5C5",
+    backgroundColor: '#edeff2',
+    borderBottomColor: '#C5C5C5',
   },
   dropdownRowTxtStyle: {
-    color: "#000",
-    textAlign: "left",
+    color: '#000',
+    textAlign: 'left',
     // paddingLeft: 30,
     // fontWeight: "bold",
   },
-  dropdownSelectedRowStyle: { backgroundColor: "rgba(255,255,255,0.2)" },
+  dropdownSelectedRowStyle: {backgroundColor: 'rgba(255,255,255,0.2)'},
   dropdownsearchInputStyleStyle: {
-    backgroundColor: "#000",
+    backgroundColor: '#000',
     borderBottomWidth: 1,
-    borderBottomColor: "#FFF",
+    borderBottomColor: '#FFF',
   },
   progressBarContiner: {
-    alignItems: "center",
+    alignItems: 'center',
     marginBottom: 20,
   },
   percentage: {
@@ -196,61 +189,58 @@ const styles = StyleSheet.create({
   ButtonContainer: {
     height: 200,
     bottom: 20,
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   centeredView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
   },
   modalView: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
     padding: 20,
-    alignItems: "center",
-    shadowColor: "#000",
+    alignItems: 'center',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
+    elevation: 5,
   },
   button: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
   },
   buttonOpen: {
-    backgroundColor: "#F194FF",
+    backgroundColor: '#F194FF',
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: '#2196F3',
   },
   textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   modalText1: {
     marginBottom: 15,
     fontSize: 20,
-    color: "black",
-    
+    color: 'black',
   },
   modalText2: {
     marginBottom: 15,
-    color: "black",
-    
+    color: 'black',
   },
   modalHeader: {
-    flexDirection: "row",
-    
+    flexDirection: 'row',
   },
   /* The header takes up all the vertical space not used by the close button. */
   modalHeaderContent: {
@@ -258,10 +248,10 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   modalHeaderCloseText: {
-    textAlign: "center",
+    textAlign: 'center',
     paddingLeft: 5,
-    paddingRight: 5
-  }
+    paddingRight: 5,
+  },
 });
 
 export default AddDoctor;

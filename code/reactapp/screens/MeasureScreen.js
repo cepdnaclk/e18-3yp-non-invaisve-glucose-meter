@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-
+import React, {useEffect, useState} from 'react';
 
 import {
   View,
@@ -7,18 +6,18 @@ import {
   Text,
   TouchableWithoutFeedback,
   Alert,
-} from "react-native";
-import { useIsFocused } from "@react-navigation/native";
+} from 'react-native';
+import {useIsFocused} from '@react-navigation/native';
 
-import CircularProgress from "../components/ProgressIndicator";
-import ListView from "../components/ListView";
-import client from "../API/client";
+import CircularProgress from '../components/ProgressIndicator';
+import ListView from '../components/ListView';
+import client from '../API/client';
 
 export default function App({navigation}) {
   const isFocused = useIsFocused();
   const [records, setRecords] = useState([{}]);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
   // add a user state to change the array auto when screen laoded
   const d = new Date();
   console.log(d.getDate());
@@ -32,85 +31,71 @@ export default function App({navigation}) {
   const getRecent = async () => {
     await client
       .get(`/glucose/getRecentGlucose/${d.getDate()}`)
-      .then((res) => {
+      .then(res => {
         //console.log(res.data);
         setName(res.data.name);
         setRecords(res.data.values);
         setIsLoaded(true);
-        
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };
-return (
-
-    
+  return (
     <View style={styles.container}>
-      
-    <View style={styles.top}>
-    <Text style={styles.name}> {name} </Text>
+      <View style={styles.top}>
+        <Text style={styles.name}> {name} </Text>
+      </View>
+
+      <View style={styles.progress}>
+        <CircularProgress value={10} />
+        <Text style={styles.glucose}>Blood Glucose Concentration</Text>
+      </View>
+
+      <View style={styles.recent}>
+        <ListView datalist={records} />
+      </View>
     </View>
-        
-    <View style={styles.progress}>
-
-    <CircularProgress value={10}/>
-    <Text style={styles.glucose}>Blood Glucose Concentration</Text>
-    </View>
-
-
-    <View style={styles.recent}>
-      <ListView datalist={records}/>
-    </View>
-    
-    </View>
-
-    
-
   );
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: "#8fa5e3",
-    },
-    name: {
-      fontSize: 25,
-      color: "#000",
-      
+  container: {
+    flex: 1,
+    backgroundColor: '#8fa5e3',
+  },
+  name: {
+    fontSize: 25,
+    color: '#000',
   },
 
-    top: {
-      backgroundColor: "#8fa5e3",
-      alignItems: 'center',
-      justifyContent: 'center',
-      flex: 0.5,
+  top: {
+    backgroundColor: '#8fa5e3',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 0.5,
   },
 
-    progress: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 2,
-    },
-    recent: {
-        //alignItems: 'center',
-        padding: 20,
-        paddingLeft: 30,
-        flex: 1.5,
-        backgroundColor: "#fff",
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
-        
-    },
-    glucose: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontSize: 15,
-      marginTop: 12,
-      fontWeight: 'bold',
-      color: "#000",
+  progress: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 2,
   },
-
-  
-  });
+  recent: {
+    //alignItems: 'center',
+    padding: 20,
+    paddingLeft: 30,
+    flex: 1.5,
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+  },
+  glucose: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: 15,
+    marginTop: 12,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+});

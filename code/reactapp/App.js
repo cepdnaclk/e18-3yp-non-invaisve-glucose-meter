@@ -1,20 +1,18 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 
-import LoginProvider from "./context/LoginProvider";
-import MainNavigator from "./navigator/LoginNavigator";
+import LoginProvider from './context/LoginProvider';
+import MainNavigator from './navigator/LoginNavigator';
 
-export default function App(){
+export default function App() {
   return (
-
     <NavigationContainer>
       <LoginProvider>
-        <MainNavigator/>
+        <MainNavigator />
       </LoginProvider>
     </NavigationContainer>
   );
 }
-
 
 // import Doctor from "./screens/AddDoctor";
 // import GraphScreen from "./screens/GraphScreen";
