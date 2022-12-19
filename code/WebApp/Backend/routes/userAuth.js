@@ -10,8 +10,10 @@ let refreshTokens = [];
 
 router.post("/signup", async (req, res) => {
   try {
+    
     // avoid duplicate users (409 conflict-request could not be processed because of conflict in the request )
     const userByEmail = await User.findOne({ email: req.body.email });
+    
     if (userByEmail) {
       return res
         .status(200)
@@ -19,10 +21,11 @@ router.post("/signup", async (req, res) => {
     }
 
     // encrypt the password - for security purposes
+    
     const salt = await bcrypt.genSalt(10);
 
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    console.log("called");
+    
     const newUser = await User({
       username: req.body.username,
       email: req.body.email,
@@ -31,9 +34,11 @@ router.post("/signup", async (req, res) => {
       age: req.body.age,
       weight: req.body.weight,
       height: req.body.height,
+      role: 3,
     });
 
-    const user = await newUser.save();
+    const user2 = await newUser.save();
+    console.log("signup called");
     return res.status(200).json({
       success: true,
       message: "You are successfully registered",
