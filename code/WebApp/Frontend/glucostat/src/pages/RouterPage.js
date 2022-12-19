@@ -1,0 +1,22 @@
+import React from 'react'
+// Routes instead of Switch
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+//import Home from './Home'
+import Login from './Login'
+import Signup from './Signup'
+
+
+
+export default function RouterPage() {
+  return (
+    <div>
+        <Router>
+            <Routes>
+                <Route path="/" element={ <Login/>} />
+                <Route path="/Signup" element= { <Signup />} />
+                
+            </Routes>
+        </Router>
+    </div>
+  )
+}
