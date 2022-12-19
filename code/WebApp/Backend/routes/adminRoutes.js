@@ -8,7 +8,8 @@
  */
 const router = require('express').Router();
 const {
-    getAllRequests,
+    getAllDoctorRequests,
+    getAllPatientRequests,
     deleteRequest,
     acceptRequest
 } = require('../controllers/adminController')
@@ -16,10 +17,10 @@ const {
 const jwtAuth = require('../middlewares/checkAuth.js')
 
 // get all doctor requests
-router.get('/doctorRequests', jwtAuth, getAllRequests);
+router.get('/doctorRequests', jwtAuth, getAllDoctorRequests);
 
 // get all patient requests
-router.get('/doctorRequests', jwtAuth, getAllRequests);
+router.get('/patientRequests', jwtAuth, getAllPatientRequests);
 
 // delete requests
 router.delete("/delete/:id",jwtAuth, deleteRequest);
