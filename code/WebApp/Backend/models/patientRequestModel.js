@@ -49,12 +49,11 @@ const UserPatientRequestSchema = new mongoose.Schema(
         required: false,
         default: "",
       },
-      // role for doctors is 3
       role: {
-        type: Array,
-        required: false,
-        default: [3],
-      },
+        type: String,
+        required: true,
+        enum: ["1", "2", "3"]
+      }
     },
   
     // an option in mongoose

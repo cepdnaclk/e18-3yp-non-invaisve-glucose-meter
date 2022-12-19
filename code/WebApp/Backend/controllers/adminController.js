@@ -28,6 +28,7 @@ const getAllPatientRequests = async(req, res)=>{
 const getAllDoctorRequests = async(req, res)=>{
     try{
         const requests = await DoctorRequest.find().select('-password')
+        // const requests = await DoctorRequest.find().where('role').equals("2").select('-password')
         
         return res.status(200).json(requests)
 
@@ -81,13 +82,17 @@ const deleteRequest = async(req,res)=>{
 
 const acceptRequest = async(req,res)=>{
     try{
-        const request = await Request.findById(req.params.id)
+        const doctorRequest = await DoctorRequest.findById(req.params.id)
+        const patientRequest = await PatientRequest.findById(req.params.id)
 
-        if(request){
-            const newUser = new User({
+        if(doctorRequest){
+            const newDoctor = new User({
                 username: request.username,
                 email: request.email,
                 password: request.password,
+                contact_no: request.contact_no,
+                specialized_in: request.specialized_in,
+                hospital: request.hospital,
                 role: request.role
             })
 
@@ -123,6 +128,8 @@ const acceptRequest = async(req,res)=>{
         })
     } 
 }
+
+
 
 module.exports = {
     getAllRequests,

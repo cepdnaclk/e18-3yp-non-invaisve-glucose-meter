@@ -40,12 +40,11 @@ const UserPatientSchema = new mongoose.Schema(
       required: false,
       default: "",
     },
-    // role for doctors is 3
     role: {
-      type: Array,
+      type: String,
       required: true,
-      default: [3],
-    },
+      enum: ["1", "2", "3"]
+    }
   },
 
   // an option in mongoose
