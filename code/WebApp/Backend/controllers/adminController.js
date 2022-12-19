@@ -86,7 +86,7 @@ const acceptRequest = async(req,res)=>{
         const patientRequest = await PatientRequest.findById(req.params.id)
 
         if(doctorRequest){
-            const newDoctor = new User({
+            const newDoctor = new Doctor({
                 username: request.username,
                 email: request.email,
                 password: request.password,
@@ -98,9 +98,9 @@ const acceptRequest = async(req,res)=>{
 
             // console.log(newUser)
             try{
-                const adduser = await newUser.save();
+                const adduser = await newDoctor.save();
                 // const {password,...others} = adduser._doc;
-                await Request.findByIdAndDelete(req.params.id)
+                await DoctorRequest.findByIdAndDelete(req.params.id)
                 
                 // others["message"] = "User registration successful!";
                 // return res.status(200).json(others);
@@ -109,15 +109,49 @@ const acceptRequest = async(req,res)=>{
                     username: adduser.username,
                     email: adduser.email,
                     role: adduser.role,
-                    message: "User registration successful!"
+                    message: "Doctor registration successful!"
                 });
             }catch (error) {
                 return res.status(500).json({
-                    error:"User registration failed"
+                    error:"Doctor registration failed"
                 });
             }
             
-        }else{
+        }else if(patientRequest){
+            const newPatient = new Patient({
+                username: request.username,
+                email: request.email,
+                password: request.password,
+                contact_no: request.contact_no,
+                age: request.age,
+                weight: request.weight,
+                height: request.height,
+                role: request.role
+            })
+
+            // console.log(newUser)
+            try{
+                const adduser = await newPatient.save();
+                // const {password,...others} = adduser._doc;
+                await PatientRequest.findByIdAndDelete(req.params.id)
+                
+                // others["message"] = "User registration successful!";
+                // return res.status(200).json(others);
+                return res.status(200).json({
+                    id: adduser._id,
+                    username: adduser.username,
+                    email: adduser.email,
+                    role: adduser.role,
+                    message: "Patient registration successful!"
+                });
+            }catch (error) {
+                return res.status(500).json({
+                    error:"Patient registration failed"
+                });
+            }
+            
+        }
+        else{
             return res.status(404).json({
                 error:"Request not found"
             })
@@ -132,7 +166,8 @@ const acceptRequest = async(req,res)=>{
 
 
 module.exports = {
-    getAllRequests,
+    getAllPatientRequests,
+    getAllDoctorRequests,
     deleteRequest,
     acceptRequest
 }

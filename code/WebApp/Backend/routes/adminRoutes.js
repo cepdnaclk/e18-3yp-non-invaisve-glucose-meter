@@ -15,8 +15,11 @@ const {
 
 const jwtAuth = require('../middlewares/checkAuth.js')
 
-// get all requests
-router.get('/requests', jwtAuth, getAllRequests);
+// get all doctor requests
+router.get('/doctorRequests', jwtAuth, getAllRequests);
+
+// get all patient requests
+router.get('/doctorRequests', jwtAuth, getAllRequests);
 
 // delete requests
 router.delete("/delete/:id",jwtAuth, deleteRequest);
