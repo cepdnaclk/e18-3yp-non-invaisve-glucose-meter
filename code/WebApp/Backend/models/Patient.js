@@ -43,7 +43,7 @@ const UserPatientSchema = new mongoose.Schema(
     // role for doctors is 3
     role: {
       type: Array,
-      required: false,
+      required: true,
       default: [3],
     },
   },

@@ -131,6 +131,8 @@ function RegisterScreen({navigation}) {
                       showImage={<Text>Show</Text>}
                       textContentType="password"
                     />
+                     
+             
                     {/* container with the register button and text below */}
                     <View style={styles.submitButton}>
                       <Button
@@ -142,8 +144,8 @@ function RegisterScreen({navigation}) {
                           }
                         iconName={"right"}
                       />
-                    </View>
-                  </KeyboardAwareScrollView>
+                    </View></KeyboardAwareScrollView>
+                 
                 </>
               );
             }}

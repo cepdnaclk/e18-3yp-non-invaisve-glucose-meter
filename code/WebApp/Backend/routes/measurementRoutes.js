@@ -35,11 +35,29 @@ router.get("/getMonthlyGlucose/:month",  authenticateToken, async (req, res) => 
         { "month": req.params.month, "user_id" :  userByEmail._id });
         const concs = newMeasurements.map(i => `${i.value}`);
         const days = newMeasurements.map(i => `${i.date}`);
-      
+        
+        
+          var new_days = []
+          var new_concs = []
+          new_days[0] = days[0]
+          new_concs[0] = concs[0]
+
+          var k =1;
+          for (var i = 1, j = i-1; i < days.length; i++, j++) {
+            //console.log(days[i] + " " + days[j])
+            if (days[i] != days[j]){
+              new_days[k] = days[i]
+              new_concs[k] = concs[i]
+              k++;
+            }
+            
+          }
+          
+    
       return res.status(200).json({
         success: true,
-        values: concs,
-        dates: days,
+        values: new_concs,
+        dates: new_days,
       });
       
      
@@ -56,10 +74,11 @@ router.get("/getMonthlyGlucose/:month",  authenticateToken, async (req, res) => 
       const newMeasurements = await Measurement.find(
         { "date": req.params.date, "user_id" :  userByEmail._id });
        // const newMeasurements = await Measurement.findAll({month: req.params.month}, { user_id: req.user.id, _id: 1 });
-       
+      
       return res.status(200).json({
         success: true,
         values: newMeasurements,
+        name: userByEmail.username,
       });
       
      

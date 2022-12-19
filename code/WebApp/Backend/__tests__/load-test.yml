@@ -1,0 +1,16 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 30
+      arrivalRate: 10
+ 
+scenarios:
+  - name: "Authenticate"
+    flow:
+      - post:
+          url: "/api/auth/signup"
+
+  - name: "Retrieve data"
+    flow:
+      - post:
+          url: "/api/glucose/addGlucose"

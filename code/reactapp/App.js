@@ -1,20 +1,20 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 
-import LoginProvider from "./context/LoginProvider";
-import MainNavigator from "./navigator/LoginNavigator";
+import LoginProvider from './context/LoginProvider';
+import MainNavigator from './navigator/LoginNavigator';
 
-export default function App(){
+export default function App() {
   return (
-
     <NavigationContainer>
       <LoginProvider>
-        <MainNavigator/>
+        <MainNavigator />
       </LoginProvider>
     </NavigationContainer>
   );
 }
-// import LoginScreen from "./screens/LoginScreen";
+
+// import Doctor from "./screens/AddDoctor";
 // import GraphScreen from "./screens/GraphScreen";
 // import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -25,7 +25,7 @@ export default function App(){
 //     <NavigationContainer>
 //       <Stack.Navigator>
 
-//         <Stack.Screen name="GraphScreen" component={GraphScreen} options={{ headerShown: false }}/>
+//         <Stack.Screen name="Doctor" component={Doctor} options={{ headerShown: false }}/>
 //         {/* <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }}/> */}
 //       </Stack.Navigator>
 //     </NavigationContainer>

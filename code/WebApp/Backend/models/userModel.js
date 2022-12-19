@@ -7,6 +7,8 @@
  *  - Denuwan Weerarathne (E/18/382)
  */
 
+// DOCTOR MODEL 
+
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
@@ -18,17 +20,31 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true
-
     },
+    // reg_no:{
+
+    // },
     password:{
         type: String,
         required: true,                                        
     },
+    hospital:{
+        type: String,
+        required: true, 
+    },
+    specialized_in:{
+        type: String,
+        required: false, 
+    },
+    contact_no:{
+        type: String,
+        required: true, 
+    },
     role:{
         type: String,
-        required: true,
-        default:""
-    }
+        required: false,
+        
+    },
 },
 {
     timestamps:true
