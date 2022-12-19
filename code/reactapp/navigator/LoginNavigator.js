@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {createStackNavigator} from 'react-navigation-stack';
+import { createStackNavigator } from "@react-navigation/stack";
 import {useLogin} from '../context/LoginProvider';
 import RootStack from '../stacks/RootStack';
 import MainStack from '../stacks/MainStack';

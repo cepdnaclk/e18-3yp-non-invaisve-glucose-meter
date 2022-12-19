@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Measurement = require("../models/measurementModel");
-const User = require("../models/userPatient");
+const User = require("../models/Patient");
 require("dotenv").config();
 const authenticateToken = require("../middlewares/auth");
 

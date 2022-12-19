@@ -1,5 +1,5 @@
 import React from 'react';
-import {createStackNavigator} from 'react-navigation-stack';
+import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from '../screens/LoginScreen';
 import PrivacyScreen from '../screens/PrivacyScreen';
 import RegisterScreen from '../screens/RegisterScreen';
