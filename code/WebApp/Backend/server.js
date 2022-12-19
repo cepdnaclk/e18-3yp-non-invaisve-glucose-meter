@@ -11,7 +11,7 @@ const colors = require("colors");
 const cors = require("cors");
 const dotenv = require("dotenv").config();
 const db = require("./configurations/db");
-const port = 3000 || process.env.PORT;
+const port = 5000 || process.env.PORT;
 
 const app = express();
 
