@@ -7,38 +7,55 @@
  *  - Denuwan Weerarathne (E/18/382)
  */
 
-const jwt = require('jsonwebtoken')
-const User = require('../models/userModel');
+const jwt = require("jsonwebtoken");
+const Patient = require("../models/Patient");
+const Doctor = require("../models/Doctor");
 
-const authenticateToken = async(req, res , next) =>{
-    
-    if(req.headers.authorization && req.headers.authorization.startsWith('Bearer ')){
-        try{
+const catchError = (err, res) => {
+  if (err instanceof TokenExpiredError) {
+    return res
+      .status(401)
+      .send({ message: "Unauthorized! Access Token was expired!" });
+  }
 
-            const token = req.headers.authorization.split(" ")[1];
-            const email = req.body.email;
+  return res.sendStatus(401).send({ message: "Unauthorized!" });
+};
 
-            decoded = jwt.verify(token,process.env.JWT_SECRET );
-            
-            const user = await User.findOne({email: decoded.email}).select('-password');
-            
-            if(!user || user.email !== email || JSON.stringify(user.role) !== JSON.stringify(decoded.role)){
-                return  res.status(401).json({
-                    error: "Unauthorized access"
-                })
-            }
-    
-            req.email = decoded.email
-            req.role = decoded.role
-    
-            next();
-        }catch(error){
-            res.status(401).json({
-                message: "Your session is expired"
-            })
-        }
+const authenticateToken = async (req, res, next) => {
+  if (
+    !req.headers.authorization ||
+    !req.headers.authorization.startsWith("Bearer ")
+  ) {
+    return res.status(403).send({ message: "No token provided!" });
+  }
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const email = req.body.email;
+
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const userPatient = await User.findOne({ email: decoded.email }).select(
+      "-password"
+    );
+    const userDoctor = await User.findOne({ email: decoded.email }).select(
+      "-password"
+    );
+
+    if (
+      !userPatient ||
+      !userDoctor ||
+      JSON.stringify(user.role) !== JSON.stringify(decoded.role)
+    ) {
+      return res.status(401).json({
+        error: "Unauthorized access",
+      });
     }
-    
-}
+    req.user = decoded;
 
-module.exports = authenticateToken
+    next();
+  } catch (error) {
+    return catchError(error, res);
+  }
+};
+
+module.exports = authenticateToken;
