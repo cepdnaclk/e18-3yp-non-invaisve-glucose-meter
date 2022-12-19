@@ -42,9 +42,9 @@ const authenticateToken = async (req, res, next) => {
     );
 
     if (
-      !userPatient ||
-      !userDoctor ||
-      JSON.stringify(user.role) !== JSON.stringify(decoded.role)
+      (!userPatient && !userDoctor) ||
+      (JSON.stringify(userPatient.role) !== JSON.stringify(decoded.role) &&
+        JSON.stringify(userDoctor.role) !== JSON.stringify(decoded.role))
     ) {
       return res.status(401).json({
         error: "Unauthorized access",

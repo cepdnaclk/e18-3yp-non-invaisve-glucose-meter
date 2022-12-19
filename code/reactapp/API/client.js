@@ -67,7 +67,7 @@ axiosInstance.interceptors.response.use(
     //console.log(originalRequest);
 
     if (error.response.status === 401 && !originalRequest._retry) {
-      console.log("this error occured at " + originalRequest.url + "\n");
+      console.log('this error occured at ' + originalRequest.url + '\n');
       originalRequest._retry = true;
 
       const access_token = await refreshAccessToken();

@@ -9,6 +9,7 @@
 const express = require("express");
 const colors = require("colors");
 const cors = require("cors");
+const cookieParser = require('cookie-parser');
 const dotenv = require("dotenv").config();
 const db = require("./configurations/db");
 const port = 3000 || process.env.PORT;
@@ -20,6 +21,7 @@ db.connect();
 
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
 /* ROUTES */
