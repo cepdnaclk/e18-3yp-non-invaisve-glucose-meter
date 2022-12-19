@@ -9,7 +9,7 @@
 
 const mongoose = require("mongoose");
 
-const UserPatientSchema = new mongoose.Schema(
+const UserPatientRequestSchema = new mongoose.Schema(
     {
       username: {
         type: String,
@@ -65,5 +65,5 @@ const UserPatientSchema = new mongoose.Schema(
   );
   
   
-  module.exports = mongoose.model("UserPatient", UserPatientSchema);
+  module.exports = mongoose.model("UserPatientRequest", UserPatientRequestSchema);
   
