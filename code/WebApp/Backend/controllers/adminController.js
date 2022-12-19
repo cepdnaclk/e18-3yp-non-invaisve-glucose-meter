@@ -57,7 +57,7 @@ const deleteRequest = async(req,res)=>{
             
         } else if(requestPatient){
             try{
-                await DoctorRequest.findByIdAndDelete(req.params.id)
+                await PatientRequest.findByIdAndDelete(req.params.id)
                 res.status(200).json({
                     message: "Request deleted successfully"
                 });
