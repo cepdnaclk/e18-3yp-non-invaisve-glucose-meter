@@ -65,5 +65,5 @@ const UserPatientRequestSchema = new mongoose.Schema(
   );
   
   
-  module.exports = mongoose.model("UserPatientRequest", UserPatientRequestSchema);
+  module.exports = mongoose.model("PatientRequest", UserPatientRequestSchema);
   

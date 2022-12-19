@@ -6,13 +6,28 @@
  *  - Nethmi Ranasinghe (E/18/282)
  *  - Denuwan Weerarathne (E/18/382)
  */
-const User = require('../models/userModel')
-const Request = require('../models/patientRequestModel')
+const PatientRequest = require('../models/patientRequestModel')
+const DoctorRequest = require('../models/DoctorRequestModel')
+const Patient = require('../models/Patient')
+const Doctor = require('../models/Doctor')
 
 
-const getAllRequests = async(req, res)=>{
+const getAllPatientRequests = async(req, res)=>{
     try{
-        const requests = await Request.find().select('-password')
+        const requests = await PatientRequest.find().select('-password')
+        
+        return res.status(200).json(requests)
+
+    }catch(err){
+        return res.status(500).json({
+            error: err
+        })
+    }
+}
+
+const getAllDoctorRequests = async(req, res)=>{
+    try{
+        const requests = await DoctorRequest.find().select('-password')
         
         return res.status(200).json(requests)
 
@@ -25,11 +40,12 @@ const getAllRequests = async(req, res)=>{
 
 const deleteRequest = async(req,res)=>{
     try{
-        const request = await Request.findById(req.params.id)
+        const requestDoctor = await DoctorRequest.findById(req.params.id)
+        const requestPatient = await PatientRequest.findById(req.params.id)
         
-        if(request){
+        if(requestDoctor){
             try{
-                await Request.findByIdAndDelete(req.params.id)
+                await DoctorRequest.findByIdAndDelete(req.params.id)
                 res.status(200).json({
                     message: "Request deleted successfully"
                 });
@@ -39,7 +55,20 @@ const deleteRequest = async(req,res)=>{
                     error:"Request deletion failed"});
             }
             
-        }else{
+        } else if(requestPatient){
+            try{
+                await DoctorRequest.findByIdAndDelete(req.params.id)
+                res.status(200).json({
+                    message: "Request deleted successfully"
+                });
+                
+            }catch(error){
+                return res.status(500).json({
+                    error:"Request deletion failed"});
+            }
+            
+        }
+        else{
             return res.status(404).json({
                 error:"Request not found"})
         } 
