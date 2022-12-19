@@ -7,7 +7,7 @@
  *  - Denuwan Weerarathne (E/18/382)
  */
 const User = require('../models/userModel')
-const Request = require('../models/requestModel')
+const Request = require('../models/patientRequestModel')
 
 
 const getAllRequests = async(req, res)=>{
