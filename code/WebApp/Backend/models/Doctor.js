@@ -28,6 +28,11 @@ const DoctorSchema = new mongoose.Schema(
         type: String,
         required: true
     },
+    subscribed_patients: [{
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: 'Patient'
+    }],
     role: {
       type: String,
       required: true,

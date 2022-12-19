@@ -23,7 +23,7 @@ const UserPatientSchema = new mongoose.Schema(
     age: {
       type: Number,
       required: false,
-      default: "",
+      default: 0,
     },
     weight: {
       type: Number,
@@ -35,11 +35,11 @@ const UserPatientSchema = new mongoose.Schema(
       required: false,
       default: "",
     },
-    doctor_id: {
-      type: Number,
+    doctor_id: [{
+      type: mongoose.Schema.Types.ObjectId,
       required: false,
-      default: "",
-    },
+      ref: "Doctor",
+    }],
     role: {
       type: String,
       required: true,
