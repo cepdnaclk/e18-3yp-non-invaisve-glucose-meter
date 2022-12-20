@@ -85,18 +85,16 @@ const loginPatient = async (req, res) => {
 
     const refresh_token = await RefreshToken.createToken(user);
 
-    res
-      .status(200)
-      .json({
-        id: user._id,
-        username: user.username,
-        email: user.email,
-        role: user.role,
-        message: "Login Successful",
-        access_token: access_token,
-        refresh_token: refresh_token,
-      })
-      .cookie("jwt", access_token, {
+    res.status(200).json({
+      id: user._id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      message: "Login Successful",
+      access_token: access_token,
+      refresh_token: refresh_token,
+    });
+    /* .cookie("jwt", access_token, {
         httpOnly: true,
         maxAge: 5 * 60 * 1000,
         sameSite: "strict",
@@ -104,7 +102,7 @@ const loginPatient = async (req, res) => {
       .cookie("jwtRefresh", refresh_token, {
         httpOnly: true,
         maxAge: 3 * 24 * 60 * 60 * 1000,
-      });
+      }) */
   } catch (err) {
     res.status(500).json({
       error: err,
@@ -150,17 +148,15 @@ const refreshTokenPatient = async (req, res) => {
       { expiresIn: process.env.JWT_TOKEN_EXPIRATION }
     );
 
-    return res
-      .status(200)
-      .json({
-        //   accessToken: newAccessToken,
-        refreshToken: refreshToken.token,
-      })
-      .cookie("jwt", newAccessToken, {
+    return res.status(200).json({
+      accessToken: newAccessToken,
+      refreshToken: refreshToken.token,
+    });
+    /* .cookie("jwt", newAccessToken, {
         httpOnly: true,
         maxAge: 5 * 60 * 1000,
         sameSite: "strict",
-      });
+      }) */
   } catch (err) {
     return res.status(500).send({ message: err });
   }

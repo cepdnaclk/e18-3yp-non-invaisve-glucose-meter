@@ -152,14 +152,14 @@ const refreshTokenDoctor = async (req, res) => {
     return res
       .status(200)
       .json({
-        //   accessToken: newAccessToken,
+          accessToken: newAccessToken,
         refreshToken: refreshToken.token,
       })
-      .cookie("jwt", newAccessToken, {
+      /* .cookie("jwt", newAccessToken, {
         httpOnly: true,
         maxAge: 5 * 60 * 1000,
         sameSite: "strict",
-      });
+      }) */;
   } catch (err) {
     return res.status(500).send({ message: err });
   }
