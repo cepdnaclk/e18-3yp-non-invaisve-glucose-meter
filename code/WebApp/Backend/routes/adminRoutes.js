@@ -14,7 +14,7 @@ const {
     acceptRequest
 } = require('../controllers/adminController')
 
-const jwtAuth = require('../middlewares/checkAuth.js')
+const jwtAuth = require('../middlewares/checkAuthDoc')
 
 // get all doctor requests
 router.get('/doctorRequests', jwtAuth, getAllDoctorRequests);
