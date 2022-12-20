@@ -28,34 +28,34 @@ const authenticateToken = async (req, res, next) => {
   ) {
     return res.status(403).send({ message: "No token provided!" });
   }
-  try {
+  
     const token = req.headers.authorization.split(" ")[1];
     const email = req.body.email;
 
-    decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    const userPatient = await Patient.findOne({ email: decoded.email }).select(
-      "-password"
-    );
-    const userDoctor = await Doctor.findOne({ email: decoded.email }).select(
-      "-password"
-    );
-
-    if (
-      (!userPatient && !userDoctor) ||
-      (JSON.stringify(userPatient.role) !== JSON.stringify(decoded.role) &&
-        JSON.stringify(userDoctor.role) !== JSON.stringify(decoded.role))
-    ) {
-      return res.status(401).json({
-        error: "Unauthorized access",
-      });
-    }
-    req.user = decoded;
-
-    next();
-  } catch (error) {
-    return catchError(error, res);
-  }
+    jwt.verify(token, process.env.JWT_SECRET, async(error, decoded) => {
+      if (error){
+        return catchError(error, res);
+      }
+      const userPatient = await Patient.findOne({ email: decoded.email }).select(
+        "-password"
+      );
+      const userDoctor = await Doctor.findOne({ email: decoded.email }).select(
+        "-password"
+      );
+  
+      if (
+        (!userPatient && !userDoctor) ||
+        (JSON.stringify(userPatient.role) !== JSON.stringify(decoded.role) &&
+          JSON.stringify(userDoctor.role) !== JSON.stringify(decoded.role))
+      ) {
+        return res.status(401).json({
+          error: "Unauthorized access",
+        });
+      }
+      req.user = decoded;
+  
+      next();
+    });
 };
 
 module.exports = authenticateToken;
