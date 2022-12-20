@@ -18,7 +18,7 @@ from 'mdb-react-ui-kit';
 function Login() {
 
     const [password,setpassword] = useState("");
-    const [email,setemail ]= useState("");;
+    const [email,setemail ]= useState("");
     const navigate = useNavigate();
 
     const  loginsubmit = () =>{
