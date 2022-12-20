@@ -41,14 +41,16 @@ The aim of this project is to eliminate these drawbacks and build a convenient m
 <!-- 
 ## Solution Architecture
 
-![Sample Image](./images/system.jpg)
+![Sample Image](./docs/assets/sA.png)
 
 ### Data and control flow
 
-![Sample Image](./images/dataflow.jpg) -->
+![Sample Image](./docs/assets/slide15.jpg) -->
 <!-- High level diagram + description -->
 
-## Hardware and Software Designs
+## Hardware Designs
+
+![Sample Image](./docs/assets/slide14.jpg)
 
 The hardware design comprises of following componets.
 - Main processing unit Atmega328p Microcontroller
@@ -57,6 +59,10 @@ The hardware design comprises of following componets.
 - LCD display
 - Bluetooth module
 - Batteries to supply constant power to the emitter
+
+![Sample Image](./docs/assets/img1.PNG)
+
+## Software Designs
 
 The software design has both a mobile and a web interface for two differnet users patients and the doctors.
 Features of the mobile application are,
@@ -70,26 +76,29 @@ Features of the web application are,
 - For the use of doctors to track the patients' blood glucose levels and diabetic conditions
 - Track patients' diabetic history if the user consents
 
-<!--
-Detailed designs with many sub-sections
+### User Interface Design for the Mobile App
+
+<p float="left">
+  <img src="./docs/assets/ui/login_page.png" width=17% height=17% />&emsp;
+  <img src="./docs/assets/ui/register_page1.png" width=17% height=17% />&emsp;
+  <img src="./docs/assets/ui/register_page2.png" width=17% height=17% />&emsp;
+  <img src="./docs/assets/ui/glucose_conc_page.png" width=17% height=17% />&emsp;
+  <img src="./docs/assets/ui/graph_page.png" width=17% height=17% />&emsp;
+</p>
 
 ## Testing
 
-Testing done on hardware and software, detailed + summarized results -->
-<!--
+![Sample Image](./docs/assets/testplan.png)
+
 ## Detailed budget
 
-All items and costs
+![Sample Image](./docs/assets/budget.png)
 
-| Item          | Quantity  | Unit Cost  | Total  |
-| ------------- |:---------:|:----------:|-------:|
-| Sample item   | 5         | 10 LKR     | 50 LKR |
+<!-- ## Conclusion
 
-## Conclusion
+What was achieved, future developments, commercialization plans
 
-What was achieved, future developments, commercialization plans -->
-
-For more details visit our official project page from the below links.
+For more details visit our official project page from the below links. -->
 
 ## Links
 
