@@ -1,0 +1,1 @@
+ scp -i 'C:\Users\Kavinda\Downloads\glucostat.pem' -r ./build/* ubuntu@52.221.105.255:/var/www/html/
