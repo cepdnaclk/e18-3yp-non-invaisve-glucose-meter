@@ -9,6 +9,7 @@ import {
 import {AsyncStorage} from 'react-native';
 import {Formik} from 'formik';
 import {NavigationContainer} from '@react-navigation/native';
+import * as Yup from "yup";
 
 import WelcomeHeader from '../components/PageTopText';
 import InputField from '../components/InputBox_1';
@@ -18,6 +19,11 @@ import MeasureScreen from './MeasureScreen';
 import GraphScreen from './GraphScreen';
 import client from '../API/client';
 import {useLogin} from '../context/LoginProvider';
+
+const validationSchema = Yup.object().shape({
+  email: Yup.string().required().email().label("Email"),
+  password: Yup.string().required().min(4).max(12).label("Password"),
+});
 
 function LoginScreen({navigation}) {
   const {setIsLoggedIn, setUser, setRole} = useLogin();
@@ -80,7 +86,7 @@ function LoginScreen({navigation}) {
         <Formik
           initialValues={{email: '', password: ''}}
           onSubmit={login}
-          // validationSchema={validationSchema}
+          validationSchema={validationSchema}
         >
           {({values, handleSubmit, handleChange}) => {
             const {email, password} = values;

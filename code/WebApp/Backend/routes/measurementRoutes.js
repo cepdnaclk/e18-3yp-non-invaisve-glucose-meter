@@ -11,9 +11,9 @@ router.post("/addGlucose", async (req, res) => { // no auth token added
     const newMeasurement = await Measurement({
         user_id: req.body.user_id,
         value: req.body.value,
-        date: req.body.date, // this depends on how the recorded time sent to the backend ?
-        month: req.body.month,
-        time: req.body.time,
+        date: Date().getDate(), // this depends on how the recorded time sent to the backend ?
+        month: Date().getMonth(),
+        time: Date().getTime(),
     });
     const measurement = await newMeasurement.save();
     return res.status(200).json({
@@ -33,9 +33,8 @@ router.get("/getMonthlyGlucose/:month",  authenticateToken, async (req, res) => 
       
       const newMeasurements = await Measurement.find(
         { "month": req.params.month, "user_id" :  userByEmail._id });
-        const concs = newMeasurements.map(i => `${i.value}`);
-        const days = newMeasurements.map(i => `${i.date}`);
-        
+        const concs = await newMeasurements.map(i => `${i.value}`);
+        const days = await newMeasurements.map(i => `${i.date}`);
         
           var new_days = []
           var new_concs = []
@@ -50,14 +49,12 @@ router.get("/getMonthlyGlucose/:month",  authenticateToken, async (req, res) => 
               new_concs[k] = concs[i]
               k++;
             }
-            
-          }
-          
-    
+            } 
       return res.status(200).json({
         success: true,
         values: new_concs,
         dates: new_days,
+        name: userByEmail.username,
       });
       
      

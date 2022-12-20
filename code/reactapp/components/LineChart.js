@@ -21,7 +21,7 @@ export default function App({x_datalist, y_datalist, x_unit, y_unit}) {
             },
           ],
         }}
-        width={Dimensions.get('window').width} // from react-native
+        width={Dimensions.get('window').width*0.95} // from react-native
         height={220}
         yAxisSuffix={x_unit}
         yAxisInterval={1} // optional, defaults to 1
@@ -36,8 +36,8 @@ export default function App({x_datalist, y_datalist, x_unit, y_unit}) {
             borderRadius: 16,
           },
           propsForDots: {
-            r: '6',
-            strokeWidth: '2',
+            r: '0',
+            strokeWidth: '0',
             stroke: '#87BEF5',
           },
         }}

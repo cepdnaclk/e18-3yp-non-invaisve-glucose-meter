@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { Formik } from "formik";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import * as Yup from "yup";
 
 import WelcomeHeader from "../components/PageTopText";
 import Button from "../components/MainButton";
@@ -15,6 +16,17 @@ import ErrorMessage from "../components/ErrorMessage";
 import AppFormField from "../components/AppFormField";
 import client from "../API/client";
 import RegisterScreen1 from "./RegisterScreen1";
+
+
+const validationSchema = Yup.object().shape({
+  username: Yup.string().required().label("Full Name"),
+  email: Yup.string().required().email().label("Email"),
+  password: Yup.string().required().min(4).max(12).label("Password"),
+  confirmpassword: Yup.string().oneOf(
+    [Yup.ref("password"), null],
+    "Passwords must match"
+  ),
+});
 
 function RegisterScreen({navigation}) {
   const successAlert = () =>
@@ -32,19 +44,7 @@ function RegisterScreen({navigation}) {
   const signUp = async (values, formikActions) => {
     console.log(values);
     navigation.navigate("RegisterScreen1", {user: values});
-    // const res = await client
-    //   .post("/auth/signup", {
-    //     ...values,
-    //   })
-    //   .catch((error) => {
-    //     console.log(error.message);
-    //   });
-    // //console.log(res.data);
-    // if (res.data.success) {
-    //   successAlert();
-    // } else {
-    //   notsuccessAlert(res.data.message);
-    // }
+  
   };
   return (
     <View style={styles.container}>
@@ -62,7 +62,7 @@ function RegisterScreen({navigation}) {
               confirmpassword: "",
             }}
             onSubmit={signUp}
-            // validationSchema={validationSchema}
+            validationSchema={validationSchema}
           >
             {({
               values,

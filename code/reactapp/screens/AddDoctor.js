@@ -12,11 +12,14 @@ import {
 import {useIsFocused} from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import SelectDropdown from 'react-native-select-dropdown';
-
+import AppBar from '../components/ProfileBar';
 import client from '../API/client';
+import Button from '../components/RoundButton';
 
 function AddDoctor({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [select, setSelect] = useState(false);
+  const [name, setName] = useState('');
   let modalVisible2 = false;
   const isFocused = useIsFocused();
   const doctors = [];
@@ -31,6 +34,7 @@ function AddDoctor({navigation}) {
     });
     try {
       res.data.doctors.map(item => {
+        setName(res.data.name);
         //console.log(item.username)
         doctors.push(item.username);
         _ids.push(item._id);
@@ -60,9 +64,12 @@ function AddDoctor({navigation}) {
           <View style={styles.modalView}>
             <View style={styles.modalHeader}>
               <View style={styles.modalHeaderContent}>
-                <Text>Doctor name</Text>
+                <Text>doc1</Text>
               </View>
-              <TouchableOpacity onPress={() => setModalVisible(false)}>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalVisible(false);
+                }}>
                 <Text style={styles.modalHeaderCloseText}>X</Text>
               </TouchableOpacity>
             </View>
@@ -78,13 +85,16 @@ function AddDoctor({navigation}) {
         </View>
       </Modal>
 
+      <AppBar name={name} />
       <View style={styles.scrollViewContainer}>
         <View style={styles.dropdownContainer}>
           <SelectDropdown
             data={doctors}
             onSelect={(selectedItem, index) => {
+              setSelect(true);
               doctorIndex = index;
-              // setModalVisible(true); // ERROR : once selected, the values in dropdown are not loading for the second time
+              //setSelect(true);
+              //setModalVisible(true); // ERROR : once selected, the values in dropdown are not loading for the second time
               console.log(selectedItem, index);
             }}
             defaultButtonText={'Select doctor'}
@@ -123,11 +133,23 @@ function AddDoctor({navigation}) {
             onBlur={() => {}}
           />
         </View>
-        <Pressable
+        {/* <Pressable
           style={[styles.button, styles.buttonOpen]}
           onPress={() => setModalVisible(true)}>
           <Text style={styles.textStyle}>Show Modal</Text>
-        </Pressable>
+        </Pressable> */}
+      </View>
+      <View style={styles.ButtonContainer}>
+        <Button
+          iconName={'plus'}
+          iconSize={20}
+          iconColor={'#fff'}
+          onPress={() => {
+            if (select) {
+              setModalVisible(true);
+            }
+          }}
+        />
       </View>
     </View>
   );
@@ -251,6 +273,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingLeft: 5,
     paddingRight: 5,
+  },
+  ButtonContainer: {
+    position: 'absolute',
+    bottom: 15,
+    alignSelf: 'flex-end',
   },
 });
 

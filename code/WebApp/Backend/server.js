@@ -30,7 +30,7 @@ app.use(express.urlencoded({ extended: false }));
 // admin routes
 app.use("/api/admin", require("./routes/adminRoutes.js"));
 // user auth routes
-app.use("/api/user", require("./routes/userAuth"));
+// app.use("/api/auth", require("./routes/userAuth"));
 app.use("/api/auth", require("./routes/authRoutes"));
 // measurement routes
 app.use("/api/glucose", require("./routes/measurementRoutes"));
