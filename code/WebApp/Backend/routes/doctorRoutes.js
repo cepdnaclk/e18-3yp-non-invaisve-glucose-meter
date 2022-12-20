@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const User = require("../models/userModel");
+const Patient = require("../models/Patient");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -8,8 +9,7 @@ const authenticateToken = require("../middlewares/auth");
 // let refreshTokens = [];
 
 router.post("/addDoctor", async (req, res) => { // FOR TESTING bcz doctor authentication part is not yet added
-    try {
-      
+    try {     
       
       const existingDoctor = await User.findOne({
         email: req.body.email,
@@ -47,10 +47,28 @@ router.post("/addDoctor", async (req, res) => { // FOR TESTING bcz doctor authen
   // get all doctors
   router.get("/allDoctors",  authenticateToken, async (req, res) => {
     try {
-      console.log("called")
+      console.log(req.user)
       
       const doctors = await User.find({}, {"username": 1, "specialized_in": 1, "hospital": 1});
       console.log(doctors)
+      return res.status(200).send({ doctors: doctors, name: req.user.username });
+    } catch (err) {
+      return res.status(500).json({ message: err });
+    }
+  });
+
+  // subscribe
+  router.post("/subscribeDoc",  authenticateToken, async (req, res) => {
+    try {
+      
+      const userByEmail = await Patient.findOne({ email: req.user.email }); 
+      userByEmail.doctor_id.push(req.body.doctorid);
+      const user2 = await userByEmail.save();
+
+      const docterById = await User.findOne({ _id: req.body.doctorid });
+      docterById.subscribed_patients.push(userByEmail._id);
+      const user3 = await docterById.save();
+
       return res.status(200).send({ doctors: doctors, name: req.user.username });
     } catch (err) {
       return res.status(500).json({ message: err });

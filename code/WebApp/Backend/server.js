@@ -12,13 +12,13 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv").config();
 // const db = require("./configurations/db");
-const connectDB = require("./config/db");
+const db = require("./configurations/db");
 const port = 3000 || process.env.PORT;
 
 const app = express();
 
 // create/ connect with the database
-connectDB();
+db.connect();
 
 app.use(express.json());
 app.use(cors());
