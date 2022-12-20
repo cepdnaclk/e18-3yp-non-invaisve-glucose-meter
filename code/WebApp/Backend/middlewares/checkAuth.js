@@ -34,10 +34,10 @@ const authenticateToken = async (req, res, next) => {
 
     decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    const userPatient = await User.findOne({ email: decoded.email }).select(
+    const userPatient = await Patient.findOne({ email: decoded.email }).select(
       "-password"
     );
-    const userDoctor = await User.findOne({ email: decoded.email }).select(
+    const userDoctor = await Doctor.findOne({ email: decoded.email }).select(
       "-password"
     );
 
