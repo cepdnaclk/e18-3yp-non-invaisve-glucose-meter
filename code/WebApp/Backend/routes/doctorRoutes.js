@@ -28,7 +28,7 @@ router.post("/addDoctor", async (req, res) => { // FOR TESTING bcz doctor authen
         hospital: req.body.hospital,
         specialized_in: req.body.specialized_in,
         contact_no: req.body.contact_no,
-        role: req.body.role,
+        role: 2,
       });
       
       const doc = await newDoctor.save();
@@ -45,13 +45,13 @@ router.post("/addDoctor", async (req, res) => { // FOR TESTING bcz doctor authen
   });
   
   // get all doctors
-  router.get("/allDoctors",  async (req, res) => {
+  router.get("/allDoctors",  authenticateToken, async (req, res) => {
     try {
       console.log("called")
       
       const doctors = await User.find({}, {"username": 1, "specialized_in": 1, "hospital": 1});
       console.log(doctors)
-      return res.status(200).send({ doctors: doctors });
+      return res.status(200).send({ doctors: doctors, name: req.user.username });
     } catch (err) {
       return res.status(500).json({ message: err });
     }
