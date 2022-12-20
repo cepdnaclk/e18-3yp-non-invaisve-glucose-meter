@@ -8,7 +8,7 @@
  */
 
 const jwt = require("jsonwebtoken");
-const Doctor = require("../models/Doctor");
+const Patient = require("../models/Patient");
 
 const catchError = (err, res) => {
   if (err instanceof jwt.TokenExpiredError) {
@@ -20,7 +20,7 @@ const catchError = (err, res) => {
   return res.sendStatus(401).send({ message: "Unauthorized!" });
 };
 
-const authenticateToken = async (req, res, next) => {
+const authenticateTokenMobile = async (req, res, next) => {
   if (
     !req.headers.authorization ||
     !req.headers.authorization.startsWith("Bearer ")
@@ -35,13 +35,13 @@ const authenticateToken = async (req, res, next) => {
     if (error) {
       return catchError(error, res);
     }
-    const userDoctor = await Doctor.findOne({ email: decoded.email }).select(
+    const userPatient = await Patient.findOne({ email: decoded.email }).select(
       "-password"
     );
 
     if (
-      !userDoctor ||
-      JSON.stringify(userDoctor.role) !== JSON.stringify(decoded.role)
+      !userPatient ||
+      JSON.stringify(userPatient.role) !== JSON.stringify(decoded.role)
     ) {
       return res.status(401).json({
         error: "Unauthorized access",
@@ -53,4 +53,4 @@ const authenticateToken = async (req, res, next) => {
   });
 };
 
-module.exports = authenticateToken;
+module.exports = authenticateTokenMobile;
