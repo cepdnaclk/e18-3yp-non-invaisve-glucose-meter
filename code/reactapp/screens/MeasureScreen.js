@@ -11,6 +11,7 @@ import {useIsFocused} from '@react-navigation/native';
 
 import CircularProgress from '../components/ProgressIndicator';
 import ListView from '../components/ListView';
+import AppBar from '../components/ProfileBar';
 import client from '../API/client';
 
 export default function App({navigation}) {
@@ -32,10 +33,16 @@ export default function App({navigation}) {
     await client
       .get(`/glucose/getRecentGlucose/${d.getDate()}`)
       .then(res => {
-        //console.log(res.data);
         setName(res.data.name);
-        setRecords(res.data.values);
-        setIsLoaded(true);
+        if (res.data.values.length != 0) {
+          console.log(res.data.values.length);
+          
+          setRecords(res.data.values);
+          console.log(res.data);
+          setIsLoaded(true);}
+        // } else {
+        //   setRecords({_id: '0', msg: 'no data to show'});
+        // }
       })
       .catch(error => {
         console.log(error);
@@ -44,11 +51,11 @@ export default function App({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.top}>
-        <Text style={styles.name}> {name} </Text>
+        <AppBar name={name} />
       </View>
 
       <View style={styles.progress}>
-        <CircularProgress value={10} />
+        <CircularProgress value={96} />
         <Text style={styles.glucose}>Blood Glucose Concentration</Text>
       </View>
 
@@ -70,10 +77,8 @@ const styles = StyleSheet.create({
   },
 
   top: {
-    backgroundColor: '#8fa5e3',
-    alignItems: 'center',
-    justifyContent: 'center',
     flex: 0.5,
+    
   },
 
   progress: {

@@ -14,7 +14,6 @@ import { useRoute } from '@react-navigation/native';
 import SelectDropdown from "react-native-select-dropdown";
 import IconAntDesign from "react-native-vector-icons/AntDesign";
 import WelcomeHeader from "../components/PageTopText";
-//import InputField from "../components/InputBox_1";
 import AppFormField from "../components/AppFormField";
 import Button from "../components/MainButton";
 import client from "../API/client";

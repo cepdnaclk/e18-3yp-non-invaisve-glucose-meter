@@ -1,51 +1,101 @@
-import { SafeAreaView, FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  SafeAreaView,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+} from 'react-native';
 
 export default function App({datalist}) {
-
-    const FlatListItemSeparator = () => {
-        return <View style={{ height: 1, backgroundColor: "#D8D8D8",marginHorizontal:10}} />;
-        };
+  const FlatListItemSeparator = () => {
+    return (
+      <View
+        style={{height: 1, backgroundColor: '#D8D8D8', marginHorizontal: 10}}
+      />
+    );
+  };
 
   return (
-    
-      <FlatList 
-        data={datalist}
-        renderItem={({ item }) => <View style={styles.tablerow}>
-            <View style={styles.tablecol2}><Text style={styles.item}>{item.time}</Text></View>
-            <View style={styles.tablecol1}><Text style={styles.item}>{item.value}</Text></View>
-            <View style={styles.tablecol2}><Text style={styles.item}>{item.value}</Text></View>
-            </View>}
-        keyExtractor={(item) => {
-          return item._id;
-        }}
-        ItemSeparatorComponent={FlatListItemSeparator}
-        ListHeaderComponent={() => (
-            <Text style={{ color: "#000", fontSize: 20, marginTop:20, marginBottom: 20, fontWeight:'bold' }}>
-            Recent Records
-            </Text>
-        )}
-      />
-    
+    <FlatList
+      data={datalist}
+      renderItem={({item}) => (
+        <View style={styles.tablerow}>
+          <View style={styles.tablecol2}>
+            <View>
+              <Image
+                style={styles.image}
+                source={require('../assets/drop.png')}
+              />
+            </View>
+            <Text style={styles.time}>{item.time}</Text>
+          </View>
+
+          <View style={styles.tablecol1}>
+            <Text style={styles.value}>{item.value}</Text>
+          </View>
+
+          <View style={styles.tablecol2}>
+            <View style={styles.dot}></View>
+          </View>
+        </View>
+      )}
+      keyExtractor={item => {
+        return item._id;
+      }}
+      ItemSeparatorComponent={FlatListItemSeparator}
+      ListHeaderComponent={() => (
+        <Text
+          style={{
+            color: '#000',
+            fontSize: 20,
+            marginTop: 20,
+            marginBottom: 20,
+            fontWeight: 'bold',
+          }}>
+          Recent Records
+        </Text>
+      )}
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  item: {
-    padding: 25,
+  value: {
     fontSize: 15,
-    marginTop: 5,
-    color: "#000",
-    
+    color: '#000',
   },
-  tablerow:{
-    flexDirection: "row",
+  tablerow: {
+    flexDirection: 'row',
     flex: 1,
-    
+    padding: 10
   },
-  tablecol1:{
+  tablecol1: {
+    alignItems: 'center',
+    justifyContent: 'center',
+
     flex: 2,
+    flexDirection: 'row',
   },
-  tablecol2:{
+  tablecol2: {
+    justifyContent: 'center',
+    alignItems: 'center',
+
     flex: 1,
-  }
+    flexDirection: 'row',
+  },
+  image: {
+    height: 40,
+    width: 40,
+  },
+  dot: {
+    backgroundColor: 'orange',
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+  },
+  time: {
+    fontSize: 15,
+    color: '#000',
+  },
 });

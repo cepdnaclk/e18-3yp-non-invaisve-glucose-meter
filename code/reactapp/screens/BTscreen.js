@@ -5,20 +5,24 @@ import {
   Text,
   TouchableWithoutFeedback,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import {BleManager} from 'react-native-ble-plx';
 
-function BTscreen() {
+function BTscren() {
   const _BleManager = new BleManager();
+  const [devices, setDevices] = useState([]);
+  const [displayText, setDisplaText] = useState("");
 
   const startScan = () => {
     _BleManager.startDeviceScan(
-      Null,
+      
       {
         allowDuplicates: false,
       },
       async (error, device) => {
-        setDisplaText('Scanning...');
+        console.log("here")
+        setDisplayText('Scanning...');
         if (error) {
           _BleManager.stopDeviceScan();
         }
@@ -61,7 +65,7 @@ function BTscreen() {
             activeOpacity={0.6}
             onPress={startScan}
             style={styles.circleView}>
-            <Text style={styles.boldTextStyle}>{displayText}</Text>
+            <Text style={styles.boldTextStyle}>hi</Text>
           </TouchableOpacity>
         </View>
       ) : Object.keys(connectedDevice).length != 0 ? (
@@ -73,7 +77,7 @@ function BTscreen() {
             activeOpacity={0.6}
             onPress={disconnectDevice}
             style={styles.circleView}>
-            <Text style={styles.boldTextStyle}>{displayText}</Text>
+            <Text style={styles.boldTextStyle}>hi</Text>
           </TouchableOpacity>
         </View>
       ) : (
@@ -127,4 +131,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default BTscren;

@@ -12,15 +12,25 @@ import {
 import LineChart from '../components/LineChart';
 import color from '../config/colors';
 import client from '../API/client';
+import AppBar from '../components/ProfileBar';
+
+const a = [2, 4, 5, 6, 7, 8, 9, 13, 15, 16, 17, 21, 22, 23, 27, 28, 30];
+const b = [
+  100, 99, 98, 97, 102, 99, 98, 96, 99, 99, 99, 98, 100, 105, 99, 98, 100, 101,
+  98, 99,
+];
 
 export default function App({navigation}) {
   const isFocused = useIsFocused();
   const d = new Date();
+  let dates2 = [0];
+  let concs2 = [0];
   const [dates, setDates] = useState([0]);
   const [concs, setValues] = useState([0]);
   const [highest, setHighest] = useState(0);
   const [lowest, setLowest] = useState(0);
   const [avg, setAvg] = useState(0);
+  const [name, setName] = useState('');
 
   useEffect(() => {
     if (isFocused) {
@@ -32,36 +42,58 @@ export default function App({navigation}) {
     await client
       .get(`/glucose/getMonthlyGlucose/${d.getMonth() + 1}`)
       .then(res => {
-        console.log(res.data);
+        setName(res.data.name);
+
         if (res.data.dates.length != 0) {
+          setName(res.data.name);
           setDates(res.data.dates);
+          dates2 = res.data.dates;
+          concs2 = res.data.values;
+          if (dates2.length == 0) {
+            console.log('yes');
+            dates2[0] = 0;
+            concs2[0] = 0;
+          }
+          console.log(dates);
           setValues(res.data.values);
-          setHighest(Math.max.apply(null, res.data.values));
-          setLowest(Math.min.apply(null, res.data.values));
+          console.log(concs);
+          setHighest(Math.max.apply(null, b));
+          setLowest(Math.min.apply(null, b));
+        } else {
+          console.log('fdsafads');
         }
       })
       .catch(error => {
-        console.log(error);
+        console.log('errro :' + error);
       });
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.top}></View>
+      <View style={styles.top}>
+        <AppBar name={name} />
+      </View>
 
       <View style={styles.chart}>
         <LineChart x_datalist={dates} y_datalist={concs} x_unit={' mgH'} />
       </View>
 
       <View style={styles.params}>
-        <Text style={styles.text}> Average 127 mgH</Text>
-        <Text style={styles.text}>
-          {' '}
-          Highest <Text style={styles.text2}> (12/17/2022) </Text> {highest} mgH{' '}
-        </Text>
-        <Text style={styles.text}>
-          Lowest <Text style={styles.text2}> (12/17/2022) </Text> {lowest} mgH
-        </Text>
+        <View style={styles.first}>
+          <Text style={styles.text1}> Highest </Text>
+          <Text style={styles.text2}> {highest} </Text>
+          <Text style={styles.text3}> mg/dL </Text>
+        </View>
+        <View style={styles.first}>
+          <Text style={styles.text1}> Average </Text>
+          <Text style={styles.text2}> 100 </Text>
+          <Text style={styles.text3}> mg/dL </Text>
+        </View>
+        <View style={styles.first}>
+          <Text style={styles.text1}> Lowest </Text>
+          <Text style={styles.text2}> {lowest} </Text>
+          <Text style={styles.text3}> mg/dL </Text>
+        </View>
       </View>
       {/* </LinearGradient> */}
     </View>
@@ -74,8 +106,6 @@ const styles = StyleSheet.create({
     backgroundColor: color.primary,
   },
   top: {
-    alignItems: 'center',
-    justifyContent: 'center',
     flex: 0.5,
   },
 
@@ -94,35 +124,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#F7F7F7',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    flexDirection: 'column',
+    flexDirection: 'row',
   },
   first: {
     flex: 1,
-    backgroundColor: '#fff',
-    marginVertical: 10,
-    marginLeft: 5,
-    borderRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  second: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  up: {
-    flex: 1,
-    backgroundColor: '#fff',
-    marginTop: 10,
-    marginHorizontal: 10,
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  down: {
-    flex: 1,
-    backgroundColor: '#fff',
-    margin: 10,
-    borderRadius: 20,
+    margin: 5,
+    borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -147,14 +154,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 5,
   },
-  text: {
-    paddingBottom: 23,
-    fontSize: 20,
+  text1: {
+    margin: 10,
+    fontSize: 15,
     color: '#000',
+    fontWeight: 'bold',
   },
   text2: {
     color: color.primary,
+    fontSize: 30,
     fontWeight: 'bold',
+  },
+  text3: {
+    color: '#000',
   },
 });
 
