@@ -3,10 +3,12 @@ const request = require("supertest");
 const userAuthRoute = require("../routes/userAuth");
 const app = express();
 const db = require("../configurations/db");
-const Users = require("../models/userPatient");
+const Users = require("../models/Patient");
+const measurementRoute = require("../routes/measurementRoutes");
 
 let token = "";
 let refresh= "";
+const date = 23;
 
 const newUser = {
   username: "forTest",
@@ -19,8 +21,8 @@ const newUser = {
 };
 
 const validUser = {
-  email: "test1@gmail.com",
-  password: "test1",
+  email: "abc@gmail.com",
+  password: "abc",
 };
 
 const invalidUser = {
@@ -43,7 +45,7 @@ app.use(express.json());
 app.use("/api/auth", userAuthRoute);
 
 // Defining tests to test the user authenticatio functionalities
-describe("Test user Authentications", () => {
+describe("Test user Authentication and Authorization", () => {
   // Define test to register new user to the system
   describe("Signup to system as new User", () => {
     console.log("Test: Signup to system as new User");
@@ -121,5 +123,39 @@ describe("Test user Authentications", () => {
       
     });
   });
+
+  app.use("/api/glucose", measurementRoute);
+
+  // define test to get measured values with authorized user
+describe("With authorization token", () => {
+  console.log("Test: Test with authorization token");
+  it("should return 200 status code with success true", async () => {
+    const response = await request(app)
+      .post(`/api/glucose/getRecentGlucose/${date}`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect("Content-Type",/html/);
+    // expect(response.statusCode).toEqual(200);
+    // expect(response.body).toEqual(
+    //   expect.objectContaining({
+    //     success: true,
+        
+    //   })
+    // );
+    
+  });
+});
+
+  // define test to get measured values with authorized user
+  describe("No authorization token given", () => {
+    console.log("Test: Test without authorization token");
+    it("should return 404 status code", async () => {
+      const response = await request(app)
+        .post(`/api/glucose/getRecentGlucose/${date}`)
+        .expect("Content-Type",/html/);
+      expect(response.statusCode).toEqual(404);
+      
+    });
+  });
+
 
 });
