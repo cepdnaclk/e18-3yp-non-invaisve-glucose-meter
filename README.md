@@ -18,7 +18,8 @@ title: Non Invasive Glucometer
 -  E/18/282, Ranasinghe R.A.N.S., [e18282@eng.pdn.ac.lk](mailto:e18282@eng.pdn.ac.lk)
 -  E/18/382, Weerarathne L.D., [e18382@eng.pdn.ac.lk](mailto:e18382@eng.pdn.ac.lk)
 
-<!-- Image (photo/drawing of the final hardware) should be here -->
+![Sample Image](./docs/assets/img/solution.png)
+
 
 <!-- This is a sample image, to show how to add images to your page. To learn more options, please refer [this](https://projects.ce.pdn.ac.lk/docs/faq/how-to-add-an-image/) -->
 
@@ -26,9 +27,11 @@ title: Non Invasive Glucometer
 
 #### Table of Contents
 1. [Introduction](#introduction)
-<!-- 2. [Solution Architecture](#solution-architecture ) -->
-2. [Hardware & Software Designs](#hardware-and-software-designs)
-3. [Links](#links)
+2. [Solution Architecture](#solution-architecture )
+3. [Hardware Designs](#hardware-designs)
+4. [Testing](#testing)
+5. [Detailed Budget](#detailed-budget)
+6. [Links](#links)
 
 ## Introduction
 
@@ -38,19 +41,18 @@ For a diabetic patient having type 1 diabetes, it is recommended to measure bloo
 
 The aim of this project is to eliminate these drawbacks and build a convenient method for frequent glucose monitoring. For that we will be using the Near Infrared Based method which is non invasive, portable, cost efficient, reliable, and accurate to a considerable extent.
 
-<!-- 
 ## Solution Architecture
 
-![Sample Image](./docs/assets/sA.png)
+<img src="./docs/assets/img/sA.png" width=75% height=75% />
 
 ### Data and control flow
 
-![Sample Image](./docs/assets/slide15.jpg) -->
+<img src="./docs/assets/img/slide15.jpg" width=75% height=75% />
+
 <!-- High level diagram + description -->
 
 ## Hardware Designs
 
-![Sample Image](./docs/assets/slide14.jpg)
 
 The hardware design comprises of following componets.
 - Main processing unit Atmega328p Microcontroller
@@ -60,7 +62,7 @@ The hardware design comprises of following componets.
 - Bluetooth module
 - Batteries to supply constant power to the emitter
 
-![Sample Image](./docs/assets/img1.PNG)
+<img src="./docs/assets/img/slide14.jpg" width=75% height=75% />
 
 ## Software Designs
 
@@ -79,26 +81,26 @@ Features of the web application are,
 ### User Interface Design for the Mobile App
 
 <p float="left">
-  <img src="./docs/assets/ui/login_page.png" width=17% height=17% />&emsp;
-  <img src="./docs/assets/ui/register_page1.png" width=17% height=17% />&emsp;
-  <img src="./docs/assets/ui/register_page2.png" width=17% height=17% />&emsp;
-  <img src="./docs/assets/ui/glucose_conc_page.png" width=17% height=17% />&emsp;
-  <img src="./docs/assets/ui/graph_page.png" width=17% height=17% />&emsp;
+  <img src="./docs/assets/img/ui/login_page.png" width=17% height=17% />&emsp;
+  <img src="./docs/assets/img/ui/register_page1.png" width=17% height=17% />&emsp;
+  <img src="./docs/assets/img/ui/register_page2.png" width=17% height=17% />&emsp;
+  <img src="./docs/assets/img/ui/glucose_conc_page.png" width=17% height=17% />&emsp;
+  <img src="./docs/assets/img/ui/graph_page.png" width=17% height=17% />&emsp;
 </p>
 
 ## Testing
 
-![Sample Image](./docs/assets/testplan.png)
+<img src="./docs/assets/img/testplan.png" width=75% height=75% />
 
 ## Detailed budget
 
-![Sample Image](./docs/assets/budget.png)
+<img src="./docs/assets/img/budget.png" width=75% height=75% />
 
 <!-- ## Conclusion
 
-What was achieved, future developments, commercialization plans
+What was achieved, future developments, commercialization plans -->
 
-For more details visit our official project page from the below links. -->
+For more details visit our official project page from the below links.
 
 ## Links
 
