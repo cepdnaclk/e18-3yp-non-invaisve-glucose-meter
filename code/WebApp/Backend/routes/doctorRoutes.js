@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const authenticateToken = require("../middlewares/auth");
-const checkAuth = require("../middlewares/checkAuth");
+const checkAuth = require("../middlewares/checkAuthDoc");
 
 // let refreshTokens = [];
 

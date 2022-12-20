@@ -1,24 +1,33 @@
 const router = require("express").Router();
 const {
-    initialUser,
-    registerUser,
-    loginUser,
-    logoutUser,
-    refreshToken
-  } = require("../controllers/userAuthController");
+  initialUser,
+  registerUser,
+  loginUser,
+  logoutUser,
+  refreshTokenDoctor,
+} = require("../controllers/userAuthController");
+const {
+  initialPatient,
+  registerPatient,
+  loginPatient,
+  logoutPatient,
+  refreshTokenPatient,
+} = require("../controllers/patientAuthController");
 
+// initial admin user insertion
+router.post("/mobile/initial", initialPatient);
+router.post("/web/initial", initialUser);
 
-// initial admin user insertion 
-router.post('/initial', initialUser) 
+router.post("/mobile/signup", registerPatient);
+router.post("/web/signup", registerUser);
 
+router.post("/mobile/login", loginPatient);
+router.post("/web/login", loginUser);
 
-router.post('/signup', registerUser);
+router.post("/mobile/logout", logoutPatient);
+router.post("/lweb/ogout", logoutUser);
 
-router.post('/login', loginUser);
-
-router.post('/logout', logoutUser);
-
-router.post('/refreshtoken', refreshToken);
-
+router.post("/mobile/refreshtoken", refreshTokenPatient);
+router.post("/web/refreshtoken", refreshTokenDoctor);
 
 module.exports = router;
