@@ -9,7 +9,7 @@
 const express = require("express");
 const colors = require("colors");
 const cors = require("cors");
-const cookieParser = require('cookie-parser');
+const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv").config();
 // const db = require("./configurations/db");
 const db = require("./configurations/db");
@@ -31,7 +31,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/admin", require("./routes/adminRoutes.js"));
 // user auth routes
 app.use("/api/auth", require("./routes/userAuth"));
-// app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/user", require("./routes/authRoutes"));
 // measurement routes
 app.use("/api/glucose", require("./routes/measurementRoutes"));
 // doctor routes
