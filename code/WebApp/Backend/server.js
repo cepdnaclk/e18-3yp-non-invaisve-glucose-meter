@@ -11,13 +11,14 @@ const colors = require("colors");
 const cors = require("cors");
 const cookieParser = require('cookie-parser');
 const dotenv = require("dotenv").config();
-const db = require("./configurations/db");
+// const db = require("./configurations/db");
+const connectDB = require("./config/db");
 const port = 3000 || process.env.PORT;
 
 const app = express();
 
 // create/ connect with the database
-db.connect();
+connectDB();
 
 app.use(express.json());
 app.use(cors());
@@ -29,8 +30,8 @@ app.use(express.urlencoded({ extended: false }));
 // admin routes
 app.use("/api/admin", require("./routes/adminRoutes.js"));
 // user auth routes
-app.use("/api/auth", require("./routes/userAuth"));
-// app.use("/api/users", require("./routes/userAuthRoutes.js"));
+// app.use("/api/auth", require("./routes/userAuth"));
+app.use("/api/auth", require("./routes/authRoutes"));
 // measurement routes
 app.use("/api/glucose", require("./routes/measurementRoutes"));
 // doctor routes

@@ -78,6 +78,7 @@ const loginUser = async (req, res) => {
     const user =
       (await Doctor.findOne({ email: req.body.email })) ||
       (await Patient.findOne({ email: req.body.email }));
+      
     if (!user) {
       return res.status(400).json({
         error: "Incorrect credentials!",
@@ -111,10 +112,10 @@ const loginUser = async (req, res) => {
       email: user.email,
       role: user.role,
       message: "Login Successful",
-    //   access_token: access_token,
-    //   refresh_token: refresh_token,
-    }).cookie('jwt', access_token, { httpOnly: true, maxAge: 5 * 60 * 1000, sameSite: 'strict' })
-    .cookie('jwtRefresh', refresh_token, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000 });  
+      access_token: access_token,
+      refresh_token: refresh_token,
+    })/* .cookie('jwt', access_token, { httpOnly: true, maxAge: 5 * 60 * 1000, sameSite: 'strict' })
+    .cookie('jwtRefresh', refresh_token, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000 }) */;  
   } catch (err) {
     res.status(500).json({
       error: err,
@@ -169,7 +170,41 @@ const refreshToken = async (req, res) => {
   }
 };
 
+const initialUser = async(req,res)=>{
+  console.log(req.body);
+  try{
+      
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(req.body.password,salt);
+  
+      const newUser = new Doctor({
+          username: req.body.username,
+          email: req.body.email,
+          password: hashedPassword,
+          specialized_in: req.body.specialized_in,
+          contact_no: req.body.contact_no,
+          hospital: req.body.hospital,
+          role: req.body.role
+      })
+      const user = await newUser.save();
+      return res.status(200).json({
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+          message:"The Request sent successfully"
+      })
+      
+
+  }catch(err){
+      res.status(500).json({
+          error: err.message
+      })
+  }
+}
+
 module.exports = {
+    initialUser,
     registerUser,
     loginUser,
     logoutUser,

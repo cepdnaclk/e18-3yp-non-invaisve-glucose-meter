@@ -12,7 +12,7 @@ const Patient = require("../models/Patient");
 const Doctor = require("../models/Doctor");
 
 const catchError = (err, res) => {
-  if (err instanceof TokenExpiredError) {
+  if (err instanceof jwt.TokenExpiredError) {
     return res
       .status(401)
       .send({ message: "Unauthorized! Access Token was expired!" });
