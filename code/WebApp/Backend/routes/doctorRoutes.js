@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const authenticateToken = require("../middlewares/auth");
+const checkAuth = require("../middlewares/checkAuth");
 
 // let refreshTokens = [];
 
@@ -52,6 +53,18 @@ router.post("/addDoctor", async (req, res) => { // FOR TESTING bcz doctor authen
       const doctors = await User.find({}, {"username": 1, "specialized_in": 1, "hospital": 1});
       console.log(doctors)
       return res.status(200).send({ doctors: doctors, name: req.user.username });
+    } catch (err) {
+      return res.status(500).json({ message: err });
+    }
+  });
+  
+  router.get("/allPatients",  checkAuth, async (req, res) => {
+    try {
+      console.log(req.user)
+      
+      const doctor = await User.findOne({email: req.body.email});
+      // console.log(doctors)
+      return res.status(200).send({ patients: doctor.subscribed_patients });
     } catch (err) {
       return res.status(500).json({ message: err });
     }
