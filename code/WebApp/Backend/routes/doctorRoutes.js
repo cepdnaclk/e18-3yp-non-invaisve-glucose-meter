@@ -82,7 +82,8 @@ router.post("/addDoctor", async (req, res) => { // FOR TESTING bcz doctor authen
       docterById.subscribed_patients.push(userByEmail._id);
       const user3 = await docterById.save();
 
-      return res.status(200).send({ doctors: doctors, name: req.user.username });
+      return res.status(200).send({ doctor: docterById.username });
+      // return res.status(200).send({ doctor: docterById.username, name: req.user.username });
     } catch (err) {
       return res.status(500).json({ message: err.message });
     }
