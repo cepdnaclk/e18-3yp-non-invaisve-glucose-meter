@@ -25,10 +25,10 @@ function AddDoctor({navigation}) {
   const doctors = [];
   // const [doctors, setDoctors] = useState([0]);
   const _ids = [];
-  let doctorIndex = null;
+  let doctorid = null;
 
   const getDoctors = async () => {
-    console.log('yess');
+    
     const res = await client.get('/doctor/allDoctors', {}).catch(error => {
       console.log(error.message);
     });
@@ -42,6 +42,17 @@ function AddDoctor({navigation}) {
     } catch (error) {
       console.log('unexpected: ' + error);
     }
+  };
+
+  const addDoc = async () => {
+  const res = await client.post('/doctor/subscribeDoc', {
+        doctorid,
+      })
+      .catch(error => {
+        
+        console.log('error ' + error.message);
+      });
+
   };
 
   useEffect(() => {
@@ -92,7 +103,7 @@ function AddDoctor({navigation}) {
             data={doctors}
             onSelect={(selectedItem, index) => {
               setSelect(true);
-              doctorIndex = index;
+              doctorid = index;
               //setSelect(true);
               //setModalVisible(true); // ERROR : once selected, the values in dropdown are not loading for the second time
               console.log(selectedItem, index);
@@ -144,11 +155,7 @@ function AddDoctor({navigation}) {
           iconName={'plus'}
           iconSize={20}
           iconColor={'#fff'}
-          onPress={() => {
-            if (select) {
-              setModalVisible(true);
-            }
-          }}
+          onPress={addDoc()}
         />
       </View>
     </View>
