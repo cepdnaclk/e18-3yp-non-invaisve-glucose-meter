@@ -25,7 +25,7 @@ router.post("/mobile/login", loginPatient);
 router.post("/web/login", loginUser);
 
 router.post("/mobile/logout", logoutPatient);
-router.post("/lweb/ogout", logoutUser);
+router.post("/web/logout", logoutUser);
 
 router.post("/mobile/refreshtoken", refreshTokenPatient);
 router.post("/web/refreshtoken", refreshTokenDoctor);

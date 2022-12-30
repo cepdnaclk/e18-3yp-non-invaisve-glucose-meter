@@ -7,7 +7,6 @@ require("dotenv").config();
 const authenticateToken = require("../middlewares/auth");
 const checkAuth = require("../middlewares/checkAuthMobile");
 
-// let refreshTokens = [];
 
 router.post("/addDoctor", async (req, res) => { // FOR TESTING bcz doctor authentication part is not yet added
     try {     
@@ -30,6 +29,7 @@ router.post("/addDoctor", async (req, res) => { // FOR TESTING bcz doctor authen
         specialized_in: req.body.specialized_in,
         contact_no: req.body.contact_no,
         role: 2,
+        code: 1,
       });
       
       const doc = await newDoctor.save();
@@ -45,8 +45,32 @@ router.post("/addDoctor", async (req, res) => { // FOR TESTING bcz doctor authen
     }
   });
   
+  // get one doctors
+  router.post("/getDoctor",  checkAuth, async (req, res) => {
+    try {
+      console.log("get doc called")
+      const userByEmail = await Patient.findOne({ email: req.user.email }); 
+      const doctorByCode = await User.findOne({ code: req.body.doctorcode });
+      if (!doctorByCode){
+
+        return res.status(200).json({ success: false, message: "No doctor found under this code" });
+
+      }
+
+      console.log(doctorByCode)
+      if (userByEmail.doctor_id.includes(doctorByCode._id)){
+        return res.status(200).json({ success: false, message: "You have already subscribed to this doctor" });
+      }
+
+      return res.status(200).send({ success: true, doctor: doctorByCode.username });
+
+    } catch (err) {
+      return res.status(500).json({ message: err });
+    }
+  });
+
   // get all doctors
-  router.get("/allDoctors",  authenticateToken, async (req, res) => {
+  router.get("/allDoctors",  checkAuth, async (req, res) => {
     try {
       console.log(req.user)
       
@@ -73,16 +97,18 @@ router.post("/addDoctor", async (req, res) => { // FOR TESTING bcz doctor authen
   // subscribe
   router.post("/subscribeDoc",  checkAuth, async (req, res) => {
     try {
+      console.log("subscribe called")
       
       const userByEmail = await Patient.findOne({ email: req.user.email }); 
-      userByEmail.doctor_id.push(req.body.doctorid);
+      const doctorByCode = await User.findOne({ code: req.body.doctorcode });
+      
+      userByEmail.doctor_id.push(doctorByCode._id);
       const user2 = await userByEmail.save();
+      
+      doctorByCode.subscribed_patients.push(userByEmail._id);
+      const user3 = await doctorByCode.save();
 
-      const docterById = await User.findOne({ _id: req.body.doctorid });
-      docterById.subscribed_patients.push(userByEmail._id);
-      const user3 = await docterById.save();
-
-      return res.status(200).send({ doctor: docterById.username });
+      return res.status(200).send({ success: true });
       // return res.status(200).send({ doctor: docterById.username, name: req.user.username });
     } catch (err) {
       return res.status(500).json({ message: err.message });

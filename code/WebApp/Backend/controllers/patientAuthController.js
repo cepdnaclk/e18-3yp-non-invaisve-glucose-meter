@@ -5,19 +5,12 @@ const DoctorRequest = require("../models/DoctorRequestModel");
 const Patient = require("../models/Patient");
 const PatientRequest = require("../models/patientRequestModel");
 const RefreshToken = require("../models/RefreshTokenModel");
-
+let refreshTokens = [];
 const registerPatient = async (req, res) => {
   //   console.log(req.body);
   try {
-    const emailRequestedPatient = await PatientRequest.findOne({
-      email: req.body.email,
-    });
-    if (emailRequestedPatient) {
-      return res.status(401).json({
-        error: "Patient Request under given email is already being processed",
-      });
-    }
-
+    console.log("/mobile/signup called ..")
+    
     const emailRegistered = await Patient.findOne({ email: req.body.email });
     if (emailRegistered) {
       return res.status(401).json({
@@ -27,25 +20,23 @@ const registerPatient = async (req, res) => {
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
-    const newRequest = new PatientRequest({
+    
+    const newPatient = new Patient({
       username: req.body.username,
       email: req.body.email,
       password: hashedPassword,
-      role: req.body.role,
+      role: 3,
       contact_no: req.body.contact_no,
       age: req.body.age,
       weight: req.body.weight,
       height: req.body.height,
     });
-    const user = await newRequest.save();
+    const user = await newPatient.save();
+    
 
     return res.status(200).json({
-      id: user._id,
-      username: user.username,
-      email: user.email,
-      role: user.role,
-      message: "The Request sent successfully",
+      success: true,
+      message: "You are successfully registered",
     });
   } catch (err) {
     res.status(500).json({
@@ -56,13 +47,15 @@ const registerPatient = async (req, res) => {
 
 const loginPatient = async (req, res) => {
   try {
+   
     const user = await Patient.findOne({ email: req.body.email });
-
+    console.log("/mobile/login called ..")
     if (!user) {
       return res.status(400).json({
         error: "Incorrect credentials!",
       });
     }
+    
 
     const validatedPassword = await bcrypt.compare(
       req.body.password,
@@ -74,35 +67,29 @@ const loginPatient = async (req, res) => {
       });
     }
 
+    // access tokens for autherization
     const access_token = jwt.sign(
-      {
-        email: user.email,
-        role: user.role,
-      },
+      { email: user.email, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_TOKEN_EXPIRATION }
     );
 
-    const refresh_token = await RefreshToken.createToken(user);
+    // refresh tokens to refresh the access token when expired
+    const refresh_token = jwt.sign(
+      { email: user.email, role: user.role },
+      process.env.REFRESH_SECRET
+    );
+    refreshTokens.push(refresh_token); // refresh token will be expired at log out
+    console.log("firstly created refresh token : " + refreshTokens)
+
 
     res.status(200).json({
-      id: user._id,
-      username: user.username,
-      email: user.email,
-      role: user.role,
-      message: "Login Successful",
+      success: true,
+      user: user,
       access_token: access_token,
       refresh_token: refresh_token,
     });
-    /* .cookie("jwt", access_token, {
-        httpOnly: true,
-        maxAge: 5 * 60 * 1000,
-        sameSite: "strict",
-      })
-      .cookie("jwtRefresh", refresh_token, {
-        httpOnly: true,
-        maxAge: 3 * 24 * 60 * 60 * 1000,
-      }) */
+   
   } catch (err) {
     res.status(500).json({
       error: err,
@@ -115,51 +102,38 @@ const logoutPatient = async (req, res) => {
 };
 
 const refreshTokenPatient = async (req, res) => {
-  receivedRefreshToken = req.body.refresh_token;
+  console.log(refreshTokens)
+  console.log("New access token generating ... \n");
 
-  if (!receivedRefreshToken) {
-    return res.status(403).json({ message: "Refresh Token is required!" });
+  const refreshToken = req.header("refresh_token");
+  console.log(
+    "this is the refresh token = " + req.header("refresh_token") + "\n"
+  );
+
+  if (!refreshToken) {
+    console.log("No refresh token sent with the header\n");
+    return res.status(401).json({ message: "Authentication failed" });
   }
 
-  try {
-    let refreshToken = await RefreshToken.findOne({ token: requestToken });
+  // if (!refreshTokens.includes(refreshToken)) {
+  //   console.log(
+  //     "refresh token sent with the header is not found in refreshTokens[] array\n"
+  //   );
+  //   return res.status(403).json({ message: "Authentication failed" });
+  // }
 
-    if (!refreshToken) {
-      res.status(403).json({ message: "Refresh token is invalid!" });
-      return;
-    }
+  jwt.verify(refreshToken, process.env.REFRESH_SECRET, (err, result) => {
+    if (err) return res.status(500).json({ message: "Authentication failed" });
 
-    if (RefreshToken.verifyExpiration(refreshToken)) {
-      RefreshToken.findByIdAndRemove(refreshToken._id, {
-        useFindAndModify: false,
-      }).exec();
-
-      return res.status(403).json({
-        message: "Refresh token was expired. Please make a new signin request",
-      });
-    }
-
-    const newAccessToken = jwt.sign(
-      {
-        email: user.email,
-        role: user.role,
-      },
+    const access_token = jwt.sign(
+      { email: result.email, role: result.role },
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_TOKEN_EXPIRATION }
     );
 
-    return res.status(200).json({
-      accessToken: newAccessToken,
-      refreshToken: refreshToken.token,
-    });
-    /* .cookie("jwt", newAccessToken, {
-        httpOnly: true,
-        maxAge: 5 * 60 * 1000,
-        sameSite: "strict",
-      }) */
-  } catch (err) {
-    return res.status(500).send({ message: err });
-  }
+    console.log("new access token created = " + access_token + "\n");
+    res.status(200).json({ access_token: access_token });
+  });
 };
 
 const initialPatient = async (req, res) => {
