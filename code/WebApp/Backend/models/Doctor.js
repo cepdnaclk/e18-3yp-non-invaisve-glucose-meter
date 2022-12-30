@@ -37,6 +37,10 @@ const DoctorSchema = new mongoose.Schema(
       type: String,
       required: true,
       enum: ["1", "2", "3"]
+    },
+    code: {
+      type: String,
+      required: false,
     }
   },
 
