@@ -6,12 +6,13 @@ const authenticateToken = require("../middlewares/auth");
 
 router.post("/addGlucose", async (req, res) => { // no auth token added 
   try {
+    console.log("addGlucose called")
     const newMeasurement = await Measurement({
         user_id: req.body.user_id,
         value: req.body.value,
-        date: Date().getDate(), // this depends on how the recorded time sent to the backend ?
-        month: Date().getMonth(),
-        time: Date().getTime(),
+        date: req.body.date, // this depends on how the recorded time sent to the backend ?
+        month: req.body.month,
+        time: req.body.time,
     });
     const measurement = await newMeasurement.save();
     return res.status(200).json({
@@ -24,7 +25,7 @@ router.post("/addGlucose", async (req, res) => { // no auth token added
   }
 });
 
-router.get("/getMonthlyGlucose/:month",  authenticateToken, async (req, res) => {
+router.get("/getMonthlyGlucose/:month",   async (req, res) => {
     try {
       
       const userByEmail = await User.findOne({ email: req.user.email });
