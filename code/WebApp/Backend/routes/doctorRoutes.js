@@ -4,7 +4,7 @@ const Patient = require("../models/Patient");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-// const authenticateToken = require("../middlewares/auth");
+const authenticateToken = require("../middlewares/auth");
 const checkAuth = require("../middlewares/checkAuthDoc");
 
 router.post("/addDoctor", async (req, res) => {
@@ -44,7 +44,7 @@ router.post("/addDoctor", async (req, res) => {
 });
 
 // get one doctors
-router.post("/getDoctor", checkAuth, async (req, res) => {
+router.post("/getDoctor", authenticateToken, async (req, res) => {
   try {
     console.log("get doc called");
     const userByEmail = await Patient.findOne({ email: req.user.email });
@@ -74,7 +74,7 @@ router.post("/getDoctor", checkAuth, async (req, res) => {
 });
 
 // get all doctors
-router.get("/allDoctors", checkAuth, async (req, res) => {
+router.get("/allDoctors", authenticateToken, async (req, res) => {
   try {
     console.log(req.user);
 
@@ -102,7 +102,7 @@ router.get("/allPatients", checkAuth, async (req, res) => {
 });
 
 // subscribe
-router.post("/subscribeDoc", checkAuth, async (req, res) => {
+router.post("/subscribeDoc", authenticateToken, async (req, res) => {
   try {
     console.log("subscribe called");
 

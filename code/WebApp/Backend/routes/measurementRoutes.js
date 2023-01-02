@@ -25,7 +25,7 @@ router.post("/addGlucose", async (req, res) => { // no auth token added
   }
 });
 
-router.get("/getMonthlyGlucose/:month",   async (req, res) => {
+router.get("/getMonthlyGlucose/:month",   authenticateToken, async (req, res) => {
     try {
       
       const userByEmail = await User.findOne({ email: req.user.email });
