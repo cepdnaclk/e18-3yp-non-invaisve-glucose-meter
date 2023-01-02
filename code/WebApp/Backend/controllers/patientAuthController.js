@@ -97,8 +97,14 @@ const loginPatient = async (req, res) => {
   }
 };
 
+// log out
 const logoutPatient = async (req, res) => {
-  res.status(200).clearCookie("jwt").clearCookie("jwtRefresh").redirect("/");
+  const refreshToken = req.header("refresh_token");
+  if (!refreshToken)
+    return res.status(401).json({ message: "Authentication failed" });
+
+  refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+  res.status(200).json({ message: "Successfuly logged out" });
 };
 
 const refreshTokenPatient = async (req, res) => {
@@ -115,12 +121,12 @@ const refreshTokenPatient = async (req, res) => {
     return res.status(401).json({ message: "Authentication failed" });
   }
 
-  // if (!refreshTokens.includes(refreshToken)) {
-  //   console.log(
-  //     "refresh token sent with the header is not found in refreshTokens[] array\n"
-  //   );
-  //   return res.status(403).json({ message: "Authentication failed" });
-  // }
+  if (!refreshTokens.includes(refreshToken)) {
+    console.log(
+      "refresh token sent with the header is not found in refreshTokens[] array\n"
+    );
+    return res.status(403).json({ message: "Authentication failed" });
+  }
 
   jwt.verify(refreshToken, process.env.REFRESH_SECRET, (err, result) => {
     if (err) return res.status(500).json({ message: "Authentication failed" });
