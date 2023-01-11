@@ -46,7 +46,7 @@ function RegisterScreen({navigation, route}) {
   const action = async (values, formikActions) => {
     
     const res = await client
-      .post("/auth/signup", {
+      .post("/auth/mobile/signup", {
         ...values,
         username: route.params.user.username,
         contact_no: route.params.user.contact_no,

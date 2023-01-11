@@ -8,7 +8,7 @@ const Tab = createMaterialBottomTabNavigator();
 // screens
 import GraphScreen from "../GraphScreen";
 import MeasureScreen from "../MeasureScreen";
-import DoctorScreen from "../AddDoctor2";
+import DoctorScreen from "../AddDoctor";
 
 export default function MyTabs() {
   return (

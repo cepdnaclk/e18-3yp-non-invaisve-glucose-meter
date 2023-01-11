@@ -27,9 +27,6 @@ const validationSchema = Yup.object().shape({
 
 function LoginScreen({navigation}) {
   const {setIsLoggedIn, setUser, setRole} = useLogin();
-  //  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  //  const [role, setRole] = useState(0);
-  //  const [user, setUser] = useState({});
 
   async function saveToken(key, val) {
     try {
@@ -46,10 +43,9 @@ function LoginScreen({navigation}) {
 
   const login = async (values, formikActions) => {
     formikActions.resetForm();
-    // formikActions.setSubmitting(false);
-
+    
     const res = await client
-      .post('/auth/login', {
+      .post('/auth/mobile/login', {
         ...values,
       })
       .catch(error => {
@@ -62,11 +58,6 @@ function LoginScreen({navigation}) {
       saveToken('access', res.data.access_token);
       saveToken('refresh', res.data.refresh_token);
 
-      // set roles according to login
-
-      // Admin => 1
-      // AdminDoctor => 2
-      // Doctor => 3
       setRole(3);
       setIsLoggedIn(true);
       setUser(res.data.user);
@@ -86,7 +77,6 @@ function LoginScreen({navigation}) {
         <Formik
           initialValues={{email: '', password: ''}}
           onSubmit={login}
-          validationSchema={validationSchema}
         >
           {({values, handleSubmit, handleChange}) => {
             const {email, password} = values;

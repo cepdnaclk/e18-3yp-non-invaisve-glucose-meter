@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useIsFocused} from '@react-navigation/native';
+import {ActivityIndicator} from 'react-native-paper';
 
 import {
   View,
@@ -7,6 +8,7 @@ import {
   Text,
   TouchableWithoutFeedback,
   Alert,
+  Button,
 } from 'react-native';
 
 import LineChart from '../components/LineChart';
@@ -14,19 +16,23 @@ import color from '../config/colors';
 import client from '../API/client';
 import AppBar from '../components/ProfileBar';
 
-const a = [2, 4, 5, 6, 7, 8, 9, 13, 15, 16, 17, 21, 22, 23, 27, 28, 30];
-const b = [
-  100, 99, 98, 97, 102, 99, 98, 96, 99, 99, 99, 98, 100, 105, 99, 98, 100, 101,
-  98, 99,
-];
+const b = [100, 99, 98];
 
 export default function App({navigation}) {
+  const [animate, setAnimate] = useState(true);
+  // const [randomDatax, setRandomDatax] = useState(
+  //   [Math.random() * 100, Math.random() * 100, Math.random() * 100] ?? 0,
+  // );
+
+  // const [randomDatay, setRandomDatay] = useState(
+  //   [Math.random() * 100, Math.random() * 100, Math.random() * 100] ?? 0,
+  // );
+
   const isFocused = useIsFocused();
   const d = new Date();
-  let dates2 = [0];
-  let concs2 = [0];
-  const [dates, setDates] = useState([0]);
-  const [concs, setValues] = useState([0]);
+
+  const [dates, setDates] = useState([]);
+  const [concs, setValues] = useState([]);
   const [highest, setHighest] = useState(0);
   const [lowest, setLowest] = useState(0);
   const [avg, setAvg] = useState(0);
@@ -35,6 +41,7 @@ export default function App({navigation}) {
   useEffect(() => {
     if (isFocused) {
       getData();
+      setAnimate(false);
     }
   }, [isFocused]);
 
@@ -43,28 +50,19 @@ export default function App({navigation}) {
       .get(`/glucose/getMonthlyGlucose/${d.getMonth() + 1}`)
       .then(res => {
         setName(res.data.name);
-
+        
         if (res.data.dates.length != 0) {
-          setName(res.data.name);
+          
           setDates(res.data.dates);
-          dates2 = res.data.dates;
-          concs2 = res.data.values;
-          if (dates2.length == 0) {
-            console.log('yes');
-            dates2[0] = 0;
-            concs2[0] = 0;
-          }
-          console.log(dates);
           setValues(res.data.values);
-          console.log(concs);
           setHighest(Math.max.apply(null, b));
           setLowest(Math.min.apply(null, b));
         } else {
-          console.log('fdsafads');
+          console.log('res.data.dates.length is 0');
         }
       })
       .catch(error => {
-        console.log('errro :' + error);
+        console.log('error in getData() :' + error);
       });
   };
 
@@ -75,7 +73,20 @@ export default function App({navigation}) {
       </View>
 
       <View style={styles.chart}>
-        <LineChart x_datalist={dates} y_datalist={concs} x_unit={' mgH'} />
+        <ActivityIndicator animating={animate} color="red" size="large" />
+        <LineChart
+          x_datalist={dates}
+          y_datalist={concs}
+          x_unit={' mgH'}
+        />
+      </View>
+
+      <View style={styles.button}>
+        <Button
+          title="Refresh Data"
+          color={color.primary}
+          onPress={refresh_data}
+        />
       </View>
 
       <View style={styles.params}>
