@@ -51,8 +51,9 @@ const loginPatient = async (req, res) => {
     const user = await Patient.findOne({ email: req.body.email });
     console.log("/mobile/login called ..")
     if (!user) {
-      return res.status(400).json({
-        error: "Incorrect credentials!",
+      return res.status(200).json({
+        success: false,
+        message: "Incorrect credentials!",
       });
     }
     
@@ -62,8 +63,9 @@ const loginPatient = async (req, res) => {
       user.password
     );
     if (!validatedPassword) {
-      return res.status(400).json({
-        error: "Incorrect credentials!",
+      return res.status(200).json({
+        success: false,
+        message: "Incorrect credentials!",
       });
     }
 
@@ -99,9 +101,13 @@ const loginPatient = async (req, res) => {
 
 // log out
 const logoutPatient = async (req, res) => {
+  
   const refreshToken = req.header("refresh_token");
+  
   if (!refreshToken)
     return res.status(401).json({ message: "Authentication failed" });
+
+  console.log(refreshTokens.includes(refreshToken))
 
   refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
   res.status(200).json({ message: "Successfuly logged out" });
