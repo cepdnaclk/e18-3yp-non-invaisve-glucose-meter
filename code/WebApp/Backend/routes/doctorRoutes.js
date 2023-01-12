@@ -94,10 +94,11 @@ router.get("/allPatients", checkAuth, async (req, res) => {
 
     const doctor = await User.findOne({ email: req.body.email });
     // console.log(doctors)
-    let list = 0;
+    let list = 1;
     if (!doctor.subscribed_patients) {
-      list = 0;
+      list = doctor.subscribed_patients;
     }
+    console.log(doctor);
     // return res.status(200).send({ patients: "Patient List" });
     return res.status(200).send({ patients: list });
   } catch (err) {
