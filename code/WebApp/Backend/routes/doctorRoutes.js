@@ -57,12 +57,10 @@ router.post("/getDoctor", authenticateToken, async (req, res) => {
 
     console.log(doctorByCode);
     if (userByEmail.doctor_id.includes(doctorByCode._id)) {
-      return res
-        .status(200)
-        .json({
-          success: false,
-          message: "You have already subscribed to this doctor",
-        });
+      return res.status(200).json({
+        success: false,
+        message: "You have already subscribed to this doctor",
+      });
     }
 
     return res
@@ -104,8 +102,12 @@ router.get("/allPatients", checkAuth, async (req, res) => {
 router.get("/getPatient", checkAuth, async (req, res) => {
   try {
     console.log(req.user);
-    const patient = await Patient.findOne({ _id: req.body.id});
-    return res.status(200).send({patient});
+    const patient = await Patient.findOne({ _id: req.body.id }).select(
+      "-password"
+    );
+    return res.status(200).send({
+      name: patient.name
+    });
   } catch (err) {
     return res.status(500).json({ message: err });
   }
