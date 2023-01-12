@@ -101,6 +101,16 @@ router.get("/allPatients", checkAuth, async (req, res) => {
   }
 });
 
+router.get("/getPatient", checkAuth, async (req, res) => {
+  try {
+    console.log(req.user);
+    const patient = await Patient.findOne({ _id: req.body.id});
+    return res.status(200).send({patient});
+  } catch (err) {
+    return res.status(500).json({ message: err });
+  }
+});
+
 // subscribe
 router.post("/subscribeDoc", authenticateToken, async (req, res) => {
   try {
