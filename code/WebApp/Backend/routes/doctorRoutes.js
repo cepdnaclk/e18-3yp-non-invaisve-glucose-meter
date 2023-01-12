@@ -89,7 +89,8 @@ router.get("/allDoctors", authenticateToken, async (req, res) => {
 
 router.get("/allPatients", checkAuth, async (req, res) => {
   try {
-    console.log(req.user);
+    console.log(req);
+    console.log("Inside allPatients");
 
     const doctor = await User.findOne({ email: req.body.email });
     // console.log(doctors)
