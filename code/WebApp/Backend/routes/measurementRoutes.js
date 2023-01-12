@@ -4,7 +4,7 @@ const User = require("../models/Patient");
 require("dotenv").config();
 const authenticateToken = require("../middlewares/auth");
 
-router.post("/addGlucose", async (req, res) => { // no auth token added 
+router.post("/addGlucose", authenticateToken, async (req, res) => { // no auth token added 
   try {
     console.log("addGlucose called")
     const newMeasurement = await Measurement({
