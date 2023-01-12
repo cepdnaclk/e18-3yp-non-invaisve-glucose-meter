@@ -94,9 +94,12 @@ router.get("/allPatients", checkAuth, async (req, res) => {
 
     const doctor = await User.findOne({ email: req.body.email });
     // console.log(doctors)
-    console.log(doctor.subscribed_patients);
+    let list = 0;
+    if (!doctor.subscribed_patients) {
+      list = 0;
+    }
     // return res.status(200).send({ patients: "Patient List" });
-    return res.status(200).send({ patients: doctor });
+    return res.status(200).send({ patients: list });
   } catch (err) {
     return res.status(500).json({ message: err });
   }
