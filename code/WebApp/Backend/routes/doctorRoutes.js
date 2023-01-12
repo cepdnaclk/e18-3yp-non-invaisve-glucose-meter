@@ -93,13 +93,9 @@ router.get("/allPatients", checkAuth, async (req, res) => {
     console.log("Inside allPatients");
 
     const doctor = await User.findOne({ email: req.user.email });
-    // console.log(doctors)
-    // let list = 1;
-    // if (!doctor.subscribed_patients) {
-    //   list = doctor.subscribed_patients;
-    // }
+    
     console.log(doctor);
-    // return res.status(200).send({ patients: "Patient List" });
+    
     return res.status(200).send({ patients: doctor.subscribed_patients });
   } catch (err) {
     return res.status(500).json({ message: err });
@@ -113,7 +109,7 @@ router.get("/getPatient", checkAuth, async (req, res) => {
       "-password"
     );
     return res.status(200).send({
-      name: patient.name,
+      name: patient,
     });
   } catch (err) {
     return res.status(500).json({ message: err });

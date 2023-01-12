@@ -149,17 +149,15 @@ const refreshTokenDoctor = async (req, res) => {
       { expiresIn: process.env.JWT_TOKEN_EXPIRATION }
     );
 
-    return res
-      .status(200)
-      .json({
-          accessToken: newAccessToken,
-        refreshToken: refreshToken.token,
-      })
-      /* .cookie("jwt", newAccessToken, {
+    return res.status(200).json({
+      accessToken: newAccessToken,
+      refreshToken: refreshToken.token,
+    });
+    /* .cookie("jwt", newAccessToken, {
         httpOnly: true,
         maxAge: 5 * 60 * 1000,
         sameSite: "strict",
-      }) */;
+      }) */
   } catch (err) {
     return res.status(500).send({ message: err });
   }
@@ -179,6 +177,7 @@ const initialUser = async (req, res) => {
       contact_no: req.body.contact_no,
       hospital: req.body.hospital,
       role: req.body.role,
+      code: req.body.code,
     });
     const user = await newUser.save();
     return res.status(200).json({
