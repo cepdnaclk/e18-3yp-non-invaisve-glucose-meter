@@ -109,7 +109,7 @@ router.get("/getPatient", checkAuth, async (req, res) => {
       "-password"
     );
     return res.status(200).send({
-      name: patient.name,
+      name: patient.username,
       age: patient.age,
       weight: patient.weight,
       height: patient.height,
