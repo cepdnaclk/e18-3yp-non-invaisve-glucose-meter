@@ -10,6 +10,7 @@ const PatientRequest = require('../models/patientRequestModel')
 const DoctorRequest = require('../models/DoctorRequestModel')
 const Patient = require('../models/Patient')
 const Doctor = require('../models/Doctor')
+let docCode = 2
 
 
 const getAllPatientRequests = async(req, res)=>{
@@ -83,7 +84,7 @@ const deleteRequest = async(req,res)=>{
 const acceptRequest = async(req,res)=>{
     try{
         const doctorRequest = await DoctorRequest.findById(req.params.id)
-        const patientRequest = await PatientRequest.findById(req.params.id)
+        // const patientRequest = await PatientRequest.findById(req.params.id)
 
         if(doctorRequest){
             const newDoctor = new Doctor({
@@ -93,7 +94,8 @@ const acceptRequest = async(req,res)=>{
                 contact_no: request.contact_no,
                 specialized_in: request.specialized_in,
                 hospital: request.hospital,
-                role: request.role
+                role: request.role,
+                code: docCode++
             })
 
             // console.log(newUser)
@@ -117,48 +119,10 @@ const acceptRequest = async(req,res)=>{
                 });
             }
             
-        }else if(patientRequest){
-            const newPatient = new Patient({
-                username: request.username,
-                email: request.email,
-                password: request.password,
-                contact_no: request.contact_no,
-                age: request.age,
-                weight: request.weight,
-                height: request.height,
-                role: request.role
-            })
-
-            // console.log(newUser)
-            try{
-                const adduser = await newPatient.save();
-                // const {password,...others} = adduser._doc;
-                await PatientRequest.findByIdAndDelete(req.params.id)
-                
-                // others["message"] = "User registration successful!";
-                // return res.status(200).json(others);
-                return res.status(200).json({
-                    id: adduser._id,
-                    username: adduser.username,
-                    email: adduser.email,
-                    role: adduser.role,
-                    message: "Patient registration successful!"
-                });
-            }catch (error) {
-                return res.status(500).json({
-                    error:"Patient registration failed"
-                });
-            }
-            
-        }
-        else{
-            return res.status(404).json({
-                error:"Request not found"
-            })
         } 
     }catch(err){
         return res.status(500).json({
-            error: err
+            error: err.message
         })
     } 
 }
