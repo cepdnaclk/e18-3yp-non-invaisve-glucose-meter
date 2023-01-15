@@ -112,22 +112,6 @@ router.get("/allPatients", checkAuth, async (req, res) => {
       weight: patient.weight,
       height: patient.height,
     }));
-    /* .toArray(
-      (err, patients) => {
-        const patientData = patients.map((patient) => ({
-          name: patient.username,
-          age: patient.age,
-          weight: patient.weight,
-          height: patient.height,
-        }));
-        console.log("Data created!");
-        res.json(patientData);
-      }
-    ); */
-    // console.log("Printing....!");
-    // console.log(patientData);
-    // send the patient data as a response\
-    // console.log(allPatients);
     return res.status(200).json(dataArray);
   } catch (err) {
     return res.status(500).json({ message: err });
