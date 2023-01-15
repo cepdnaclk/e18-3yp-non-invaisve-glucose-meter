@@ -9,19 +9,21 @@ const { findOne } = require("../models/measurementModel");
 const d = new Date();
 
 router.post(
-  "/addGlucose/:email/:date/:value",
-  /* authenticateToken, */
+  // "/addGlucose/:email/:date/:value",           // don't remove this line
+  "/addGlucose",
+  authenticateToken,
   async (req, res) => {
     // no auth token added
     try {
       console.log("addGlucose called");
       // console.log(req.user);
-      const timestamp = new Date(2023, 1, req.params.date);
-      // const userByEmail = await User.findOne({ email: req.user.email });
-      const userByEmail = await User.findOne({ email: req.params.email });
+      // const timestamp = new Date(2023, 1, req.params.date);              // don't remove this line
+      const timestamp = new Date();
+      const userByEmail = await User.findOne({ email: req.user.email });
+      // const userByEmail = await User.findOne({ email: req.params.email });       // don't remove this line
       const newMeasurement = await Measurement({
         user_id: userByEmail._id,
-        value: req.params.value,
+        value: req.body.value,
         date: timestamp.getTime(),
         month: timestamp.getMonth() + 1,
       });
