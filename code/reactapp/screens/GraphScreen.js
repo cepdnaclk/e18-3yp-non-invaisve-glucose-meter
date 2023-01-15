@@ -19,8 +19,6 @@ import AppBar from '../components/ProfileBar';
 const b = [100, 99, 98];
 
 export default function App({navigation}) {
-  const [animate, setAnimate] = useState(true);
-
   const isFocused = useIsFocused();
   const d = new Date();
 
@@ -31,28 +29,30 @@ export default function App({navigation}) {
   const [avg, setAvg] = useState(0);
   const [name, setName] = useState('');
 
-  useEffect(() => {
-    if (isFocused) {
-      getData();
-      setAnimate(false);
-    }
-  }, [isFocused]);
+  // useEffect(() => {
+  //   if (isFocused) {
+  //     getData();
+  //   }
+  // }, [isFocused]);
 
   const getData = async () => {
     await client
       .get(`/glucose/getMonthlyGlucose/${d.getMonth() + 1}`)
       .then(res => {
-        setName(res.data.name);
-        
-        if (res.data.dates.length != 0) {
-          
-          setDates(res.data.dates);
-          setValues(res.data.values);
-          setHighest(Math.max.apply(null, b));
-          setLowest(Math.min.apply(null, b));
-        } else {
-          console.log('res.data.dates.length is 0');
-        }
+        console.log('monthly glucose called ..');
+        console.log(res.data);
+
+        return res.data;
+      })
+      .then(data => {
+        setName(data.name);
+        setDates(data.dates);
+        setValues(data.values);
+        return data;
+      })
+      .then(data2 => {
+        setHighest(Math.max.apply(null, concs));
+        setLowest(Math.min.apply(null, concs));
       })
       .catch(error => {
         console.log('error in getData() :' + error);
@@ -66,20 +66,7 @@ export default function App({navigation}) {
       </View>
 
       <View style={styles.chart}>
-        <ActivityIndicator animating={animate} color="red" size="large" />
-        <LineChart
-          x_datalist={dates}
-          y_datalist={concs}
-          x_unit={' mgH'}
-        />
-      </View>
-
-      <View style={styles.button}>
-        <Button
-          title="Refresh Data"
-          color={color.primary}
-          onPress={refresh_data}
-        />
+        <LineChart x_datalist={dates} y_datalist={concs} x_unit={' mgH'} />
       </View>
 
       <View style={styles.params}>
@@ -173,29 +160,3 @@ const styles = StyleSheet.create({
     color: '#000',
   },
 });
-
-// <View style={styles.first}>
-//       <Text style={styles.topics}> Monthly Average </Text>
-//       <Text style={styles.date}> {d.toLocaleString('default', { month: 'long' })} </Text>
-//       {/* WRONG */}
-//       <Text style={styles.value}> 127 <Text style={styles.unit}> mgH </Text> </Text>
-
-//     </View>
-
-//     <View style={styles.second}>
-//     <View style={styles.up}>
-//       <Text style={styles.topics}> Highest </Text>
-//       {/* WRONG */}
-//       <Text style={styles.date}> 22/12/2022 </Text>
-//       <Text style={styles.value}> {highest} <Text style={styles.unit}> mgH </Text></Text>
-
-//       </View>
-//       <View style={styles.down}>
-//       <Text style={styles.topics}> Lowest </Text>
-//       {/* WRONG */}
-//       <Text style={styles.date}> 03/12/2022 </Text>
-//       <Text style={styles.value}> {lowest} <Text style={styles.unit}> mgH </Text> </Text>
-
-//     </View>
-
-//     </View>

@@ -9,7 +9,7 @@ import {
 import {AsyncStorage} from 'react-native';
 import {Formik} from 'formik';
 import {NavigationContainer} from '@react-navigation/native';
-import * as Yup from "yup";
+import * as Yup from 'yup';
 
 import WelcomeHeader from '../components/PageTopText';
 import InputField from '../components/InputBox_1';
@@ -21,8 +21,8 @@ import client from '../API/client';
 import {useLogin} from '../context/LoginProvider';
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().required().email().label("Email"),
-  password: Yup.string().required().min(4).max(12).label("Password"),
+  email: Yup.string().required().email().label('Email'),
+  password: Yup.string().required().min(4).max(12).label('Password'),
 });
 
 function LoginScreen({navigation}) {
@@ -43,7 +43,7 @@ function LoginScreen({navigation}) {
 
   const login = async (values, formikActions) => {
     formikActions.resetForm();
-    
+
     const res = await client
       .post('/auth/mobile/login', {
         ...values,
@@ -71,13 +71,13 @@ function LoginScreen({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.welcomeText}>
+        <Text style={styles.mainTopic}>
+          gluco<Text style={styles.mainTopic2}>Stat</Text>
+        </Text>
         <WelcomeHeader topLine="Hey there," bottomLine="Welcome Back" />
       </View>
       <View style={styles.inputs}>
-        <Formik
-          initialValues={{email: '', password: ''}}
-          onSubmit={login}
-        >
+        <Formik initialValues={{email: '', password: ''}} onSubmit={login}>
           {({values, handleSubmit, handleChange}) => {
             const {email, password} = values;
 
@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
   welcomeText: {
     flex: 1,
     paddingTop: 20,
+    alignItems: 'center',
   },
 
   inputs: {
@@ -171,6 +172,16 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     flex: 1,
+  },
+  mainTopic: {
+    fontSize: 30,
+    color: "#8fa5e3",
+    fontWeight: "bold",
+  },
+  mainTopic2: {
+    fontSize: 30,
+    color: "red",
+
   },
 });
 
