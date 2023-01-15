@@ -89,14 +89,16 @@ router.get("/allDoctors", authenticateToken, async (req, res) => {
 
 router.get("/allPatients", checkAuth, async (req, res) => {
   try {
-    console.log(req);
-    console.log("Inside allPatients");
+    console.log(req.user);
+    let patientList=[];
 
-    const doctor = await User.findOne({ email: req.user.email });
-
-    console.log(doctor);
-
-    return res.status(200).send({ patients: doctor.subscribed_patients });
+    const doctor = await User.findOne({ email: req.body.email });
+    doctor.subscribed_patients.forEach(item => {
+      const eachPatient = await Patient.find({ _id: item });
+      patientList.push(patient);
+    })
+    // console.log(doctors)
+    return res.status(200).send({ patients: patientList });
   } catch (err) {
     return res.status(500).json({ message: err });
   }
