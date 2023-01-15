@@ -96,18 +96,21 @@ router.get("/allPatients", checkAuth, async (req, res) => {
 
     console.log(doctor);
 
+    const patientData = [];
+
     // return res.status(200).send({ patients: doctor.subscribed_patients });
     Patient.find({ _id: { $in: patientIds } }).toArray((err, patients) => {
-      const patientData = patients.map((patient) => ({
+      patientData = patients.map((patient) => ({
         name: patient.name,
         age: patient.age,
         weight: patient.weight,
         height: patient.height,
       }));
-
-      // send the patient data as a response
-      return res.status(200).json(patientData);
     });
+    console.log("Printing....!");
+    console.log(patientData);
+    // send the patient data as a response
+    return res.status(200).json(patientData);
   } catch (err) {
     return res.status(500).json({ message: err });
   }
