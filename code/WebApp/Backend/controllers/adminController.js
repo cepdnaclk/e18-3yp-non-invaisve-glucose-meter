@@ -98,7 +98,7 @@ const acceptRequest = async(req,res)=>{
                 code: docCode++
             })
 
-            // console.log(newUser)
+            console.log(newDoctor);
             try{
                 const adduser = await newDoctor.save();
                 // const {password,...others} = adduser._doc;
