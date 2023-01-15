@@ -8,9 +8,9 @@ router.post("/addGlucose", authenticateToken, async (req, res) => { // no auth t
   try {
     console.log("addGlucose called")
     const newMeasurement = await Measurement({
-        user_id: req.body.user_id,
+        user_id: req.user.user_id,
         value: req.body.value,
-        date: req.body.date, // this depends on how the recorded time sent to the backend ?
+        date: req.body.date, 
         month: req.body.month,
         time: req.body.time,
     });
@@ -66,11 +66,11 @@ router.get("/getMonthlyGlucose/:month",   authenticateToken, async (req, res) =>
     try {
       console.log("gluco called")
       const userByEmail = await User.findOne({ email: req.user.email });
-        console.log(userByEmail)
+      
       const newMeasurements = await Measurement.find(
         { "date": req.params.date, "user_id" :  userByEmail._id });
        // const newMeasurements = await Measurement.findAll({month: req.params.month}, { user_id: req.user.id, _id: 1 });
-      
+       console.log(newMeasurements)
       return res.status(200).json({
         success: true,
         values: newMeasurements,
