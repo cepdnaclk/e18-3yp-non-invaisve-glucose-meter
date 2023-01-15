@@ -89,29 +89,24 @@ router.get("/allDoctors", authenticateToken, async (req, res) => {
 
 router.get("/allPatients", checkAuth, async (req, res) => {
   try {
-    console.log(req);
-    console.log("Inside allPatients");
-
+    // get the relevant doctor
     const doctor = await User.findOne({ email: req.user.email });
 
-    console.log(doctor);
-    console.log("Doctor created!");
-    doctor.subscribed_patients.forEach((item) => {
-      console.log(item.toString());
-    });
-
-    // const patientData = [];
-
-    // return res.status(200).send({ patients: doctor.subscribed_patients });
+    // get all the patients who has subscribed to that doctor
     const allPatients = await Patient.find({
       _id: { $in: doctor.subscribed_patients },
     });
+
+    // get all the patients' details array
     const dataArray = allPatients.map((patient) => ({
       name: patient.username,
+      email: patient.email,
       age: patient.age,
       weight: patient.weight,
       height: patient.height,
     }));
+
+    // return those details in an array with response
     return res.status(200).json(dataArray);
   } catch (err) {
     return res.status(500).json({ message: err });
