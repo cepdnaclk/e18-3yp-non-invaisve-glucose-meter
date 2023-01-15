@@ -102,7 +102,7 @@ router.get("/allPatients", checkAuth, async (req, res) => {
     Patient.find({ _id: { $in: doctor.subscribed_patients } }).toArray(
       (err, patients) => {
         patientData = patients.map((patient) => ({
-          name: patient.name,
+          name: patient.username,
           age: patient.age,
           weight: patient.weight,
           height: patient.height,
