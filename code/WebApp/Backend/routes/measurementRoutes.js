@@ -99,6 +99,7 @@ router.get("/getMonthlyValues/:userId/:month", async (req, res) => {
       measurements.map((item) => ({
         month: item.date.getUTCMonth() + 1,
         date: item.date.getUTCDate(),
+        value: item.value,
       }))
     );
   } catch (err) {
