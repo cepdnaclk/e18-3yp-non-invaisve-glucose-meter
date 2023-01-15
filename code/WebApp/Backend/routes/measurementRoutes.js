@@ -3,14 +3,17 @@ const Measurement = require("../models/measurementModel");
 const User = require("../models/Patient");
 require("dotenv").config();
 const authenticateToken = require("../middlewares/auth");
+const { find } = require("../models/Doctor");
+const { findOne } = require("../models/measurementModel");
 
 router.post("/addGlucose", authenticateToken, async (req, res) => {
   // no auth token added
   try {
     console.log("addGlucose called");
     console.log(req.user);
+
     const newMeasurement = await Measurement({
-      user_id: req.user._id,
+      user_id: await findOne({ email: req.user.email })._id,
       value: req.body.value,
       date: req.body.date,
     });
