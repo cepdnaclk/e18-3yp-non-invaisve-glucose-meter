@@ -106,8 +106,11 @@ router.get("/allPatients", checkAuth, async (req, res) => {
     const allPatients = await Patient.find({
       _id: { $in: doctor.subscribed_patients },
     });
-    const dataArray = allPatients.map((item) => ({
-      name: item,
+    const dataArray = allPatients.map((patient) => ({
+      name: patient.username,
+      age: patient.age,
+      weight: patient.weight,
+      height: patient.height,
     }));
     /* .toArray(
       (err, patients) => {
