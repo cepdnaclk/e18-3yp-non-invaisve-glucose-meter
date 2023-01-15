@@ -62,7 +62,6 @@ router.get("/getMonthlyGlucose/:month",   authenticateToken, async (req, res) =>
   });
 
 router.get("/getRecentGlucose/:date", authenticateToken, async (req, res) => {
-<<<<<<< HEAD
     try {
       console.log("gluco called")
       const userByEmail = await User.findOne({ email: req.user.email });
@@ -98,11 +97,7 @@ router.get("/getRecentGlucose/:date", authenticateToken, async (req, res) => {
       res.status(500).json({ message: err.message });
     }
   });
-=======
-  try {
-    console.log("gluco called");
-    const userByEmail = await User.findOne({ email: req.user.email });
-    console.log(userByEmail);
->>>>>>> 7b9aa970454e24dc787d2d5be8c269bdf6f9d5e6
+
+
 
 module.exports = router;
