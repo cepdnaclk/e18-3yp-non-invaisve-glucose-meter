@@ -46,14 +46,21 @@ export default function App({navigation}) {
               sendData(con.id, 'READY');
               BluetoothSerial.read(
                 (data, subscription) => {
-                  console.log('read');
-                  console.log(data);
+                  
                   setglucoseVal(data);
                   addMeasurement(data);
+
+                  
                 },
                 '\r\n',
                 it.id,
               );
+            })
+            .then(() => {
+              
+              //addMeasurement();
+
+              
             })
             .catch(e => {
               console.log(e, 'Failed to connect to HC 05');
@@ -69,21 +76,22 @@ export default function App({navigation}) {
   // }, []);
   useEffect(() => {
     if (isFocused) {
+      connectToBluetooth();
       getRecent();
     }
   }, [isFocused]);
 
   const getRecent = async () => {
     await client
-      .get(`/glucose/getRecentGlucose/${d.getDate()}`)
+      .get('/glucose/getRecentGlucose')
       .then(res => {
+        console.log("recent records called")
         setName(res.data.name); // function with timeout
         setRecords(res.data.values);
         console.log(res.data);
         return res.data;
-        
-      }).then(data => {
-        
+      })
+      .then(data => {
         if (data.values.length != 0) {
           setHaveRecords(true);
           console.log('records: ' + records);
@@ -94,22 +102,23 @@ export default function App({navigation}) {
         }
       })
       .catch(error => {
+        
         console.log(error);
       });
   };
 
-  const addMeasurement = async latestGlucoValue => {
+  const addMeasurement = async (data) => {
     // check whethr this parameter is working
     // use sync , use a setTimeOut()
     await client
       .post('/glucose/addGlucose', {
         // user_id: 0,
-        value: glucoseVal,
+        value: data,
         date: d.getDate(),
-        month: d.getMonth() + 1,
         time: d.getTime(),
       })
       .then(res => {
+        console.log('read');
         console.log(glucoseVal);
         console.log(res.data);
       })

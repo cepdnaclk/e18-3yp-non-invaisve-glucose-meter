@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 
 import LoginProvider from './context/LoginProvider';
 import MainNavigator from './navigator/LoginNavigator';
+import LoginScreen from './screens/LoginScreen';
 
 export default function App() {
   return (

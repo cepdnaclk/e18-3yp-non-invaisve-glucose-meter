@@ -6,7 +6,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 const Tab = createMaterialBottomTabNavigator();
 
 // screens
-import GraphScreen from "../GraphScreen";
+import GraphScreen from "../newGraphScreen";
 import MeasureScreen from "../MeasureScreen";
 import DoctorScreen from "../AddDoctor";
 
