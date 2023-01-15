@@ -43,7 +43,7 @@ axiosInstance.interceptors.request.use(
 );
 
 const refreshAccessToken = async () => {
-  const res = await client2.post("/auth/token", {}).catch((error) => {
+  const res = await client2.post("/auth/mobile/refreshtoken", {}).catch((error) => {
     console.log("refreshAccessToken() error: " + error.message + "\n");
   });
 
