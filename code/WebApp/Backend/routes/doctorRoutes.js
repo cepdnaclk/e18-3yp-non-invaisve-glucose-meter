@@ -98,7 +98,7 @@ router.get("/allPatients", checkAuth, async (req, res) => {
     console.log("Doctor created!");
     doctor.subscribed_patients.forEach(
       item => {
-        console.log(item);
+        console.log(item.toString());
       }
     );
 
