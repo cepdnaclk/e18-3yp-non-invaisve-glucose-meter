@@ -96,16 +96,16 @@ router.get("/allPatients", checkAuth, async (req, res) => {
 
     console.log(doctor);
     console.log("Doctor created!");
-    doctor.subscribed_patients.forEach(
-      item => {
-        console.log(item.toString());
-      }
-    );
+    doctor.subscribed_patients.forEach((item) => {
+      console.log(item.toString());
+    });
 
     // const patientData = [];
 
     // return res.status(200).send({ patients: doctor.subscribed_patients });
-    await Patient.find({ _id: { $in: doctor.subscribed_patients } }).toArray(
+    const allPatients = await Patient.find({
+      _id: { $in: doctor.subscribed_patients },
+    }); /* .toArray(
       (err, patients) => {
         const patientData = patients.map((patient) => ({
           name: patient.username,
@@ -116,10 +116,11 @@ router.get("/allPatients", checkAuth, async (req, res) => {
         console.log("Data created!");
         res.json(patientData);
       }
-    );
+    ); */
     // console.log("Printing....!");
     // console.log(patientData);
-    // send the patient data as a response
+    // send the patient data as a response\
+    console.log(allPatients);
     return res.status(200);
   } catch (err) {
     return res.status(500).json({ message: err });
