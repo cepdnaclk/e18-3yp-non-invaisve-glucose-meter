@@ -7,6 +7,7 @@ import {
   Image,
 } from 'react-native';
 
+
 export default function App({datalist}) {
   const FlatListItemSeparator = () => {
     return (
@@ -17,6 +18,7 @@ export default function App({datalist}) {
   };
 
   return (
+
     <FlatList
       data={datalist}
       renderItem={({item}) => (
@@ -36,7 +38,10 @@ export default function App({datalist}) {
           </View>
 
           <View style={styles.tablecol2}>
-            <View style={styles.dot}></View>
+            <View style={{
+                ...styles.dot,
+                backgroundColor: item.value<70? "orange" : item.value>70 && item.value<125 ? "red" : "green"
+            }}></View>
           </View>
         </View>
       )}
@@ -89,7 +94,7 @@ const styles = StyleSheet.create({
     width: 40,
   },
   dot: {
-    backgroundColor: 'orange',
+    
     height: 20,
     width: 20,
     borderRadius: 10,
