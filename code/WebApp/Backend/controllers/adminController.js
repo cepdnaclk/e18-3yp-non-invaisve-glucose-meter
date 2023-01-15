@@ -92,7 +92,6 @@ const acceptRequest = async (req, res) => {
         role: request.role,
         code: docCode++,
       });
-      console.log("Inside doctor accept");
       console.log(newDoctor);
       try {
         const adduser = await newDoctor.save();
@@ -115,6 +114,7 @@ const acceptRequest = async (req, res) => {
       }
     }
   } catch (err) {
+    console.log("Inside doctor accept");
     return res.status(500).json({
       error: err.message,
     });
