@@ -23,7 +23,7 @@ const MeasurementSchema = new mongoose.Schema(
     }, */
     time: {
       type: String,
-      required: true,
+      required: false,
     },
     
   },

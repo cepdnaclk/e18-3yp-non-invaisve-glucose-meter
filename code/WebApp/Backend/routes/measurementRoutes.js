@@ -3,25 +3,25 @@ const Measurement = require("../models/measurementModel");
 const User = require("../models/Patient");
 require("dotenv").config();
 const authenticateToken = require("../middlewares/auth");
+const { find } = require("../models/Doctor");
+const { findOne } = require("../models/measurementModel");
 
 router.post("/addGlucose", authenticateToken, async (req, res) => {
   // no auth token added
   try {
     console.log("addGlucose called");
-    console.log(req.body);
-
+    console.log(req.user);
+    const userByEmail = await User.findOne({ email: req.user.email });
     const newMeasurement = await Measurement({
-      user_id: req.user.user_id,
+      user_id: userByEmail._id,
       value: req.body.value,
       date: req.body.date,
-      // month: req.body.month,
-      time: req.body.time,
     });
-    console.log(newMeasurement);
     const measurement = await newMeasurement.save();
     return res.status(200).json({
       success: true,
       message: "Measurement added to database",
+      id: newMeasurement._id,
     });
   } catch (error) {
     res.status(500).json(error);
@@ -68,7 +68,6 @@ router.get("/getRecentGlucose/:date", authenticateToken, async (req, res) => {
   try {
     console.log("gluco called");
     const userByEmail = await User.findOne({ email: req.user.email });
-    console.log(userByEmail);
 
     const newMeasurements = await Measurement.find({
       date: req.params.date,
@@ -86,7 +85,7 @@ router.get("/getRecentGlucose/:date", authenticateToken, async (req, res) => {
   }
 });
 
-router.get("/measurements/:userId/:month", async (req, res) => {
+router.get("/getMonthlyValues/:userId/:month", async (req, res) => {
   try {
     const userId = req.params.userId;
     const month = req.params.month;
@@ -96,7 +95,13 @@ router.get("/measurements/:userId/:month", async (req, res) => {
       user_id: userId,
       date: { $gte: start, $lt: end },
     });
-    res.json(measurements);
+    res.json(
+      measurements.map((item) => ({
+        month: item.date.getUTCMonth() + 1,
+        date: item.date.getUTCDate(),
+        value: item.value,
+      }))
+    );
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
