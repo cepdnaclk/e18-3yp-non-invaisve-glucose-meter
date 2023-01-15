@@ -103,12 +103,13 @@ router.get("/allPatients", checkAuth, async (req, res) => {
     // const patientData = [];
 
     // return res.status(200).send({ patients: doctor.subscribed_patients });
-    /* const allPatients = await  */Patient.find({
+    const allPatients = await Patient.find({
       _id: { $in: doctor.subscribed_patients },
-    }).toArray((err, patients) => {
-      console.log("Inside Array!");
-      console.log(patients);
-    }); /* .toArray(
+    });
+    const dataArray = allPatients.map((item) => ({
+      name: item,
+    }));
+    /* .toArray(
       (err, patients) => {
         const patientData = patients.map((patient) => ({
           name: patient.username,
