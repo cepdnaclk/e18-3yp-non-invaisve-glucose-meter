@@ -103,7 +103,7 @@ router.get("/allPatients", checkAuth, async (req, res) => {
     // const patientData = [];
 
     // return res.status(200).send({ patients: doctor.subscribed_patients });
-    const allPatients = await Patient.find({
+    /* const allPatients = await  */Patient.find({
       _id: { $in: doctor.subscribed_patients },
     }).toArray((err, patients) => {
       console.log("Inside Array!");
@@ -123,7 +123,7 @@ router.get("/allPatients", checkAuth, async (req, res) => {
     // console.log("Printing....!");
     // console.log(patientData);
     // send the patient data as a response\
-    console.log(allPatients);
+    // console.log(allPatients);
     return res.status(200);
   } catch (err) {
     return res.status(500).json({ message: err });
