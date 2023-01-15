@@ -11,9 +11,9 @@ router.post("/addGlucose", authenticateToken, async (req, res) => {
   try {
     console.log("addGlucose called");
     console.log(req.user);
-
+    const userByEmail = await User.findOne({ email: req.user.email });
     const newMeasurement = await Measurement({
-      user_id: await findOne({ email: req.user.email })._id,
+      user_id: userByEmail._id,
       value: req.body.value,
       date: req.body.date,
     });
