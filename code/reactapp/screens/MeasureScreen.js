@@ -8,6 +8,7 @@ import {
   Alert,
 } from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
+import BluetoothSerial from 'react-native-bluetooth-serial-next';
 
 import CircularProgress from '../components/ProgressIndicator';
 import ListView from '../components/ListView';
@@ -18,11 +19,54 @@ export default function App({navigation}) {
   const isFocused = useIsFocused();
   const [records, setRecords] = useState([{}]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [haveRecords, setHaveRecords] = useState(false);
   const [name, setName] = useState('');
+  const [glucoseVal, setglucoseVal] = useState(0);
+  const [devices, setdevices] = React.useState([]);
+  const [selectedDev, setselectedDev] = React.useState(null);
   // add a user state to change the array auto when screen laoded
   const d = new Date();
-  console.log(d.getDate());
+  const sendData = async (id, message) => {
+    try {
+      await BluetoothSerial.device(id).write(message);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
 
+  const connectToBluetooth = () => {
+    BluetoothSerial.list().then(v => {
+      console.log(v);
+      v.forEach(it => {
+        if (it.name === 'HC-05') {
+          console.log('Connecting');
+          BluetoothSerial.connect(it.id)
+            .then(con => {
+              setselectedDev(con);
+              sendData(con.id, 'READY');
+              BluetoothSerial.read(
+                (data, subscription) => {
+                  console.log('read');
+                  console.log(data);
+                  setglucoseVal(data);
+                  addMeasurement(data);
+                },
+                '\r\n',
+                it.id,
+              );
+            })
+            .catch(e => {
+              console.log(e, 'Failed to connect to HC 05');
+            });
+        }
+      });
+      setdevices(v);
+    });
+  };
+  // React.useEffect(() => {
+  //   connectToBluetooth();
+  //   return () => {};
+  // }, []);
   useEffect(() => {
     if (isFocused) {
       getRecent();
@@ -33,21 +77,47 @@ export default function App({navigation}) {
     await client
       .get(`/glucose/getRecentGlucose/${d.getDate()}`)
       .then(res => {
-        setName(res.data.name);
-        if (res.data.values.length != 0) {
-          console.log(res.data.values.length);
-          
-          setRecords(res.data.values);
-          console.log(res.data);
-          setIsLoaded(true);}
-        // } else {
-        //   setRecords({_id: '0', msg: 'no data to show'});
-        // }
+        setName(res.data.name); // function with timeout
+        setRecords(res.data.values);
+        console.log(res.data);
+        return res.data;
+        
+      }).then(data => {
+        
+        if (data.values.length != 0) {
+          setHaveRecords(true);
+          console.log('records: ' + records);
+          setIsLoaded(true);
+        } else {
+          console.log('no records');
+          setHaveRecords(false);
+        }
       })
       .catch(error => {
         console.log(error);
       });
   };
+
+  const addMeasurement = async latestGlucoValue => {
+    // check whethr this parameter is working
+    // use sync , use a setTimeOut()
+    await client
+      .post('/glucose/addGlucose', {
+        // user_id: 0,
+        value: glucoseVal,
+        date: d.getDate(),
+        month: d.getMonth() + 1,
+        time: d.getTime(),
+      })
+      .then(res => {
+        console.log(glucoseVal);
+        console.log(res.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.top}>
@@ -55,12 +125,19 @@ export default function App({navigation}) {
       </View>
 
       <View style={styles.progress}>
-        <CircularProgress value={96} />
+        <CircularProgress value={glucoseVal} />
         <Text style={styles.glucose}>Blood Glucose Concentration</Text>
+        <Text style={styles.glucose}>
+          {!selectedDev ? 'Not' : ''} Connected to GlucoStat
+        </Text>
       </View>
 
       <View style={styles.recent}>
-        <ListView datalist={records} />
+        {!haveRecords ? (
+          <Text> no records to show </Text>
+        ) : (
+          <ListView datalist={records} />
+        )}
       </View>
     </View>
   );
@@ -78,7 +155,6 @@ const styles = StyleSheet.create({
 
   top: {
     flex: 0.5,
-    
   },
 
   progress: {
