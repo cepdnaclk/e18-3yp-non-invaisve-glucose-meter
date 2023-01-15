@@ -69,12 +69,13 @@ const loginUser = async (req, res) => {
       (await Doctor.findOne({ email: req.body.email })) ||
       (await Patient.findOne({ email: req.body.email }));
 
+    console.log(user);
     if (!user) {
       return res.status(400).json({
         error: "Incorrect credentials!",
       });
     }
-
+    console.log(validatedPassword);
     const validatedPassword = await bcrypt.compare(
       req.body.password,
       user.password
