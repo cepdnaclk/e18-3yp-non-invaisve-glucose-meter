@@ -87,7 +87,7 @@ router.get("/allDoctors", authenticateToken, async (req, res) => {
   }
 });
 
-router.get("/allPatients" ,  checkAuth, async (req, res) => {
+router.get("/allPatients", checkAuth, async (req, res) => {
   try {
     console.log(req);
     console.log("Inside allPatients");
@@ -106,6 +106,7 @@ router.get("/allPatients" ,  checkAuth, async (req, res) => {
     const allPatients = await Patient.find({
       _id: { $in: doctor.subscribed_patients },
     }).toArray((err, patients) => {
+      console.log("Inside Array!");
       console.log(patients);
     }); /* .toArray(
       (err, patients) => {
