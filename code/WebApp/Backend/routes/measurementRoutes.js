@@ -10,7 +10,7 @@ const d = new Date();
 
 router.post(
   "/addGlucose/:email/:value",
-  authenticateToken,
+  /* authenticateToken, */
   async (req, res) => {
     // no auth token added
     try {
