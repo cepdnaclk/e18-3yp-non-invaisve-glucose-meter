@@ -16,11 +16,11 @@ const MeasurementSchema = new mongoose.Schema(
       type: Date,
       required: true
     },
-    /* month: {
+    month: {
       type: Number,
       required: true,
       
-    }, */
+    },
     time: {
       type: String,
       required: false,

@@ -85,14 +85,15 @@ router.get("/getRecentGlucose/:date", authenticateToken, async (req, res) => {
   }
 });
 
-router.get("/getMonthlyValues/:userId/:month", async (req, res) => {
+router.get("/getMonthlyValues/:email/:month", async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const userEmail = req.params.email;
+    const user = await User.findOne({ email: userEmail });
     const month = req.params.month;
     const start = new Date(`${month}-01`);
     const end = new Date(start.getFullYear(), start.getMonth() + 1, 0);
     const measurements = await Measurement.find({
-      user_id: userId,
+      user_id: user._id,
       date: { $gte: start, $lt: end },
     });
     res.json(
