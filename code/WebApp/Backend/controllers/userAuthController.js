@@ -93,8 +93,10 @@ const loginUser = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_TOKEN_EXPIRATION }
     );
+    console.log(access_token);
 
     const refresh_token = await RefreshToken.createToken(user);
+    console.log(refresh_token);
 
     res.status(200).json({
       id: user._id,
