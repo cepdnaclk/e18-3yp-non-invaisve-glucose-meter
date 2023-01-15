@@ -13,6 +13,7 @@ import colours from "../config/colors";
 
 // for icons search in --> https://oblador.github.io/react-native-vector-icons/
 import IconAntDesign from "react-native-vector-icons/AntDesign";
+import IconIonicons from "react-native-vector-icons/Ionicons";
 
 // isSecured - pass true if a password field
 function InputField({
@@ -43,16 +44,16 @@ function InputField({
           ></TextInput>
         </View>
 
-        {/* <TouchableOpacity style={styles.eye} onPress={() => setShow(!show)}>
+        <TouchableOpacity style={styles.eye} onPress={() => setShow(!show)}>
           {password && (
-            <IconAntDesign
+            <IconIonicons
               name={show ? "eye-off-outline" : "eye-outline"}
-              size={25}
+              size={20}
               color={colours.gray}
               style={styles.icon}
             />
           )}
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
     </View>
   );
