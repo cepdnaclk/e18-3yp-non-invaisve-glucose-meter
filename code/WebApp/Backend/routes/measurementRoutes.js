@@ -7,10 +7,11 @@ const authenticateToken = require("../middlewares/auth");
 router.post("/addGlucose", authenticateToken, async (req, res) => { // no auth token added 
   try {
     console.log("addGlucose called")
+    console.log(req.user)
     const newMeasurement = await Measurement({
         user_id: req.user.user_id,
         value: req.body.value,
-        date: req.body.date, 
+        
         month: req.body.month,
         time: req.body.time,
     });
