@@ -10,7 +10,7 @@ router.post("/addGlucose", authenticateToken, async (req, res) => {
     console.log("addGlucose called");
     console.log(req);
     const newMeasurement = await Measurement({
-      user_id: req.user.user_id,
+      user_id: req.user._id,
       value: req.body.value,
       date: req.body.date,
     });
