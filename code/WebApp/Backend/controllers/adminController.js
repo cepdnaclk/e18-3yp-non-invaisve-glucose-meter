@@ -79,8 +79,9 @@ const deleteRequest = async (req, res) => {
 const acceptRequest = async (req, res) => {
   try {
     const doctorRequest = await DoctorRequest.findById(req.params.id);
+    // const doctorRequest = await DoctorRequest.findById(req.params.id);
     // const patientRequest = await PatientRequest.findById(req.params.id)
-
+    console.log(doctorRequest);
     if (doctorRequest) {
       const newDoctor = new Doctor({
         username: request.username,
