@@ -68,6 +68,7 @@ router.get("/getRecentGlucose/:date", authenticateToken, async (req, res) => {
   try {
     console.log("gluco called");
     const userByEmail = await User.findOne({ email: req.user.email });
+    console.log(userByEmail);
 
     const newMeasurements = await Measurement.find({
       date: req.params.date,
