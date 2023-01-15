@@ -20,13 +20,6 @@ const b = [100, 99, 98];
 
 export default function App({navigation}) {
   const [animate, setAnimate] = useState(true);
-  // const [randomDatax, setRandomDatax] = useState(
-  //   [Math.random() * 100, Math.random() * 100, Math.random() * 100] ?? 0,
-  // );
-
-  // const [randomDatay, setRandomDatay] = useState(
-  //   [Math.random() * 100, Math.random() * 100, Math.random() * 100] ?? 0,
-  // );
 
   const isFocused = useIsFocused();
   const d = new Date();
