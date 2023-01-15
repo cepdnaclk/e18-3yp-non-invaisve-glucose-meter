@@ -83,6 +83,7 @@ const acceptRequest = async (req, res) => {
     // const patientRequest = await PatientRequest.findById(req.params.id)
     console.log(doctorRequest);
     if (doctorRequest) {
+        console.log("Before creating a new Doc!");
       const newDoctor = new Doctor({
         username: request.username,
         email: request.email,
