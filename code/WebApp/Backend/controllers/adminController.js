@@ -91,8 +91,9 @@ const acceptRequest = async (req, res) => {
         specialized_in: request.specialized_in,
         hospital: request.hospital,
         role: request.role,
-        code: docCode++,
+        code: docCode.toString(),
       });
+      docCode = docCode + 1;
       console.log(newDoctor);
       try {
         const adduser = await newDoctor.save();
