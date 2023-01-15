@@ -96,11 +96,11 @@ router.get("/allPatients", checkAuth, async (req, res) => {
 
     console.log(doctor);
     console.log("Doctor created!");
-    doctor.subscribed_patients.forEach{
+    doctor.subscribed_patients.forEach(
       item => {
         console.log(item);
       }
-    }
+    );
 
     // const patientData = [];
 
