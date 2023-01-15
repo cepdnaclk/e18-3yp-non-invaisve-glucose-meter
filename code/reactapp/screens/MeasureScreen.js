@@ -83,7 +83,7 @@ export default function App({navigation}) {
 
   const getRecent = async () => {
     await client
-      .get(`/glucose/getRecentGlucose/${d.getDate()}`)
+      .get('/glucose/getRecentGlucose')
       .then(res => {
         console.log("recent records called")
         setName(res.data.name); // function with timeout

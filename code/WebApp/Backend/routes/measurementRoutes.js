@@ -64,13 +64,15 @@ router.get("/getMonthlyGlucose/:month", authenticateToken, async (req, res) => {
   }
 });
 
-router.get("/getRecentGlucose/:date", authenticateToken, async (req, res) => {
+router.get("/getRecentGlucose", authenticateToken, async (req, res) => {
   try {
     console.log("gluco called");
     const userByEmail = await User.findOne({ email: req.user.email });
 
+    var dateobj = new Date();
+
     const newMeasurements = await Measurement.find({
-      date: req.params.date,
+      date: dateobj.toISOString(),
       user_id: userByEmail._id,
     });
     // const newMeasurements = await Measurement.findAll({month: req.params.month}, { user_id: req.user.id, _id: 1 });
