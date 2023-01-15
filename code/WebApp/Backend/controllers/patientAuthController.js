@@ -49,7 +49,7 @@ const loginPatient = async (req, res) => {
   try {
    
     const user = await Patient.findOne({ email: req.body.email });
-    console.log("/mobile/login called ..")
+    console.log("/mobile/login called ..\n" + user)
     if (!user) {
       return res.status(200).json({
         success: false,
@@ -62,6 +62,7 @@ const loginPatient = async (req, res) => {
       req.body.password,
       user.password
     );
+    console.log(validatedPassword)
     if (!validatedPassword) {
       return res.status(200).json({
         success: false,
@@ -75,12 +76,14 @@ const loginPatient = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_TOKEN_EXPIRATION }
     );
+    console.log(access_token)
 
     // refresh tokens to refresh the access token when expired
     const refresh_token = jwt.sign(
       { email: user.email, role: user.role },
       process.env.REFRESH_SECRET
     );
+    console.log(refresh_token)
     refreshTokens.push(refresh_token); // refresh token will be expired at log out
     console.log("firstly created refresh token : " + refreshTokens)
 
