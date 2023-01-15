@@ -85,7 +85,7 @@ export default function App({navigation}) {
     await client
       .get('/glucose/getRecentGlucose')
       .then(res => {
-        console.log("recent records called")
+        console.log(d.toISOString())
         setName(res.data.name); // function with timeout
         setRecords(res.data.values);
         console.log(res.data);
@@ -114,6 +114,7 @@ export default function App({navigation}) {
       .post('/glucose/addGlucose', {
         // user_id: 0,
         value: data,
+        month: d.getMonth(),
         date: d.getDate(),
         time: d.getTime(),
       })

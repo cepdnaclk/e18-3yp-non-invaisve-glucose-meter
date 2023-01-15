@@ -16,6 +16,7 @@ router.post("/addGlucose", authenticateToken, async (req, res) => {
       user_id: userByEmail._id,
       value: req.body.value,
       date: req.body.date,
+      month: req.body.month,
     });
     const measurement = await newMeasurement.save();
     return res.status(200).json({
