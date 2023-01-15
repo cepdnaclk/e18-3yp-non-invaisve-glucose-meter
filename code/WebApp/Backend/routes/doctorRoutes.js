@@ -95,6 +95,7 @@ router.get("/allPatients", checkAuth, async (req, res) => {
     const doctor = await User.findOne({ email: req.user.email });
 
     console.log(doctor);
+    console.log("Doctor created!");
 
     // const patientData = [];
 
