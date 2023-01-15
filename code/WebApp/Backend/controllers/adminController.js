@@ -94,6 +94,7 @@ const acceptRequest = async (req, res) => {
         role: request.role,
         code: docCode.toString(),
       });
+      console.log("After creating a new Doc!");
       docCode = docCode + 1;
       console.log(newDoctor);
       try {
