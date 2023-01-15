@@ -87,7 +87,7 @@ router.get("/allDoctors", authenticateToken, async (req, res) => {
   }
 });
 
-router.get("/allPatients" /*,  checkAuth */, async (req, res) => {
+router.get("/allPatients" ,  checkAuth, async (req, res) => {
   try {
     console.log(req);
     console.log("Inside allPatients");
