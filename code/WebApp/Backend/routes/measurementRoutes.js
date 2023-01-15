@@ -6,13 +6,15 @@ const authenticateToken = require("../middlewares/auth");
 const { find } = require("../models/Doctor");
 const { findOne } = require("../models/measurementModel");
 
+const d = new Date();
+
 router.post("/addGlucose", authenticateToken, async (req, res) => {
   // no auth token added
   try {
     console.log("addGlucose called");
     console.log(req.user);
     const timestamp = new Date();
-    const userByEmail = await User.findOne({ email: req.user.email });
+    // const userByEmail = await User.findOne({ email: req.user.email });
     const userByEmail = await User.findOne({ email: req.body.email });
     const newMeasurement = await Measurement({
       user_id: userByEmail._id,
@@ -24,7 +26,7 @@ router.post("/addGlucose", authenticateToken, async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Measurement added to database",
-      id: newMeasurement._id,
+      // id: newMeasurement._id,
     });
   } catch (error) {
     res.status(500).json(error);
