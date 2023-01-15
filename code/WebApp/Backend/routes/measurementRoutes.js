@@ -9,21 +9,21 @@ const { findOne } = require("../models/measurementModel");
 const d = new Date();
 
 router.post(
-  "/addGlucose/:email/:value",
+  "/addGlucose/:email/:date/:value",
   /* authenticateToken, */
   async (req, res) => {
     // no auth token added
     try {
       console.log("addGlucose called");
-      console.log(req.user);
-      const timestamp = new Date();
+      // console.log(req.user);
+      const timestamp = new Date(2023, 1, req.params.date);
       // const userByEmail = await User.findOne({ email: req.user.email });
       const userByEmail = await User.findOne({ email: req.params.email });
       const newMeasurement = await Measurement({
         user_id: userByEmail._id,
         value: req.params.value,
         date: timestamp.getTime(),
-        month: timestamp.getMonth(),
+        month: timestamp.getMonth() + 1,
       });
       const measurement = await newMeasurement.save();
       return res.status(200).json({
