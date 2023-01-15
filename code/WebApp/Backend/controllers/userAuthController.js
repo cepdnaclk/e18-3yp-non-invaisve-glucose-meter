@@ -63,6 +63,8 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   try {
+  console.log("web login called .. ");
+
     const user =
       (await Doctor.findOne({ email: req.body.email })) ||
       (await Patient.findOne({ email: req.body.email }));
