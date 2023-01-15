@@ -125,7 +125,7 @@ router.get("/allPatients", checkAuth, async (req, res) => {
     // console.log(patientData);
     // send the patient data as a response\
     // console.log(allPatients);
-    return res.status(200);
+    return res.status(200).json(dataArray);
   } catch (err) {
     return res.status(500).json({ message: err });
   }
