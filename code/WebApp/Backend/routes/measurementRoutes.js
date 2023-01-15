@@ -97,8 +97,8 @@ router.get("/getMonthlyValues/:userId/:month", async (req, res) => {
     });
     res.json(
       measurements.map((item) => ({
-        month: item.getUTCMonth() + 1,
-        date: item.getUTCDate(),
+        month: item.date.getUTCMonth() + 1,
+        date: item.date.getUTCDate(),
       }))
     );
   } catch (err) {
