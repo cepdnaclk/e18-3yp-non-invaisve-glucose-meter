@@ -3,8 +3,9 @@ const mongoose = require("mongoose");
 const MeasurementSchema = new mongoose.Schema(
   {
     user_id: {
-      type: String,
-      required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Patient',
+      required: true
     },
     value: {
       type: Number,
@@ -12,15 +13,14 @@ const MeasurementSchema = new mongoose.Schema(
       
     },
     date: {
-      type: String,
-      required: true,
-      
+      type: Date,
+      required: true
     },
-    month: {
+    /* month: {
       type: Number,
       required: true,
       
-    },
+    }, */
     time: {
       type: String,
       required: true,

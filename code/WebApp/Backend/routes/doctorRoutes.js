@@ -116,7 +116,7 @@ router.get("/allPatients", checkAuth, async (req, res) => {
 router.get("/getPatient", checkAuth, async (req, res) => {
   try {
     console.log(req.user);
-    const patient = await Patient.findOne({ _id: req.body.id }).select(
+    const patient = await Patient.findOne({ _id: req.body.email }).select(
       "-password"
     );
     return res.status(200).send({

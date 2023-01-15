@@ -12,7 +12,8 @@ router.post("/addGlucose", authenticateToken, async (req, res) => { // no auth t
     const newMeasurement = await Measurement({
         user_id: req.user.user_id,
         value: req.body.value,
-        month: req.body.month,
+        date: req.body.date,
+        // month: req.body.month,
         time: req.body.time,
     });
     const measurement = await newMeasurement.save();
@@ -63,7 +64,7 @@ router.get("/getMonthlyGlucose/:month",   authenticateToken, async (req, res) =>
     }
   });
 
-  router.get("/getRecentGlucose/:date", authenticateToken, async (req, res) => {
+router.get("/getRecentGlucose/:date", authenticateToken, async (req, res) => {
     try {
       console.log("gluco called")
       const userByEmail = await User.findOne({ email: req.user.email });
@@ -84,6 +85,20 @@ router.get("/getMonthlyGlucose/:month",   authenticateToken, async (req, res) =>
     }
   });
      
-
+  router.get('/measurements/:userId/:month', async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const month = req.params.month;
+      const start = new Date(`${month}-01`);
+      const end = new Date(start.getFullYear(), start.getMonth() + 1, 0);
+      const measurements = await Measurement.find({
+        user_id: userId,
+        date: { $gte: start, $lt: end }
+      });
+      res.json(measurements);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
 
 module.exports = router;
