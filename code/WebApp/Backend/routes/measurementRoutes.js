@@ -12,8 +12,6 @@ router.post("/addGlucose", authenticateToken, async (req, res) => { // no auth t
         user_id: req.user.user_id,
         value: req.body.value,
         date: req.body.date,
-        // month: req.body.month,
-        time: req.body.time,
     });
     const measurement = await newMeasurement.save();
     return res.status(200).json({
@@ -84,7 +82,7 @@ router.get("/getRecentGlucose/:date", authenticateToken, async (req, res) => {
     }
   });
      
-  router.get('/measurements/:userId/:month', async (req, res) => {
+  router.get('/getMonthlyValues/:userId/:month', async (req, res) => {
     try {
       const userId = req.params.userId;
       const month = req.params.month;
