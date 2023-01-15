@@ -6,7 +6,7 @@ const authenticateToken = require("../middlewares/auth");
 const { find } = require("../models/Doctor");
 const { findOne } = require("../models/measurementModel");
 
-router.post("/addGlucose"/* , authenticateToken */, async (req, res) => {
+router.post("/addGlucose", authenticateToken, async (req, res) => {
   // no auth token added
   try {
     console.log("addGlucose called");
@@ -72,10 +72,8 @@ router.get("/getRecentGlucose", authenticateToken, async (req, res) => {
     console.log("gluco called");
     const userByEmail = await User.findOne({ email: req.user.email });
 
-    var dateobj = new Date();
-
     const newMeasurements = await Measurement.find({
-      date: dateobj.toISOString(),
+      date: d.toISOString(),
       user_id: userByEmail._id,
     });
     // const newMeasurements = await Measurement.findAll({month: req.params.month}, { user_id: req.user.id, _id: 1 });
