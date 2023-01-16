@@ -96,7 +96,7 @@ router.get("/getMonthlyGlucose/:month", authenticateToken, async (req, res) => {
 //   }
 // });
 
-app.get("/measurements/recent/:email", async (req, res) => {
+router.get("/measurements/recent/:email", async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.userId)) {
     return res.status(400).json({ message: "Invalid user_id" });
   }
