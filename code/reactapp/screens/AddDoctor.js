@@ -12,7 +12,9 @@ import {
 import Button from '../components/MainButton';
 import client from '../API/client';
 import client2 from '../API/clientRefreshToken';
-import { useLogin } from "../context/LoginProvider";
+import {useLogin} from '../context/LoginProvider';
+import AppBar from '../components/ProfileBar';
+import variables from '../config/variables';
 
 function PrivacyScreen(props) {
   const [doctorcode, onChangeCode] = React.useState('');
@@ -28,7 +30,7 @@ function PrivacyScreen(props) {
     const res = await client2.post('/auth/mobile/logout', {}).catch(error => {
       console.log('error: ' + error.message);
     });
-    console.log(AsyncStorage.getItem("refresh"))
+    console.log(AsyncStorage.getItem('refresh'));
     deleteToken('access');
     deleteToken('refresh');
     setIsLoggedIn(false);
@@ -70,10 +72,14 @@ function PrivacyScreen(props) {
       createAlert2(res.data.message);
     }
   };
+  console.log(variables.name);
 
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.inputContainer}>
+        {/* <View style={styles.top}>
+          <AppBar name={variables.name} />
+        </View> */}
         <TextInput
           style={styles.input}
           onChangeText={onChangeCode}
@@ -83,9 +89,9 @@ function PrivacyScreen(props) {
       <View style={styles.buttonContainer}>
         <View style={styles.topContainer}></View>
         <View style={styles.bottomContainer}>
-          <Button text="Subscribe" onPress={getDoc} />
+          <Button text="Subscribe to Doctor" onPress={getDoc} />
           {/* when subscribe is pressed, addDoc should be called and the doctor code should be sent with the req */}
-          <Button text="Logout" onPress={logout} />
+          {/* <Button text="Logout" onPress={logout} /> */}
         </View>
       </View>
     </SafeAreaView>

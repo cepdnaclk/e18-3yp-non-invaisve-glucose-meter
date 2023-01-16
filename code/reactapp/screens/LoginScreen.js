@@ -71,10 +71,11 @@ function LoginScreen({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.welcomeText}>
+        <Text style={styles.welcome}>Welcome To</Text>
         <Text style={styles.mainTopic}>
           gluco<Text style={styles.mainTopic2}>Stat</Text>
         </Text>
-        <WelcomeHeader topLine="Hey there," bottomLine="Welcome Back" />
+        
       </View>
       <View style={styles.inputs}>
         <Formik initialValues={{email: '', password: ''}} onSubmit={login}>
@@ -158,8 +159,9 @@ const styles = StyleSheet.create({
 
   welcomeText: {
     flex: 1,
-    paddingTop: 20,
+    paddingTop:10,
     alignItems: 'center',
+    justifyContent: "center",
   },
 
   inputs: {
@@ -177,12 +179,21 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "#8fa5e3",
     fontWeight: "bold",
+    paddingTop: -20,
+    
   },
   mainTopic2: {
     fontSize: 30,
     color: "red",
 
   },
+  welcome: {
+
+    fontSize: 18,
+    fontWeight : "bold",
+    color : "black",
+
+  }
 });
 
 export default LoginScreen;

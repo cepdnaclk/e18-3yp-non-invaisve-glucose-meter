@@ -24,10 +24,10 @@ export default function MyTabs() {
         options={{
           title: "history",
           headerShown: true,
-          tabBarLabel: "History",
+          tabBarLabel: "Glucose",
           tabBarColor: "#8fa5e3",
           tabBarIcon: ({ color }) => (
-            <Ionicons name={"ios-home"} size={18} color={"#000"} />
+            <Ionicons name={"ios-water"} size={25} color={"#000"} />
           ),
         }}
       />
@@ -38,7 +38,7 @@ export default function MyTabs() {
           title: "Home",
           headerTransparent: true,
           headerShown: true,
-          tabBarLabel: "Home",
+          tabBarLabel: "History",
           tabBarColor: "#8fa5d3",
           // tabBarBadge: 9,
           tabBarIcon: ({ color }) => (
@@ -59,7 +59,7 @@ export default function MyTabs() {
           tabBarColor: "#8fa5e3",
           // tabBarBadge: 9,
           tabBarIcon: ({ color }) => (
-            <Ionicons name={"ios-medkit"} size={18} color={"#000"} />
+            <Ionicons name={"ios-water"} size={25} color={"#000"} />
           ),
           tabPress: () => console.log("hello"),
         }}

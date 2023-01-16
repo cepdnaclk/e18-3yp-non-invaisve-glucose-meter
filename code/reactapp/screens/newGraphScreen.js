@@ -16,8 +16,8 @@ import color from '../config/colors';
 import client from '../API/client';
 import AppBar from '../components/ProfileBar';
 
-const a = [100, 99, 98];
-const b = [100, 99, 98];
+const a = [100, 98, 99, 102, 120, 114, 115, 97, 99];
+const b = [1,2,4,6,7,8,9,10,15];
 
 export default function App({navigation}) {
   const isFocused = useIsFocused();
@@ -53,6 +53,10 @@ export default function App({navigation}) {
       .then(data2 => {
         setHighest(Math.max.apply(null, concs));
         setLowest(Math.min.apply(null, concs));
+        console.log(concs);
+        console.log(dates);
+        console.log(highest);
+        console.log(lowest);
       })
       .catch(error => {
         console.log('error in getData() :' + error);
@@ -62,27 +66,27 @@ export default function App({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.top}>
-        <AppBar name={'name'} />
+        <AppBar name={name} />
       </View>
 
       <View style={styles.chart}>
-        <LineChart x_datalist={a} y_datalist={b} x_unit={' mgH'} />
+        <LineChart x_datalist={b} y_datalist={a}  />
       </View>
 
       <View style={styles.params}>
         <View style={styles.first}>
           <Text style={styles.text1}> Highest </Text>
-          <Text style={styles.text2}> 53 </Text>
+          <Text style={styles.text2}> 120 </Text>
           <Text style={styles.text3}> mg/dL </Text>
         </View>
         <View style={styles.first}>
           <Text style={styles.text1}> Average </Text>
-          <Text style={styles.text2}> 100 </Text>
+          <Text style={styles.text2}> 105 </Text>
           <Text style={styles.text3}> mg/dL </Text>
         </View>
         <View style={styles.first}>
           <Text style={styles.text1}> Lowest </Text>
-          <Text style={styles.text2}> 543 </Text>
+          <Text style={styles.text2}> 98 </Text>
           <Text style={styles.text3}> mg/dL </Text>
         </View>
       </View>
@@ -101,7 +105,7 @@ const styles = StyleSheet.create({
   },
 
   chart: {
-    paddingLeft: 15,
+    paddingLeft: 5,
     alignItems: 'center',
     justifyContent: 'center',
     flex: 2,

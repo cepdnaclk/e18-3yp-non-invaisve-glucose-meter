@@ -11,6 +11,7 @@ export default function App({x_datalist, y_datalist, x_unit, y_unit}) {
         {' '}
         Insights for Month of {d.toLocaleString('default', {month: 'long'})}
       </Text>
+      <Text>Glucose in mg/dL</Text>
 
       <LineChart
         data={{
@@ -21,7 +22,7 @@ export default function App({x_datalist, y_datalist, x_unit, y_unit}) {
             },
           ],
         }}
-        width={Dimensions.get('window').width*0.95} // from react-native
+        width={Dimensions.get('window').width * 0.95} // from react-native
         height={220}
         yAxisSuffix={x_unit}
         yAxisInterval={1} // optional, defaults to 1
@@ -47,6 +48,7 @@ export default function App({x_datalist, y_datalist, x_unit, y_unit}) {
           borderRadius: 16,
         }}
       />
+      <Text style={styles.xlabel}>Dates</Text>
     </View>
   );
 }
@@ -58,4 +60,8 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     fontSize: 16,
   },
+  xlabel: {
+    textAlign: "center",
+    marginTop: -10,
+    }
 });

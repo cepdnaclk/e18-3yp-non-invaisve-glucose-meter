@@ -7,6 +7,8 @@ import {
   TouchableWithoutFeedback,
   Alert,
 } from 'react-native';
+import variables from '../config/variables';
+import {LogBox} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import BluetoothSerial from 'react-native-bluetooth-serial-next';
 
@@ -16,6 +18,9 @@ import AppBar from '../components/ProfileBar';
 import client from '../API/client';
 
 export default function App({navigation}) {
+  //Ignore all log notifications
+  LogBox.ignoreAllLogs();
+
   const isFocused = useIsFocused();
   const [records, setRecords] = useState([{}]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -46,21 +51,15 @@ export default function App({navigation}) {
               sendData(con.id, 'READY');
               BluetoothSerial.read(
                 (data, subscription) => {
-                  
                   setglucoseVal(data);
                   addMeasurement(data);
-
-                  
                 },
                 '\r\n',
                 it.id,
               );
             })
             .then(() => {
-              
               //addMeasurement();
-
-              
             })
             .catch(e => {
               console.log(e, 'Failed to connect to HC 05');
@@ -85,8 +84,9 @@ export default function App({navigation}) {
     await client
       .get('/glucose/getRecentGlucose')
       .then(res => {
-        console.log(d.toISOString())
+        console.log(d.toISOString());
         setName(res.data.name); // function with timeout
+        variables.name = res.data.name;
         setRecords(res.data.values);
         console.log(res.data);
         return res.data;
@@ -102,21 +102,17 @@ export default function App({navigation}) {
         }
       })
       .catch(error => {
-        
         console.log(error);
       });
   };
 
-  const addMeasurement = async (data) => {
+  const addMeasurement = async data => {
     // check whethr this parameter is working
     // use sync , use a setTimeOut()
     await client
       .post('/glucose/addGlucose', {
         // user_id: 0,
         value: data,
-        month: d.getMonth(),
-        date: d.getDate(),
-        time: d.getTime(),
       })
       .then(res => {
         console.log('read');
