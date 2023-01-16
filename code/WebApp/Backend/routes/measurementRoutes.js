@@ -107,7 +107,7 @@ router.get("/measurements/recent", authenticateToken, async (req, res) => {
     .limit(5)
     .exec()
     .then((measurements) => {
-      res.status(200).json(measurements);
+      res.status(200).json({records: measurements, name: userByEmail.username});
     })
     .catch((err) => {
       res.status(500).json({ error: err });
