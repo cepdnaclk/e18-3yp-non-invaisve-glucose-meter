@@ -8,29 +8,36 @@ const { findOne } = require("../models/measurementModel");
 
 const d = new Date();
 
-router.post("/addGlucose", authenticateToken, async (req, res) => {
-  // no auth token added
-  try {
-    console.log("addGlucose called");
-    console.log(req.user);
-    const userByEmail = await User.findOne({ email: req.user.email });
-    const newMeasurement = await Measurement({
-      user_id: userByEmail._id,
-      value: req.body.value,
-      month: d.getMonth(),
-      date: d.toISOString(), // how to give date
-      time: d.getTime(),
-    });
-    const measurement = await newMeasurement.save();
-    return res.status(200).json({
-      success: true,
-      message: "Measurement added to database",
-      id: newMeasurement._id,
-    });
-  } catch (error) {
-    res.status(500).json(error);
+router.post(
+  // "/addGlucose/:email/:date/:value",           // don't remove this line
+  "/addGlucose",
+  authenticateToken,
+  async (req, res) => {
+    // no auth token added
+    try {
+      console.log("addGlucose called");
+      // console.log(req.user);
+      // const timestamp = new Date(2023, 1, req.params.date);              // don't remove this line
+      const timestamp = new Date();
+      const userByEmail = await User.findOne({ email: req.user.email });
+      // const userByEmail = await User.findOne({ email: req.params.email });       // don't remove this line
+      const newMeasurement = await Measurement({
+        user_id: userByEmail._id,
+        value: req.body.value,
+        date: timestamp,
+        month: timestamp.getMonth() + 1,
+      });
+      const measurement = await newMeasurement.save();
+      return res.status(200).json({
+        success: true,
+        message: "Measurement added to database",
+        // id: newMeasurement._id,
+      });
+    } catch (error) {
+      res.status(500).json(error);
+    }
   }
-});
+);
 
 router.get("/getMonthlyGlucose/:month", authenticateToken, async (req, res) => {
   try {
