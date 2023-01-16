@@ -104,8 +104,8 @@ router.get("/measurements/recent/:email", async (req, res) => {
 
   console.log("gluco called");
   const userByEmail = await User.findOne({ email: req.params.email });
-
-  Measurement.find({ user_id: userByEmail._id })
+  const currentTime = new Date();
+  Measurement.find({ user_id: userByEmail._id, date: { $lt: currentTime } })
     .sort({ date: -1 })
     .limit(5)
     .exec()
