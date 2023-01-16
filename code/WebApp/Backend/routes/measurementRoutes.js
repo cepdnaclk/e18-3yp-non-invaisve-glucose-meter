@@ -97,13 +97,10 @@ router.get("/getMonthlyGlucose/:month", authenticateToken, async (req, res) => {
 //   }
 // });
 
-router.get("/measurements/recent/:email", async (req, res) => {
-  // if (!mongoose.Types.ObjectId.isValid(req.params.userId)) {
-  //   return res.status(400).json({ message: "Invalid user_id" });
-  // }
+router.get("/measurements/recent", authenticateToken, async (req, res) => {
 
   console.log("gluco called");
-  const userByEmail = await User.findOne({ email: req.params.email });
+  const userByEmail = await User.findOne({ email: req.user.email });
   const currentTime = new Date();
   Measurement.find({ user_id: userByEmail._id, date: { $lt: currentTime } })
     .sort({ date: -1 })
