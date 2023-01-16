@@ -76,29 +76,7 @@ router.get("/getMonthlyGlucose/:month", authenticateToken, async (req, res) => {
   }
 });
 
-// router.get("/getRecentGlucose", authenticateToken, async (req, res) => {
-//   try {
-//     console.log("gluco called");
-//     const userByEmail = await User.findOne({ email: req.user.email });
-
-//     const newMeasurements = await Measurement.find({
-//       date: d.toISOString(),
-//       user_id: userByEmail._id,
-//     });
-//     // const newMeasurements = await Measurement.findAll({month: req.params.month}, { user_id: req.user.id, _id: 1 });
-//     console.log(newMeasurements);
-//     return res.status(200).json({
-//       success: true,
-//       values: newMeasurements,
-//       name: userByEmail.username,
-//     });
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// });
-
 router.get("/measurements/recent", authenticateToken, async (req, res) => {
-
   console.log("gluco called");
   const userByEmail = await User.findOne({ email: req.user.email });
   const currentTime = new Date();
@@ -107,7 +85,9 @@ router.get("/measurements/recent", authenticateToken, async (req, res) => {
     .limit(5)
     .exec()
     .then((measurements) => {
-      res.status(200).json({records: measurements, name: userByEmail.username});
+      res
+        .status(200)
+        .json({ records: measurements, name: userByEmail.username });
     })
     .catch((err) => {
       res.status(500).json({ error: err });
@@ -121,17 +101,25 @@ router.get("/getMonthlyValues/:email/:month", async (req, res) => {
     const month = req.params.month;
     const start = new Date(`${month}-01`);
     const end = new Date(start.getFullYear(), start.getMonth() + 1, 0);
+    const currentTime = new Date();
     const measurements = await Measurement.find({
       user_id: user._id,
       date: { $gte: start, $lt: end },
     });
-    res.json(
-      measurements.map((item) => ({
+    const latest = await Measurement.find({
+      user_id: user._id,
+      date: { $lt: currentTime },
+    })
+      .sort({ date: -1 })
+      .limit(1);
+    res.json({
+      monthValues: measurements.map((item) => ({
         month: item.date.getUTCMonth() + 1,
         date: item.date.getUTCDate(),
         value: item.value,
-      }))
-    );
+      })),
+      latestValue: latest,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
