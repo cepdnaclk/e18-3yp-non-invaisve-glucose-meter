@@ -118,7 +118,7 @@ router.get("/getMonthlyValues/:email/:month", async (req, res) => {
         date: item.date.getUTCDate(),
         value: item.value,
       })),
-      latestValue: latest.value,
+      latestValue: latest,
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
