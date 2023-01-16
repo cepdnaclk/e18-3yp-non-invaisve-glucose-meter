@@ -24,7 +24,7 @@ router.post(
       const newMeasurement = await Measurement({
         user_id: userByEmail._id,
         value: req.body.value,
-        date: timestamp.getTime(),
+        date: timestamp,
         month: timestamp.getMonth() + 1,
       });
       const measurement = await newMeasurement.save();
