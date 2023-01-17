@@ -14,7 +14,7 @@ const d = new Date();
 router.post(
   "/addGlucose/:email/:date/:value",           // don't remove this line
   // "/addGlucose",
-  authMobile,
+  // authMobile,
   async (req, res) => {
     // no auth token added
     try {
