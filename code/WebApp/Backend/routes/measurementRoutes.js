@@ -136,7 +136,7 @@ router.get("/measurements/:userId/:month", async (req, res) => {
 
   const startOfMonth = moment(req.params.month).startOf("month").toDate();
   const endOfMonth = moment(req.params.month).endOf("month").toDate();
-  
+
   // const currentTime = new Date();
   /* const latest = await Measurement.find({
     user_id: req.params.userId,
@@ -156,12 +156,10 @@ router.get("/measurements/:userId/:month", async (req, res) => {
     },
     {
       $group: {
-        _id: {
-          $dateToString: { format: "%Y-%m-%d", date: "$date" },
-        },
-        month: { $dateToString: { format: "%m", date: "$date" } },
-        date: { $dateToString: { format: "%d", date: "$date" } },
-        value: { $avg: "$value" },
+        _id: "$date",
+        month: { $month: "$date" },
+        day: { $dayOfMonth: "$date" },
+        average: { $avg: "$value" },
       },
     },
     {
@@ -170,10 +168,7 @@ router.get("/measurements/:userId/:month", async (req, res) => {
   ])
     .exec()
     .then((measurements) => {
-      res.status(200).json({
-        "monthValues": measurements,
-        // "latestValue": latest
-      });
+      res.status(200).json(measurements);
     })
     .catch((err) => {
       res.status(500).json({ error: err });
