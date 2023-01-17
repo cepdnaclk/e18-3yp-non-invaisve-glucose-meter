@@ -186,7 +186,7 @@ router.get(
   }
 );
 
-router.get("/getMonthlyValues/:email/:month", authDoc, async (req, res) => {
+router.get("/getMonthlyValues/:email/:month", /* authDoc, */ async (req, res) => {
   const user = await User.findOne({ email: req.params.email });
   const monthNum = req.params.month;
   const startOfMonth = new Date(`${monthNum}-01`);
