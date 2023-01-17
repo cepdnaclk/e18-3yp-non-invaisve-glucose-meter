@@ -141,7 +141,7 @@ router.get("/measurements/:userId/:month", async (req, res) => {
     startOfMonth.getMonth() + 1,
     0
   );
-    console.log("dates created")
+  console.log("dates created");
   // const currentTime = new Date();
   /* const latest = await Measurement.find({
     user_id: req.params.userId,
@@ -161,10 +161,11 @@ router.get("/measurements/:userId/:month", async (req, res) => {
     },
     {
       $group: {
-        _id: "$date",
-        month: { $month: "$date" },
-        // day: { $dayOfMonth: "$date" },
-        // average: { $avg: "$value" },
+        _id: {
+          month: { $month: "$date" },
+          day: { $dayOfMonth: "$date" },
+          average: { $avg: "$value" },
+        },
       },
     },
     {
