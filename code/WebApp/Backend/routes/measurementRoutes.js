@@ -126,8 +126,7 @@ router.get("/getMonthlyValues/:email/:month", async (req, res) => {
   }
 });
 
-
-router.get('/measurements/:userId/:month', (req, res) => {
+router.get("/measurements/:userId/:month", (req, res) => {
   // if (!mongoose.Types.ObjectId.isValid(req.params.userId)) {
   //   return res.status(400).json({ message: 'Invalid user_id' });
   // }
@@ -135,40 +134,50 @@ router.get('/measurements/:userId/:month', (req, res) => {
   //   return res.status(400).json({ message: 'Invalid month' });
   // }
 
-  const startOfMonth = moment(req.params.month).startOf('month').toDate();
-  const endOfMonth = moment(req.params.month).endOf('month').toDate();
-
+  const startOfMonth = moment(req.params.month).startOf("month").toDate();
+  const endOfMonth = moment(req.params.month).endOf("month").toDate();
+  
+  const currentTime = new Date();
+  const latest = await Measurement.find({
+    user_id: user._id,
+    date: { $lt: currentTime },
+  })
+    .sort({ date: -1 })
+    .limit(1);
   Measurement.aggregate([
     {
-        $match: {
-            user_id: mongoose.Types.ObjectId(req.params.userId),
-            date: {
-                $gte: startOfMonth,
-                $lt: endOfMonth
-            }
-        }
+      $match: {
+        user_id: mongoose.Types.ObjectId(req.params.userId),
+        date: {
+          $gte: startOfMonth,
+          $lt: endOfMonth,
+        },
+      },
     },
     {
-        $group: {
-            month: {$month: "$date"},
-            _id: {
-                $dateToString: { format: "%Y-%m-%d", date: "$date" }
-            },
-            average: { $avg: "$value" }
-        }
+      $group: {
+        /* _id: {
+          $dateToString: { format: "%Y-%m-%d", date: "$date" },
+        }, */
+        month: { $dateToString: { format: "%m", date: "$_date" } },
+        date: { $dateToString: { format: "%d", date: "$_date" } },
+        value: { $avg: "$value" },
+      },
     },
     {
-        $sort: { _id: 1 }
-    }
+      $sort: { _id: 1 },
+    },
   ])
-  .exec()
-  .then(measurements => {
-    res.status(200).json(measurements);
-  })
-  .catch(err => {
-    res.status(500).json({ error: err });
-  });
+    .exec()
+    .then((measurements) => {
+      res.status(200).json({
+        "monthValues": measurements,
+        "latestValue": latest
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
 });
-
 
 module.exports = router;
