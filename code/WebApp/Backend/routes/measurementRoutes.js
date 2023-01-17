@@ -2,7 +2,8 @@ const router = require("express").Router();
 const Measurement = require("../models/measurementModel");
 const User = require("../models/Patient");
 require("dotenv").config();
-const authenticateToken = require("../middlewares/checkAuthDoc");
+const authDoc = require("../middlewares/checkAuthDoc");
+const authMobile = require("../middlewares/auth");
 const { find } = require("../models/Doctor");
 const { findOne } = require("../models/measurementModel");
 const mongoose = require("mongoose");
@@ -13,7 +14,7 @@ const d = new Date();
 router.post(
   // "/addGlucose/:email/:date/:value",           // don't remove this line
   "/addGlucose",
-  authenticateToken,
+  authMobile,
   async (req, res) => {
     // no auth token added
     try {
@@ -41,7 +42,7 @@ router.post(
   }
 );
 
-router.get("/getMonthlyGlucose/:month", authenticateToken, async (req, res) => {
+/* router.get("/getMonthlyGlucose/:month", authenticateToken, async (req, res) => {
   try {
     const userByEmail = await User.findOne({ email: req.user.email });
 
@@ -75,9 +76,9 @@ router.get("/getMonthlyGlucose/:month", authenticateToken, async (req, res) => {
   } catch (error) {
     res.status(500).json(error);
   }
-});
+}); */
 
-router.get("/measurements/recent", authenticateToken, async (req, res) => {
+router.get("/measurements/recent", authMobile, async (req, res) => {
   console.log("gluco called");
   const userByEmail = await User.findOne({ email: req.user.email });
   const currentTime = new Date();
@@ -126,124 +127,116 @@ router.get("/measurements/recent", authenticateToken, async (req, res) => {
   }
 }); */
 
-router.get(
-  "/getMonthlyValuesForUser/:month",
-  authenticateToken,
-  async (req, res) => {
-    const user = await User.findOne({ email: req.user.email });
-    const monthNum = req.params.month;
-    const startOfMonth = new Date(`${monthNum}-01`);
-    const endOfMonth = new Date(
-      startOfMonth.getFullYear(),
-      startOfMonth.getMonth() + 1,
-      0
-    );
-    console.log("dates created");
-    const currentTime = new Date();
-    const latest = await Measurement.find({
-      user_id: user.id,
-      date: { $lt: currentTime },
-    })
-      .sort({ date: -1 })
-      .limit(1);
-    Measurement.aggregate([
-      {
-        $match: {
-          user_id: mongoose.Types.ObjectId(user.id),
-          date: {
-            $gte: startOfMonth,
-            $lt: endOfMonth,
-          },
+router.get("/getMonthlyValuesForUser/:month", authMobile, async (req, res) => {
+  const user = await User.findOne({ email: req.user.email });
+  const monthNum = req.params.month;
+  const startOfMonth = new Date(`${monthNum}-01`);
+  const endOfMonth = new Date(
+    startOfMonth.getFullYear(),
+    startOfMonth.getMonth() + 1,
+    0
+  );
+  console.log("dates created");
+  const currentTime = new Date();
+  const latest = await Measurement.find({
+    user_id: user.id,
+    date: { $lt: currentTime },
+  })
+    .sort({ date: -1 })
+    .limit(1);
+  Measurement.aggregate([
+    {
+      $match: {
+        user_id: mongoose.Types.ObjectId(user.id),
+        date: {
+          $gte: startOfMonth,
+          $lt: endOfMonth,
         },
       },
-      {
-        $group: {
-          _id: {
-            month: { $month: "$date" },
-            date: { $dayOfMonth: "$date" },
-            value: { $avg: "$value" },
-          },
+    },
+    {
+      $group: {
+        _id: {
+          month: { $month: "$date" },
+          date: { $dayOfMonth: "$date" },
+          value: { $avg: "$value" },
         },
       },
-      {
-        $sort: { "_id.date": 1 },
-      },
-    ])
-      .exec()
-      .then((measurements) => {
-        res.status(200).json({
-          monthValues: measurements.map((item) => ({
-            month: item._id.month,
-            date: item._id.date,
-            value: item._id.value,
-          })),
-          latestValue: latest,
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({ error: err });
+    },
+    {
+      $sort: { "_id.date": 1 },
+    },
+  ])
+    .exec()
+    .then((measurements) => {
+      res.status(200).json({
+        monthValues: measurements.map((item) => ({
+          month: item._id.month,
+          date: item._id.date,
+          value: item._id.value,
+        })),
+        latestValue: latest,
       });
-  }
-);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
+});
 
-router.get(
-  "/getMonthlyValues/:email/:month",
-  authenticateToken,
-  async (req, res) => {
-    const user = await User.findOne({ email: req.params.email });
-    const monthNum = req.params.month;
-    const startOfMonth = new Date(`${monthNum}-01`);
-    const endOfMonth = new Date(
-      startOfMonth.getFullYear(),
-      startOfMonth.getMonth() + 1,
-      0
-    );
-    console.log("dates created");
-    const currentTime = new Date();
-    const latest = await Measurement.find({
-      user_id: user.id,
-      date: { $lt: currentTime },
-    })
-      .sort({ date: -1 })
-      .limit(1);
-    Measurement.aggregate([
-      {
-        $match: {
-          user_id: mongoose.Types.ObjectId(user.id),
-          date: {
-            $gte: startOfMonth,
-            $lt: endOfMonth,
-          },
+router.get("/getMonthlyValues/:email/:month", authDoc, async (req, res) => {
+  const user = await User.findOne({ email: req.params.email });
+  const monthNum = req.params.month;
+  const startOfMonth = new Date(`${monthNum}-01`);
+  const endOfMonth = new Date(
+    startOfMonth.getFullYear(),
+    startOfMonth.getMonth() + 1,
+    0
+  );
+  console.log("dates created");
+  const currentTime = new Date();
+  const latest = await Measurement.find({
+    user_id: user.id,
+    date: { $lt: currentTime },
+  })
+    .sort({ date: -1 })
+    .limit(1);
+  Measurement.aggregate([
+    {
+      $match: {
+        user_id: mongoose.Types.ObjectId(user.id),
+        date: {
+          $gte: startOfMonth,
+          $lt: endOfMonth,
         },
       },
-      {
-        $group: {
-          _id: {
-            month: { $month: "$date" },
-            date: { $dayOfMonth: "$date" },
-            value: { $avg: "$value" },
-          },
+    },
+    {
+      $group: {
+        _id: {
+          month: { $month: "$date" },
+          date: { $dayOfMonth: "$date" },
+          value: { $avg: "$value" },
         },
       },
-      {
-        $sort: { "_id.date": 1 },
-      },
-    ])
-      .exec()
-      .then((measurements) => {
-        res.status(200).json({
-          monthValues: measurements.map((item) => ({
-            month: item._id.month,
-            date: item._id.date,
-            value: item._id.value,
-          })),
-          latestValue: latest,
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({ error: err });
+    },
+    {
+      $sort: { "_id.date": 1 },
+    },
+  ])
+    .exec()
+    .then((measurements) => {
+      res.status(200).json({
+        monthValues: measurements.map((item) => ({
+          month: item._id.month,
+          date: item._id.date,
+          value: item._id.value,
+        })),
+        latestValue: latest,
       });
-  }
-);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
+});
 
 module.exports = router;
