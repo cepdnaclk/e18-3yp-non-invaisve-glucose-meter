@@ -172,7 +172,7 @@ router.get("/measurements/:userId/:month", async (req, res) => {
     .then((measurements) => {
       res.status(200).json({
         "monthValues": measurements,
-        "latestValue": latest
+        // "latestValue": latest
       });
     })
     .catch((err) => {
