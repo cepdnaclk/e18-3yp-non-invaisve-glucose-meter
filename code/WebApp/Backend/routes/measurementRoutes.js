@@ -94,7 +94,7 @@ router.get("/measurements/recent", authenticateToken, async (req, res) => {
       res.status(500).json({ error: err });
     });
 });
-/* 
+
 router.get("/getMonthlyValues/:email/:month", async (req, res) => {
   try {
     const userEmail = req.params.email;
@@ -125,7 +125,7 @@ router.get("/getMonthlyValues/:email/:month", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
- */
+
 
 router.get('/measurements/:userId/:month', (req, res) => {
   // if (!mongoose.Types.ObjectId.isValid(req.params.userId)) {
