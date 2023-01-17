@@ -2,7 +2,7 @@ const router = require("express").Router();
 const Measurement = require("../models/measurementModel");
 const User = require("../models/Patient");
 require("dotenv").config();
-const authenticateToken = require("../middlewares/auth");
+const authenticateToken = require("../middlewares/checkAuthDoc");
 const { find } = require("../models/Doctor");
 const { findOne } = require("../models/measurementModel");
 const mongoose = require("mongoose");
