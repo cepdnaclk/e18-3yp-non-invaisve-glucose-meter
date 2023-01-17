@@ -85,6 +85,7 @@ const acceptRequest = async (req, res) => {
     const latestDocAdded = await Doctor.find().sort({ code: -1 }).limit(1);
     if (doctorRequest) {
       console.log("Before creating a new Doc!");
+      console.log(typeof latestDocAdded.code)
       const newDoctor = new Doctor({
         username: request.username,
         email: request.email,
