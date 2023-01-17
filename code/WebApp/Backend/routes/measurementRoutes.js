@@ -129,7 +129,7 @@ router.get("/measurements/recent", authMobile, async (req, res) => {
 
 router.get(
   "/getMonthlyValuesForUser/:month",
-  /* authMobile, */ async (req, res) => {
+  authMobile, async (req, res) => {
     const user = await User.findOne({ email: req.user.email });
     const monthNum = req.params.month;
     const startOfMonth = new Date(`${monthNum}-01`);
@@ -186,7 +186,7 @@ router.get(
   }
 );
 
-router.get("/getMonthlyValues/:email/:month", /* authDoc, */ async (req, res) => {
+router.get("/getMonthlyValues/:email/:month", authDoc, async (req, res) => {
   const user = await User.findOne({ email: req.params.email });
   const monthNum = req.params.month;
   const startOfMonth = new Date(`${monthNum}-01`);
