@@ -152,7 +152,7 @@ router.get("/measurements/:userId/:month", async (req, res) => {
   Measurement.aggregate([
     {
       $match: {
-        user_id: req.params.userId,
+        user_id: mongoose.Types.ObjectId(req.params.userId),
         date: {
           $gte: startOfMonth,
           $lt: endOfMonth,
