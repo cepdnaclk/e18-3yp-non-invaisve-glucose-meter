@@ -170,9 +170,9 @@ router.get("/getMonthlyValues/:email/:month", async (req, res) => {
     .then((measurements) => {
       res.status(200).json({
         monthValues: measurements.map((item) => ({
-          month: item,/* 
-          date: item.date,
-          value: item.value, */
+          month: item._id.date,
+          /* date: item,
+          value: item, */
         })),
         latestValue: latest,
       });
