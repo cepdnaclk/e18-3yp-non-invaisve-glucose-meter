@@ -126,7 +126,7 @@ router.get("/getMonthlyValues/:email/:month", async (req, res) => {
   }
 });
 
-router.get("/measurements/:userId/:month", (req, res) => {
+router.get("/measurements/:userId/:month", async (req, res) => {
   // if (!mongoose.Types.ObjectId.isValid(req.params.userId)) {
   //   return res.status(400).json({ message: 'Invalid user_id' });
   // }
