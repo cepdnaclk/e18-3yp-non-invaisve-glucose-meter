@@ -137,13 +137,13 @@ router.get("/measurements/:userId/:month", async (req, res) => {
   const startOfMonth = moment(req.params.month).startOf("month").toDate();
   const endOfMonth = moment(req.params.month).endOf("month").toDate();
   
-  const currentTime = new Date();
-  const latest = await Measurement.find({
+  // const currentTime = new Date();
+  /* const latest = await Measurement.find({
     user_id: req.params.userId,
     date: { $lt: currentTime },
   })
     .sort({ date: -1 })
-    .limit(1);
+    .limit(1); */
   Measurement.aggregate([
     {
       $match: {
@@ -156,11 +156,11 @@ router.get("/measurements/:userId/:month", async (req, res) => {
     },
     {
       $group: {
-        /* _id: {
+        _id: {
           $dateToString: { format: "%Y-%m-%d", date: "$date" },
-        }, */
-        month: { $dateToString: { format: "%m", date: "$_date" } },
-        date: { $dateToString: { format: "%d", date: "$_date" } },
+        },
+        month: { $dateToString: { format: "%m", date: "$date" } },
+        date: { $dateToString: { format: "%d", date: "$date" } },
         value: { $avg: "$value" },
       },
     },
