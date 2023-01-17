@@ -136,7 +136,7 @@ router.get("/measurements/:userId/:month", async (req, res) => {
 
     const monthNum = req.params.month;
     const startOfMonth = new Date(`${monthNum}-01`);
-    const endOfMonth = new Date(start.getFullYear(), start.getMonth() + 1, 0);
+    const endOfMonth = new Date(startOfMonth.getFullYear(), startOfMonth.getMonth() + 1, 0);
 
   // const currentTime = new Date();
   /* const latest = await Measurement.find({
