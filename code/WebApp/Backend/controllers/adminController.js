@@ -85,20 +85,20 @@ const acceptRequest = async (req, res) => {
     const latestDocAdded = await Doctor.find().sort({ code: -1 }).limit(1);
     if (doctorRequest) {
       console.log("Before creating a new Doc!");
-      console.log(latestDocAdded[0].code);
-      console.log(parseInt(latestDocAdded[0].code));
-      console.log(typeof parseInt(latestDocAdded[0].code));
-      console.log(parseInt(latestDocAdded[0].code) + 1);
-      console.log((parseInt(latestDocAdded[0].code) + 1).toString());
+      // console.log(latestDocAdded[0].code);
+      // console.log(parseInt(latestDocAdded[0].code));
+      // console.log(typeof parseInt(latestDocAdded[0].code));
+      // console.log(parseInt(latestDocAdded[0].code) + 1);
+      // console.log((parseInt(latestDocAdded[0].code) + 1).toString());
 
       const newDoctor = new Doctor({
-        username: request.username,
-        email: request.email,
-        password: request.password,
-        contact_no: request.contact_no,
-        specialized_in: request.specialized_in,
-        hospital: request.hospital,
-        role: request.role,
+        username: doctorRequest.username,
+        email: doctorRequest.email,
+        password: doctorRequest.password,
+        contact_no: doctorRequest.contact_no,
+        specialized_in: doctorRequest.specialized_in,
+        hospital: doctorRequest.hospital,
+        role: doctorRequest.role,
         code: (parseInt(latestDocAdded[0].code) + 1).toString(),
       });
       console.log("After creating a new Doc!");
