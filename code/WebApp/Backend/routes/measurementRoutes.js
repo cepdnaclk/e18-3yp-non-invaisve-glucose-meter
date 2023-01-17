@@ -127,7 +127,6 @@ router.get("/measurements/recent", authenticateToken, async (req, res) => {
 }); */
 
 router.get("/getMonthlyValues/:email/:month", async (req, res) => {
-
   const user = await User.findOne({ email: req.params.email });
   const monthNum = req.params.month;
   const startOfMonth = new Date(`${monthNum}-01`);
@@ -164,14 +163,18 @@ router.get("/getMonthlyValues/:email/:month", async (req, res) => {
       },
     },
     {
-      $sort: { '_id.day' : 1 },
+      $sort: { "_id.day": 1 },
     },
   ])
     .exec()
     .then((measurements) => {
       res.status(200).json({
-        monthValues: measurements,
-        latestValue: latest,
+        monthValues: measurements.map((item) => ({
+          month: item.month,
+          date: item.day,
+          value: item.value,
+          latestValue: latest,
+        })),
       });
     })
     .catch((err) => {
