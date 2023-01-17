@@ -95,7 +95,7 @@ router.get("/measurements/recent", authenticateToken, async (req, res) => {
     });
 });
 
-router.get("/getMonthlyValues/:email/:month", async (req, res) => {
+/* router.get("/getMonthlyValues/:email/:month", async (req, res) => {
   try {
     const userEmail = req.params.email;
     const user = await User.findOne({ email: userEmail });
@@ -124,16 +124,11 @@ router.get("/getMonthlyValues/:email/:month", async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-});
+}); */
 
-router.get("/measurements/:userId/:month", async (req, res) => {
-  // if (!mongoose.Types.ObjectId.isValid(req.params.userId)) {
-  //   return res.status(400).json({ message: 'Invalid user_id' });
-  // }
-  // if (!moment(req.params.month, 'YYYY-MM', true).isValid()) {
-  //   return res.status(400).json({ message: 'Invalid month' });
-  // }
+router.get("/getMonthlyValues/:email/:month", async (req, res) => {
 
+  const user = await User.findOne({ email: userEmail });
   const monthNum = req.params.month;
   const startOfMonth = new Date(`${monthNum}-01`);
   const endOfMonth = new Date(
@@ -144,7 +139,7 @@ router.get("/measurements/:userId/:month", async (req, res) => {
   console.log("dates created");
   const currentTime = new Date();
   const latest = await Measurement.find({
-    user_id: req.params.userId,
+    user_id: user.id,
     date: { $lt: currentTime },
   })
     .sort({ date: -1 })
@@ -152,7 +147,7 @@ router.get("/measurements/:userId/:month", async (req, res) => {
   Measurement.aggregate([
     {
       $match: {
-        user_id: mongoose.Types.ObjectId(req.params.userId),
+        user_id: mongoose.Types.ObjectId(user.id),
         date: {
           $gte: startOfMonth,
           $lt: endOfMonth,
