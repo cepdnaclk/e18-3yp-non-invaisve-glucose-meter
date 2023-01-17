@@ -94,7 +94,7 @@ const acceptRequest = async (req, res) => {
         specialized_in: request.specialized_in,
         hospital: request.hospital,
         role: request.role,
-        code: (parseInt(latestDocAdded.code) + 1).toString(),
+        code: (parseInt(latestDocAdded[0].code) + 1).toString(),
       });
       console.log("After creating a new Doc!");
       docCode = docCode + 1;
