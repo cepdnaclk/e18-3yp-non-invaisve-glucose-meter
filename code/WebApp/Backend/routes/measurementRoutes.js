@@ -150,6 +150,7 @@ router.get('/measurements/:userId/:month', (req, res) => {
     },
     {
         $group: {
+            month: "$date".getUTCMonth() + 1,
             _id: {
                 $dateToString: { format: "%Y-%m-%d", date: "$date" }
             },
