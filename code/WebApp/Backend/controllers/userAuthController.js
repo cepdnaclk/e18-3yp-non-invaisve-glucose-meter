@@ -63,7 +63,7 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   try {
-  console.log("web login called .. ");
+    console.log("web login called .. ");
 
     const user =
       (await Doctor.findOne({ email: req.body.email })) ||
@@ -75,7 +75,7 @@ const loginUser = async (req, res) => {
         error: "Incorrect credentials!",
       });
     }
-   
+
     const validatedPassword = await bcrypt.compare(
       req.body.password,
       user.password
@@ -105,6 +105,7 @@ const loginUser = async (req, res) => {
       username: user.username,
       email: user.email,
       role: user.role,
+      code: user.code,
       message: "Login Successful",
       access_token: access_token,
       refresh_token: refresh_token,
