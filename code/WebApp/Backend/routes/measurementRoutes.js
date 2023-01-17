@@ -93,7 +93,7 @@ router.get("/measurements/recent", authenticateToken, async (req, res) => {
       res.status(500).json({ error: err });
     });
 });
-
+/* 
 router.get("/getMonthlyValues/:email/:month", async (req, res) => {
   try {
     const userEmail = req.params.email;
@@ -124,5 +124,49 @@ router.get("/getMonthlyValues/:email/:month", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+ */
+
+router.get('/measurements/:userId/:month', (req, res) => {
+  // if (!mongoose.Types.ObjectId.isValid(req.params.userId)) {
+  //   return res.status(400).json({ message: 'Invalid user_id' });
+  // }
+  // if (!moment(req.params.month, 'YYYY-MM', true).isValid()) {
+  //   return res.status(400).json({ message: 'Invalid month' });
+  // }
+
+  const startOfMonth = moment(req.params.month).startOf('month').toDate();
+  const endOfMonth = moment(req.params.month).endOf('month').toDate();
+
+  Measurement.aggregate([
+    {
+        $match: {
+            user_id: mongoose.Types.ObjectId(req.params.userId),
+            date: {
+                $gte: startOfMonth,
+                $lt: endOfMonth
+            }
+        }
+    },
+    {
+        $group: {
+            _id: {
+                $dateToString: { format: "%Y-%m-%d", date: "$date" }
+            },
+            average: { $avg: "$value" }
+        }
+    },
+    {
+        $sort: { _id: 1 }
+    }
+  ])
+  .exec()
+  .then(measurements => {
+    res.status(200).json(measurements);
+  })
+  .catch(err => {
+    res.status(500).json({ error: err });
+  });
+});
+
 
 module.exports = router;
