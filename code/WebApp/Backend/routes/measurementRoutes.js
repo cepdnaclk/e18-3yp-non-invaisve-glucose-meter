@@ -134,9 +134,13 @@ router.get("/measurements/:userId/:month", async (req, res) => {
   //   return res.status(400).json({ message: 'Invalid month' });
   // }
 
-    const monthNum = req.params.month;
-    const startOfMonth = new Date(`${monthNum}-01`);
-    const endOfMonth = new Date(startOfMonth.getFullYear(), startOfMonth.getMonth() + 1, 0);
+  const monthNum = req.params.month;
+  const startOfMonth = new Date(`${monthNum}-01`);
+  const endOfMonth = new Date(
+    startOfMonth.getFullYear(),
+    startOfMonth.getMonth() + 1,
+    0
+  );
 
   // const currentTime = new Date();
   /* const latest = await Measurement.find({
@@ -148,7 +152,7 @@ router.get("/measurements/:userId/:month", async (req, res) => {
   Measurement.aggregate([
     {
       $match: {
-        user_id: mongoose.Types.ObjectId(req.params.userId),
+        user_id: req.params.userId,
         date: {
           $gte: startOfMonth,
           $lt: endOfMonth,
