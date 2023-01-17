@@ -89,6 +89,7 @@ const acceptRequest = async (req, res) => {
       console.log(parseInt(latestDocAdded[0].code));
       console.log(typeof parseInt(latestDocAdded[0].code));
       console.log(parseInt(latestDocAdded[0].code) + 1);
+      console.log((parseInt(latestDocAdded[0].code) + 1).toString());
 
       const newDoctor = new Doctor({
         username: request.username,
