@@ -161,7 +161,7 @@ router.get("/measurements/:userId/:month", async (req, res) => {
     },
     {
       $group: {
-        _id: {
+        dateInfo: {
           month: { $month: "$date" },
           date: { $dayOfMonth: "$date" },
           value: { $avg: "$value" },
