@@ -173,8 +173,8 @@ router.get("/getMonthlyValues/:email/:month", async (req, res) => {
           month: item.month,
           date: item.day,
           value: item.value,
-          latestValue: latest,
         })),
+        latestValue: latest,
       });
     })
     .catch((err) => {
