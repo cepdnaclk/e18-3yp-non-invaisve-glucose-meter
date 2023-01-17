@@ -139,7 +139,7 @@ router.get("/measurements/:userId/:month", async (req, res) => {
   
   const currentTime = new Date();
   const latest = await Measurement.find({
-    user_id: mongoose.Types.ObjectId(req.params.userId),
+    user_id: req.params.userId,
     date: { $lt: currentTime },
   })
     .sort({ date: -1 })
