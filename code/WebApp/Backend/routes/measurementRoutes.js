@@ -169,7 +169,7 @@ router.get("/measurements/:userId/:month", async (req, res) => {
       },
     },
     {
-      $sort: { '_id.day' : 1 },
+      $sort: { 'dateInfo.day' : 1 },
     },
   ])
     .exec()
