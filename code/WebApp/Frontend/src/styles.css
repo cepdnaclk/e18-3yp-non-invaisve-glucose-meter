@@ -17,8 +17,10 @@
 
 .patients{
   border-color: black;
-  border-width: 10px;
+  /* border-width: 10px; */
+  border: 5px;
   background-color: rgba(75, 110, 222, 0.671);
+  height:100vh;
 }
 
 .patient-glucose{
@@ -27,6 +29,8 @@
   /* margin-left: 10px; */
   /* margin-right: 10px; */
   border-radius: 5px;
+  border-color: black;
+  border: 5px;
   transition: background-color 200ms ease-in-out;
 }
 

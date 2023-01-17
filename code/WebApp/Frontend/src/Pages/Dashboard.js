@@ -62,17 +62,18 @@ const getMeasurements =(email) =>{
     // console.log("token",at);
 
     axios.get(`http://52.221.105.255:3000/api/glucose/getMonthlyValues/${email}/2023-02`, {
-    // headers: {
-    //     Authorization: `Bearer ${at}`
-    // }
+    headers: {
+        Authorization: `Bearer ${at}`
+    }
     })
     .then((response) => {
-        console.log(response.data);
-        setgraphdata(response.data);
-        return response.data;
+        // console.log(response.data.latestValue);
+        setgraphdata(response.data.monthValues);
+        getlatest(response.data.latestValue);
+        return response.data.monthValues;
     })
     .then((data)=>{
-        console.log("glucose",graphdata);
+        // console.log("glucose",graphdata);
         // console.log(patients);
     //    console.log(getMax(data,"value").value);
     //    console.log("avg",getAvg(data,"value"));
@@ -87,6 +88,12 @@ const getMeasurements =(email) =>{
         console.log(error);
         console.log("glucose error");
     });
+}
+
+const getlatest = (data) =>{
+    // setlatest(data[0].);
+    console.log(data[0].value);
+    setlatest(data[0].value);
 }
 
 useEffect(() => {
@@ -118,6 +125,7 @@ function getAvg(arr, prop) {
     }
     return (max/arr.length).toFixed(2);
 }
+
 
 
 
@@ -254,22 +262,22 @@ function getAvg(arr, prop) {
                                     <div class="container text-center overflow-hidden">
                                         <div class="row row-cols-2 g-4">
                                             <div class="col ">
-                                                <div className="patient-glucose">Latest
-                                                <div>20</div>
+                                                <div className="patient-glucose border border-dark">Latest
+                                                <div>{latest}</div>
                                                 </div>
                                             </div>
                                             <div class="col ">
-                                                <div className="patient-glucose">Average
+                                                <div className="patient-glucose border border-dark">Average
                                                 <div>{average}</div>
                                                 </div>
                                             </div>
                                             <div class="col ">
-                                                <div className="patient-glucose">Highest
+                                                <div className="patient-glucose border border-dark">Highest
                                                 <div>{highest}</div>
                                                 </div>
                                             </div>
                                             <div class="col ">
-                                                 <div className="patient-glucose">Lowest
+                                                 <div className="patient-glucose border border-dark">Lowest
                                                  <div>{lowest}</div>
                                                  </div>
                                             </div>

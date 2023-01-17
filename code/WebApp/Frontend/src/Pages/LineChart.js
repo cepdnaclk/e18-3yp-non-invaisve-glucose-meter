@@ -32,6 +32,7 @@ for (let i=0 ; i<props.data.length ; i++) {
 for (let i=0 ; i<props.data.length ; i++) {
   values.push(props.data[i].value);
 
+
 }
   console.log(dates);
   console.log(values);
