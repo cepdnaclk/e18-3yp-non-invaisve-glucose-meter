@@ -85,11 +85,6 @@ const acceptRequest = async (req, res) => {
     const latestDocAdded = await Doctor.find().sort({ code: -1 }).limit(1);
     if (doctorRequest) {
       console.log("Before creating a new Doc!");
-      // console.log(latestDocAdded[0].code);
-      // console.log(parseInt(latestDocAdded[0].code));
-      // console.log(typeof parseInt(latestDocAdded[0].code));
-      // console.log(parseInt(latestDocAdded[0].code) + 1);
-      // console.log((parseInt(latestDocAdded[0].code) + 1).toString());
 
       const newDoctor = new Doctor({
         username: doctorRequest.username,
@@ -106,11 +101,8 @@ const acceptRequest = async (req, res) => {
       console.log(newDoctor);
       try {
         const adduser = await newDoctor.save();
-        // const {password,...others} = adduser._doc;
         await DoctorRequest.findByIdAndDelete(req.params.id);
 
-        // others["message"] = "User registration successful!";
-        // return res.status(200).json(others);
         return res.status(200).json({
           id: adduser._id,
           username: adduser.username,
