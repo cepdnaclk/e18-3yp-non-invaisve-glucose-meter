@@ -127,6 +127,66 @@ router.get("/measurements/recent", authenticateToken, async (req, res) => {
 }); */
 
 router.get(
+  "/getMonthlyValuesForUser/:month",
+  authenticateToken,
+  async (req, res) => {
+    const user = await User.findOne({ email: req.user.email });
+    const monthNum = req.params.month;
+    const startOfMonth = new Date(`${monthNum}-01`);
+    const endOfMonth = new Date(
+      startOfMonth.getFullYear(),
+      startOfMonth.getMonth() + 1,
+      0
+    );
+    console.log("dates created");
+    const currentTime = new Date();
+    const latest = await Measurement.find({
+      user_id: user.id,
+      date: { $lt: currentTime },
+    })
+      .sort({ date: -1 })
+      .limit(1);
+    Measurement.aggregate([
+      {
+        $match: {
+          user_id: mongoose.Types.ObjectId(user.id),
+          date: {
+            $gte: startOfMonth,
+            $lt: endOfMonth,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            month: { $month: "$date" },
+            date: { $dayOfMonth: "$date" },
+            value: { $avg: "$value" },
+          },
+        },
+      },
+      {
+        $sort: { "_id.date": 1 },
+      },
+    ])
+      .exec()
+      .then((measurements) => {
+        res.status(200).json({
+          monthValues: measurements.map((item) => ({
+            month: item._id.month,
+            date: item._id.date,
+            value: item._id.value,
+          })),
+          latestValue: latest,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err });
+      });
+  }
+);
+
+router.get(
   "/getMonthlyValues/:email/:month",
   authenticateToken,
   async (req, res) => {
