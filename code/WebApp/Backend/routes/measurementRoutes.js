@@ -126,9 +126,9 @@ router.get("/measurements/recent", authenticateToken, async (req, res) => {
   }
 }); */
 
-router.get("/getMonthlyValues/:email/:month", async (req, res) => {
-  const user = await User.findOne({ email: req.params.email });
-  const monthNum = req.params.month;
+router.get("/getMonthlyValues", authenticateToken, async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+  const monthNum = req.body.month;
   const startOfMonth = new Date(`${monthNum}-01`);
   const endOfMonth = new Date(
     startOfMonth.getFullYear(),
