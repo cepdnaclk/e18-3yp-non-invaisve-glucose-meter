@@ -35,7 +35,7 @@ router.post(
       return res.status(200).json({
         success: true,
         message: "Measurement added to database",
-        // id: newMeasurement._id,
+        id: newMeasurement._id,
       });
     } catch (error) {
       res.status(500).json(error);
