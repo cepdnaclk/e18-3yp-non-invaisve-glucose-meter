@@ -12,21 +12,22 @@ const moment = require("moment");
 const d = new Date();
 
 router.post(
-  // "/addGlucose/:email/:date/:value",           // don't remove this line
-  "/addGlucose",
-  authMobile,
+  "/addGlucose/:email/:date/:value", // don't remove this line
+  // "/addGlucose",
+  // authMobile,
   async (req, res) => {
     // no auth token added
     try {
       console.log("addGlucose called");
       // console.log(req.user);
-      // const timestamp = new Date(2023, 1, req.params.date);              // don't remove this line
-      const timestamp = new Date();
-      const userByEmail = await User.findOne({ email: req.user.email });
-      // const userByEmail = await User.findOne({ email: req.params.email });       // don't remove this line
+      const timestamp = new Date(2023, 0, req.params.date); // don't remove this line
+      // const timestamp = new Date();
+      // const userByEmail = await User.findOne({ email: req.user.email });
+      const userByEmail = await User.findOne({ email: req.params.email }); // don't remove this line
       const newMeasurement = await Measurement({
         user_id: userByEmail._id,
-        value: req.body.value,
+        // value: req.body.value,
+        value: req.params.value,
         date: timestamp,
         month: timestamp.getMonth() + 1,
       });
@@ -127,64 +128,61 @@ router.get("/measurements/recent", authMobile, async (req, res) => {
   }
 }); */
 
-router.get(
-  "/getMonthlyValuesForUser/:month",
-  authMobile, async (req, res) => {
-    const user = await User.findOne({ email: req.user.email });
-    const monthNum = req.params.month;
-    const startOfMonth = new Date(`${monthNum}-01`);
-    const endOfMonth = new Date(
-      startOfMonth.getFullYear(),
-      startOfMonth.getMonth() + 1,
-      0
-    );
-    console.log("dates created");
-    const currentTime = new Date();
-    const latest = await Measurement.find({
-      user_id: user.id,
-      date: { $lt: currentTime },
-    })
-      .sort({ date: -1 })
-      .limit(1);
-    Measurement.aggregate([
-      {
-        $match: {
-          user_id: mongoose.Types.ObjectId(user.id),
-          date: {
-            $gte: startOfMonth,
-            $lt: endOfMonth,
-          },
+router.get("/getMonthlyValuesForUser/:month", authMobile, async (req, res) => {
+  const user = await User.findOne({ email: req.user.email });
+  const monthNum = req.params.month;
+  const startOfMonth = new Date(`${monthNum}-01`);
+  const endOfMonth = new Date(
+    startOfMonth.getFullYear(),
+    startOfMonth.getMonth() + 1,
+    0
+  );
+  console.log("dates created");
+  const currentTime = new Date();
+  const latest = await Measurement.find({
+    user_id: user.id,
+    date: { $lt: currentTime },
+  })
+    .sort({ date: -1 })
+    .limit(1);
+  Measurement.aggregate([
+    {
+      $match: {
+        user_id: mongoose.Types.ObjectId(user.id),
+        date: {
+          $gte: startOfMonth,
+          $lt: endOfMonth,
         },
       },
-      {
-        $group: {
-          _id: {
-            month: { $month: "$date" },
-            date: { $dayOfMonth: "$date" },
-            value: { $avg: "$value" },
-          },
+    },
+    {
+      $group: {
+        _id: {
+          month: { $month: "$date" },
+          date: { $dayOfMonth: "$date" },
+          value: { $avg: "$value" },
         },
       },
-      {
-        $sort: { "_id.date": 1 },
-      },
-    ])
-      .exec()
-      .then((measurements) => {
-        res.status(200).json({
-          monthValues: measurements.map((item) => ({
-            month: item._id.month,
-            date: item._id.date,
-            value: item._id.value,
-          })),
-          latestValue: latest,
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({ error: err });
+    },
+    {
+      $sort: { "_id.date": 1 },
+    },
+  ])
+    .exec()
+    .then((measurements) => {
+      res.status(200).json({
+        monthValues: measurements.map((item) => ({
+          month: item._id.month,
+          date: item._id.date,
+          value: item._id.value,
+        })),
+        latestValue: latest,
       });
-  }
-);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
+});
 
 router.get("/getMonthlyValues/:email/:month", authDoc, async (req, res) => {
   const user = await User.findOne({ email: req.params.email });
