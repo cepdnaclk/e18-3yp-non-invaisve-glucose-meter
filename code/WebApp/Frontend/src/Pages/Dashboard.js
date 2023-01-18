@@ -67,7 +67,7 @@ const getMeasurements =(email) =>{
     let at = sessionStorage.getItem("accesstoken");
     // console.log("token",at);
 
-    axios.get(`http://52.221.105.255:3000/api/glucose/getMonthlyValues/${email}/2023-02`, {
+    axios.get(`http://52.221.105.255:3000/api/glucose/getMonthlyValues/${email}/2023-01`, {
     headers: {
         Authorization: `Bearer ${at}`
     }
