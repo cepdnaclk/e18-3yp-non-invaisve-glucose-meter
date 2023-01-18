@@ -41,7 +41,7 @@ for (let i=0 ; i<props.data.length ; i++) {
     labels: dates,
     datasets: [
       {
-        label: "My First dataset",
+        label: "Monthly glucose values",
         backgroundColor: "rgb(255, 99, 132)",
         borderColor: "rgb(255, 99, 132)",
         data: values,

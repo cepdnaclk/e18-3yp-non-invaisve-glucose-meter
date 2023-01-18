@@ -4,6 +4,7 @@ import { Bar } from "react-chartjs-2";
 import LineChart from "./LineChart";
 import axios from "axios";
 import { useState, useEffect } from 'react';
+import { Link ,useNavigate } from 'react-router-dom'
 
 function Dashboard(){
 
@@ -14,8 +15,10 @@ const [latest, setlatest] = React.useState("Loading");
 const [average, setaverage] = React.useState("Loading");
 const [highest, sethighest] = React.useState("Loading");
 const [lowest, setlowest] = React.useState("Loading");
+const [code, setlcode] = React.useState("Loading");
 
 let role = false ;
+const navigate = useNavigate();
 
 async function onhandle(id){    
     console.log("here",id);   
@@ -37,6 +40,8 @@ async function onhandle(id){
 const getData = () => {
    
         let at = sessionStorage.getItem("accesstoken");
+        let code = sessionStorage.getItem("code");
+        
         // console.log("token",at);
 
         axios.get("http://52.221.105.255:3000/api/doctor/allPatients", {
@@ -48,6 +53,7 @@ const getData = () => {
             console.log(response.data);
             setPatients(response.data);
             console.log("hear");
+            setlcode(code);
             // console.log(patients);
         })
         .catch(error => {
@@ -67,7 +73,7 @@ const getMeasurements =(email) =>{
     }
     })
     .then((response) => {
-        // console.log(response.data.latestValue);
+        console.log(response.data);
         setgraphdata(response.data.monthValues);
         getlatest(response.data.latestValue);
         return response.data.monthValues;
@@ -78,9 +84,9 @@ const getMeasurements =(email) =>{
     //    console.log(getMax(data,"value").value);
     //    console.log("avg",getAvg(data,"value"));
     //    console.log("min",getMin(data,"value").value);
-       sethighest(getMax(data,"value").value);
-       setaverage(getAvg(data,"value"));
-       setlowest(getMin(data,"value").value);
+       sethighest(parseInt(getMax(data,"value").value));
+       setaverage(parseInt(getAvg(data,"value")));
+       setlowest(parseInt(getMin(data,"value").value));
     }
 
     )
@@ -126,6 +132,10 @@ function getAvg(arr, prop) {
     return (max/arr.length).toFixed(2);
 }
 
+function onclickcode() {
+    navigate('/');
+}
+
 
 
 
@@ -167,8 +177,9 @@ function getAvg(arr, prop) {
                         {/* <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/> */}
                         {/* <button type="button" class="btn btn-outline-light me-2" >Code</button> */}
                         <button type="button" class="btn btn-dark me-2">Code</button>
-                        <button type="button" class="btn btn-dark me-4">10</button>
-                        <button type="button" class="btn btn-outline-light me-2" >Log out</button>
+                        <button type="button" class="btn btn-dark me-4">{code}</button>
+                        <button type="button" class="btn btn-outline-light me-2" onClick={onclickcode} >Log out</button>
+                        
                         {/* <button type="button" class="btn btn-outline-danger me-2">Log Out</button> */}
                     </form>
                     </div>
@@ -253,11 +264,11 @@ function getAvg(arr, prop) {
                                         
                     </div>
                     <div class="col-10">
-                        <h2>col-10</h2>
+                        <h2>Insights</h2>
 
-                        <div class="container-fluid">
+                        <div class="container-fluid ">
                             <div class="row">
-                                <div class="col-6">col-6
+                                <div class="col-6">
 
                                     <div class="container text-center overflow-hidden">
                                         <div class="row row-cols-2 g-4">
@@ -286,9 +297,17 @@ function getAvg(arr, prop) {
 
                                 </div>
 
-                                <div class="col-6"><span> col-6</span>
+                                <div class="col-6 ">
+                                    <span> value</span>
 
                                 <LineChart data={graphdata}/>
+                                <div class="container text-center">
+                                    <div class="row"> 
+                                        <div class="col align-self-center">
+                                                     date
+                                                                             </div>
+                                        </div>
+                                </div>
                                 
                                 
                                 </div>

@@ -58,6 +58,7 @@ function Authentication() {
             console.log("data",response.data);
             sessionStorage.setItem("accesstoken", response.data.access_token);
             sessionStorage.setItem("refreshtoken", response.data.refresh_token);
+            sessionStorage.setItem("code", response.data.code);
             // console.log("data",response.data.access_token);
             // let at = sessionStorage.getItem("accesstoken");
             // console.log("data from st",at);
@@ -118,7 +119,7 @@ function Authentication() {
                      <Components.RightOverlayPanel signinIn={signIn}>
                        <Components.Title>glucoStat</Components.Title>
                        <Components.Paragraph>
-                           Enter Your personal details and start journey with us
+                       Time to say bye to your ordinary glucometer
                        </Components.Paragraph>
                            <Components.GhostButton ref={inputElement} id="signupbutton" onClick={() => toggle(false) }>
                                Sign Up
