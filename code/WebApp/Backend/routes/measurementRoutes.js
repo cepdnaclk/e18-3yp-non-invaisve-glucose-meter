@@ -12,22 +12,22 @@ const moment = require("moment");
 const d = new Date();
 
 router.post(
-  "/addGlucose/:email/:date/:value", // don't remove this line
-  // "/addGlucose",
-  // authMobile,
+  // "/addGlucose/:email/:date/:value", // don't remove this line
+  "/addGlucose",
+  authMobile,
   async (req, res) => {
     // no auth token added
     try {
       console.log("addGlucose called");
       // console.log(req.user);
-      const timestamp = new Date(2023, 0, req.params.date); // don't remove this line
-      // const timestamp = new Date();
-      // const userByEmail = await User.findOne({ email: req.user.email });
-      const userByEmail = await User.findOne({ email: req.params.email }); // don't remove this line
+      // const timestamp = new Date(2023, 0, req.params.date); // don't remove this line
+      const timestamp = new Date();
+      const userByEmail = await User.findOne({ email: req.user.email });
+      // const userByEmail = await User.findOne({ email: req.params.email }); // don't remove this line
       const newMeasurement = await Measurement({
         user_id: userByEmail._id,
-        // value: req.body.value,
-        value: req.params.value,
+        value: req.body.value,
+        // value: req.params.value,
         date: timestamp,
         month: timestamp.getMonth() + 1,
       });
