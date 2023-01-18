@@ -37,6 +37,7 @@ function Authentication() {
         }else{
         axios.post("http://52.221.105.255:3000/api/auth/web/signup",{username:name,email:email,password:password,hospital:hospital, specialized_in:specilizedin,contact_no:number,role:"2"})
         .then(function(response){
+            alert("You have succesfully Signed up");
             console.log("data",response.data);
             console.log("end1");
             document.getElementById("signupbutton").click();
@@ -57,6 +58,7 @@ function Authentication() {
             console.log("data",response.data);
             sessionStorage.setItem("accesstoken", response.data.access_token);
             sessionStorage.setItem("refreshtoken", response.data.refresh_token);
+            sessionStorage.setItem("code", response.data.code);
             // console.log("data",response.data.access_token);
             // let at = sessionStorage.getItem("accesstoken");
             // console.log("data from st",at);
@@ -85,7 +87,7 @@ function Authentication() {
                      <Components.Input type='password' placeholder='Retype Password' onChange={e =>setpassword2(e.target.value)} />
                      <Components.Input type='number' placeholder='Contact No' onChange={e => setnumber(e.target.value)}/>
                      <Components.Input type='text' placeholder='Hospital'onChange={e => sethospital(e.target.value)} />
-                     <Components.Input type='text' placeholder='Specialized in' onChange={e => setspecilizedin(e.target.value)} />
+                     <Components.Input type='number' placeholder='SLMC Number' onChange={e => setspecilizedin(e.target.value)} />
                      {/* <Components.Input type='number' placeholder='SLMC No' onChange={e => setSLMC(e.target.value)} /> */}
                      <Components.Button type="button" onClick={signinsubmit}>Sign Up</Components.Button>
                  </Components.Form>
@@ -117,7 +119,7 @@ function Authentication() {
                      <Components.RightOverlayPanel signinIn={signIn}>
                        <Components.Title>glucoStat</Components.Title>
                        <Components.Paragraph>
-                           Enter Your personal details and start journey with us
+                       Time to say bye to your ordinary glucometer
                        </Components.Paragraph>
                            <Components.GhostButton ref={inputElement} id="signupbutton" onClick={() => toggle(false) }>
                                Sign Up

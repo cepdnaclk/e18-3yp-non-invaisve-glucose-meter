@@ -15,9 +15,14 @@ function Requests(){
     useEffect(() => {
         if (isLoading) {
             console.log("req sent")
-            axios.get("http://localhost:8000/api/admin/requests")
+            let at = sessionStorage.getItem("accesstoken");
+            axios.get("http://52.221.105.255:3000/api/admin/doctorRequests",{
+             headers: {
+                Authorization: `Bearer ${at}`
+            }
+            })
             .then((Response)=>{
-                console.log(Response.data);
+                console.log("req",Response.data);
                 setapiResponse(Response.data);
                 setLoading(false);
                   // React.createElement(<h1> hello2</h1>
@@ -84,7 +89,7 @@ function Requests(){
             </nav>
 
            
-            <section className="requests">
+            <section className="requests mb-3 mt-2" >
                 <h1 className='reqH1'>Requests</h1>
                 <button className="btn btn-primary btn-lg"  disabled={isLoading}
                     onClick={!isLoading ? handleClick : null} >
